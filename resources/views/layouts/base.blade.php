@@ -17,7 +17,7 @@
     <link rel="icon" sizes="192x192" type="image/png" href="{{ asset('media/favicons/favicon-192x192.png') }}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('media/favicons/apple-touch-icon-180x180.png') }}">
 
-    {{-- <!-- CSS utama -->
+    <!-- CSS utama -->
     <link rel="stylesheet" href="{{ asset('build/assets/main-cbr0_KuO.css') }}">
     <link rel="stylesheet" href="{{ asset('build/assets/app-Ds4h1nWs.css') }}">
 
@@ -33,7 +33,7 @@
 
     <!-- Tambahan opsional -->
     <script src="{{ asset('build/assets/datatables-OWz4BPSn.js') }}"></script>
-    <script src="{{ asset('build/assets/slick-rI1iZJFO.js') }}"></script> --}}
+    <script src="{{ asset('build/assets/slick-rI1iZJFO.js') }}"></script>
 
 
     <!-- Modules -->
