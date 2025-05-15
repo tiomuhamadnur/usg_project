@@ -17,25 +17,6 @@
     <link rel="icon" sizes="192x192" type="image/png" href="{{ asset('media/favicons/favicon-192x192.png') }}">
     <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('media/favicons/apple-touch-icon-180x180.png') }}">
 
-    <!-- CSS utama -->
-    <link rel="stylesheet" href="{{ asset('build/assets/main-cbr0_KuO.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-Ds4h1nWs.css') }}">
-
-    <!-- Tema tambahan (opsional, pilih salah satu kalau dipakai) -->
-    <link rel="stylesheet" href="{{ asset('build/assets/xmodern-YGupmPJn.css') }}">
-    <!-- Atau kamu bisa pakai tema lain, misalnya: -->
-    <link rel="stylesheet" href="{{ asset('build/assets/xplay-DF6Uhxcc.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/xpro-CVEFF6u5.css') }}">
-
-    <!-- JS utama -->
-    <script src="{{ asset('build/assets/app-CUkwnziR.js') }}"></script>
-    <script src="{{ asset('build/assets/bootstrap.esm--zDVQ5Om.js') }}"></script>
-
-    <!-- Tambahan opsional -->
-    <script src="{{ asset('build/assets/datatables-OWz4BPSn.js') }}"></script>
-    <script src="{{ asset('build/assets/slick-rI1iZJFO.js') }}"></script>
-
-
     <!-- Modules -->
     @yield('css')
     {{-- @vite(['resources/sass/main.scss', 'resources/js/dashmix/app.js', 'resources/js/app.js']) --}}
@@ -48,6 +29,16 @@
 
     <!-- Alternatively, you can also include a specific color theme after the main stylesheet to alter the default color theme of the template -->
     {{-- @vite(['resources/sass/main.scss', 'resources/sass/dashmix/themes/xwork.scss', 'resources/js/dashmix/app.js']) --}}
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ asset('build/assets/main-cbr0_KuO.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/app-Ds4h1nWs.css') }}">
+    <link rel="stylesheet" href="{{ asset('build/assets/xmodern-YGupmPJn.css') }}">
+
+    <!-- JS -->
+    <script src="{{ asset('build/assets/app-ByhcSUcv.js') }}"></script>
+    <script src="{{ asset('build/assets/datatables-OWz4BPSn.js') }}"></script>
+    <script src="{{ asset('build/assets/slick-rI1iZJFO.js') }}"></script>
 
     <!-- jQuery (required for DataTables plugin) -->
     <script src="{{ asset('js/lib/jquery.min.js') }}"></script>
