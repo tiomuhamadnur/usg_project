@@ -1,0 +1,1 @@
+Dashmix.helpersOnLoad(["jq-slick"]);
