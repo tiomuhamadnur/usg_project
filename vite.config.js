@@ -2,7 +2,6 @@ import { defineConfig } from 'vite';
 import laravel from 'laravel-vite-plugin';
 
 export default defineConfig({
-    base: process.env.VITE_APP_URL ? `${process.env.VITE_APP_URL}/` : '/',
     plugins: [
         laravel({
             input: [
