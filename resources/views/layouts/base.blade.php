@@ -27,22 +27,20 @@
         }
     </style>
 
-    <!-- Alternatively, you can also include a specific color theme after the main stylesheet to alter the default color theme of the template -->
-    {{-- @vite(['resources/sass/main.scss', 'resources/sass/dashmix/themes/xwork.scss', 'resources/js/dashmix/app.js']) --}}
-
-    <!-- CSS -->
-    <link rel="stylesheet" href="{{ asset('build/assets/main-cbr0_KuO.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/app-Ds4h1nWs.css') }}">
-    <link rel="stylesheet" href="{{ asset('build/assets/xmodern-YGupmPJn.css') }}">
-
-    <!-- JS -->
-    <script src="{{ asset('build/assets/app-ByhcSUcv.js') }}"></script>
-    <script src="{{ asset('build/assets/datatables-OWz4BPSn.js') }}"></script>
-    <script src="{{ asset('build/assets/slick-rI1iZJFO.js') }}"></script>
-
     <!-- jQuery (required for DataTables plugin) -->
     <script src="{{ asset('js/lib/jquery.min.js') }}"></script>
     <script src="{{ asset('js/plugins/sweetalert2/sweetalert2.all.js') }}"></script>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ asset('assets/main-cbr0_KuO.css') }}">
+
+    <!-- JS -->
+    <script type="module" src="{{ asset('assets/app-ByhcSUcv.js') }}"></script> <!-- Dashmix app.js -->
+    <script type="module" src="{{ asset('assets/app-CUkwnziR.js') }}"></script> <!-- Custom app.js, kalau perlu -->
+
+    <!-- Alternatively, you can also include a specific color theme after the main stylesheet to alter the default color theme of the template -->
+    {{-- @vite(['resources/sass/main.scss', 'resources/sass/dashmix/themes/xwork.scss', 'resources/js/dashmix/app.js']) --}}
+
     @yield('js')
     @livewireStyles
 </head>
