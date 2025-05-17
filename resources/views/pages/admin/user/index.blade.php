@@ -41,7 +41,10 @@
             </div>
             <div class="block-content block-content-full">
                 <div class="table-responsive">
-                    {{ $dataTable->table(['class' => 'table table-bordered table-striped table-vcenter js-dataTable-buttons']) }}
+                    {{ $dataTable->table([
+                        'class' => 'table table-bordered table-striped table-vcenter table-sm fs-sm text-nowrap align-middle',
+                    ])
+                    }}
                 </div>
             </div>
         </div>

@@ -1,37 +1,24 @@
 @extends('layouts.base')
 
 @section('header')
-    <title>Blank Page</title>
+    <title>Unassigned User</title>
 @endsection
 
 @section('content')
-    <!-- Hero -->
-    <div class="bg-body-light">
-        <div class="content content-full">
-            <div class="d-flex flex-column flex-sm-row justify-content-sm-between align-items-sm-center">
-                <h1 class="flex-grow-1 fs-3 fw-semibold my-2 my-sm-3">Page Title</h1>
-                <nav class="flex-shrink-0 my-2 my-sm-0 ms-sm-3" aria-label="breadcrumb">
-                    <ol class="breadcrumb">
-                        <li class="breadcrumb-item">Examples</li>
-                        <li class="breadcrumb-item active" aria-current="page">Blank</li>
-                    </ol>
-                </nav>
-            </div>
-        </div>
-    </div>
-    <!-- END Hero -->
-
     <!-- Page Content -->
     <div class="content">
         <!-- Your Block -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
-                <h3 class="block-title">
-                    Block Title
+                <h3 class="block-title fw-bolder">
+                    <span class="text-danger">
+                        <i class="fa fa-circle-xmark"></i>
+                    </span>
+                    Ooopss!
                 </h3>
             </div>
             <div class="block-content">
-                <p>Your content..</p>
+                <p>Akun anda <span class="fw-bolder">{{ auth()->user()->email }}</span> belum diaktivasi, silahkan hubungi Admin.</p>
             </div>
         </div>
         <!-- END Your Block -->

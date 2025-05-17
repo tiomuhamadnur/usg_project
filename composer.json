@@ -20,6 +20,7 @@
         "livewire/livewire": "*",
         "maatwebsite/excel": "^3.1",
         "milon/barcode": "^12.0",
+        "opcodesio/log-viewer": "^3.17",
         "simplesoftwareio/simple-qrcode": "^4.2",
         "yajra/laravel-datatables": "^12.0",
         "yajra/laravel-datatables-oracle": "12.0"

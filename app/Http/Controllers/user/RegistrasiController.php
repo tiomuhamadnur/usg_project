@@ -4,6 +4,7 @@ namespace App\Http\Controllers\user;
 
 use App\DataTables\RegistrasiDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Dokter;
 use App\Models\Pasien;
 use App\Models\Pemeriksaan;
 use App\Models\Room;
@@ -29,7 +30,7 @@ class RegistrasiController extends Controller
         $value = $request->value;
 
         $pasien = null;
-        $dokter = User::orderBy('name', 'ASC')->get();
+        $dokter = Dokter::all();
         $room = Room::orderBy('name', 'ASC')->get();
 
         if ($type && $value) {

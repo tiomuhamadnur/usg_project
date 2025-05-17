@@ -17,9 +17,22 @@ class UserDataTable extends DataTable
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
+            ->addColumn('name', function ($item) {
+                $name = $item->name;
+
+                if ($item->gelar_depan) {
+                    $name = $item->gelar_depan . ' ' . $name;
+                }
+
+                if ($item->gelar_belakang) {
+                    $name .= ', ' . $item->gelar_belakang;
+                }
+
+                return $name;
+            })
             ->addColumn('#', function ($item) {
-                $editRoute = route('user.update', $item->id);
-                $deleteRoute = route('user.destroy', $item->id);
+                $editRoute = route('user.edit', $item->uuid);
+                $deleteRoute = route('user.destroy', $item->uuid);
                 $actionButton = "<div class='dropdown'>
                                     <button class='btn' data-bs-toggle='dropdown'>
                                         <i class='fa fa-pencil'></i>
@@ -27,7 +40,7 @@ class UserDataTable extends DataTable
                                     </button>
 
                                     <div class='dropdown-menu dropdown-menu-end'>
-                                        <a class='dropdown-item' href='#' data-bs-toggle='modal' data-bs-target='#editModal' data-url='{$editRoute}' data-name='{$item->name}' data-email='{$item->email}' data-gender_id='{$item->gender_id}' data-role_id='{$item->role_id}' data-group_id='{$item->group_id}'>
+                                        <a class='dropdown-item' href='{$editRoute}'>
                                             <i class='fa fa-pencil'></i>
                                             Edit
                                         </a>
@@ -45,7 +58,11 @@ class UserDataTable extends DataTable
 
     public function query(User $model): QueryBuilder
     {
-        return $model->newQuery();
+        $query = $model
+            ->with(['role', 'gender'])
+            ->newQuery();
+
+        return $query;
     }
 
     public function html(): HtmlBuilder
@@ -71,9 +88,11 @@ class UserDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center'),
-            Column::make('id')->title('ID'),
-            Column::make('name')->title('Name'),
+            Column::computed('name')->title('Nama'),
             Column::make('email')->title('Email'),
+            Column::make('no_hp')->title('No. HP'),
+            Column::make('gender.name')->title('Jenis Kelamin'),
+            Column::make('role.name')->title('Role'),
         ];
     }
 

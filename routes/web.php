@@ -49,34 +49,35 @@ Route::view('/pages/slick', 'pages.slick');
 Route::view('/pages/datatables', 'pages.datatables');
 Route::view('/pages/blank', 'pages.blank');
 
-Route::group(['middleware' => ['auth']], function () {
+Route::get('/unassigned-user', function () {
+    if(Auth::user()->role_id != null) {
+        return redirect()->route('dashboard.index');
+    };
+    return view('pages.blank');
+})->middleware('auth')->name('unassigned.user');
+
+Route::group(['middleware' => ['auth', 'isAssigned']], function () {
     Route::resource('/dashboard', DashboardController::class);
 
-    Route::resource('/user', UserController::class);
+    Route::resource('/pasien', PasienController::class)->middleware('Admin');
 
-    Route::resource('/gender', GenderController::class);
+    Route::resource('/registrasi', RegistrasiController::class)->middleware('Admin');
 
-    Route::resource('/role', RoleController::class);
+    Route::resource('/pemeriksaan-awal', PemeriksaanAwalController::class)->middleware(['Suster']);
 
-    Route::resource('/room', RoomController::class);
+    Route::resource('/pemeriksaan-dokter', PemeriksaanController::class)->middleware('Dokter');
 
-    Route::resource('/agama', AgamaController::class);
+    Route::resource('/kasir', KasirController::class)->middleware('Kasir');
 
-    Route::resource('/pendidikan', PendidikanController::class);
-
-    Route::resource('/pekerjaan', PekerjaanController::class);
-
-    Route::resource('/golongan-darah', GolonganDarahController::class);
-
-    Route::resource('/hubungan-pasien', HubunganPasienController::class);
-
-    Route::resource('/pasien', PasienController::class);
-
-    Route::resource('/registrasi', RegistrasiController::class);
-
-    Route::resource('/pemeriksaan-awal', PemeriksaanAwalController::class);
-
-    Route::resource('/pemeriksaan-dokter', PemeriksaanController::class);
-
-    Route::resource('/kasir', KasirController::class);
+    Route::group(['middleware' => ['superAdmin'], 'prefix' => 'master-data',], function () {
+        Route::resource('/user', UserController::class);
+        Route::resource('/gender', GenderController::class);
+        Route::resource('/role', RoleController::class);
+        Route::resource('/room', RoomController::class);
+        Route::resource('/agama', AgamaController::class);
+        Route::resource('/pendidikan', PendidikanController::class);
+        Route::resource('/pekerjaan', PekerjaanController::class);
+        Route::resource('/golongan-darah', GolonganDarahController::class);
+        Route::resource('/hubungan-pasien', HubunganPasienController::class);
+    });
 });
