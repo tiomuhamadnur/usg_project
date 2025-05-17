@@ -24,7 +24,7 @@
         Swal.fire({
             title: "Yeheeey!",
             icon: "success",
-            text: "{{ session('notify') }}"
+            text: @json(session('notify'))
         }).then(() => {
             if (window.history.replaceState) {
                 window.history.replaceState(null, '', window.location.href);
@@ -34,7 +34,7 @@
         Swal.fire({
             icon: "error",
             title: "Ooopss!",
-            text: "{{ session('notifyerror') }}"
+            text: @json(session('notifyerror'))
         }).then(() => {
             if (window.history.replaceState) {
                 window.history.replaceState(null, '', window.location.href);
@@ -42,12 +42,19 @@
         });
     @elseif ($errors->any())
         @php
-            $messageError = implode("\n", $errors->all());
+            $errorsList = $errors->all();
+            $messageError = collect($errorsList)
+                ->map(function ($msg, $index) use ($errorsList) {
+                    return count($errorsList) > 1
+                        ? ($index + 1) . '. ' . e($msg)
+                        : e($msg);
+                })
+                ->implode('<br>');
         @endphp
         Swal.fire({
             icon: "error",
             title: "Ooopss!",
-            text: "{{ $messageError }}"
+            html: @json($messageError) // pakai html, bukan text
         }).then(() => {
             if (window.history.replaceState) {
                 window.history.replaceState(null, '', window.location.href);
@@ -55,3 +62,4 @@
         });
     @endif
 </script>
+

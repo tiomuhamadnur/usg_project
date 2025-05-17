@@ -19,8 +19,7 @@ class PasienDataTable extends DataTable
         return (new EloquentDataTable($query))
             ->addColumn('#', function ($item) {
                 $editRoute = route('pasien.edit', $item->uuid);
-                $showRoute = route('pasien.show', $item->uuid);
-                $deleteRoute = route('pekerjaan.destroy', $item->uuid);
+                $deleteRoute = route('pasien.destroy', $item->uuid);
                 $actionButton = "<div class='dropdown'>
                                     <button class='btn' data-bs-toggle='dropdown'>
                                         <i class='fa fa-pencil'></i>
@@ -31,10 +30,6 @@ class PasienDataTable extends DataTable
                                         <a class='dropdown-item' href='{$editRoute}'>
                                             <i class='fa fa-pencil'></i>
                                             Edit
-                                        </a>
-                                        <a class='dropdown-item' href='{$showRoute}'>
-                                            <i class='fa fa-eye'></i>
-                                            Show
                                         </a>
                                         <a class='dropdown-item text-danger' href='#' data-bs-toggle='modal' data-bs-target='#deleteModal' data-url='{$deleteRoute}'>
                                             <i class='fa fa-trash-can'></i>

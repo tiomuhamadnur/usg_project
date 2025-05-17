@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Str;
@@ -31,6 +32,16 @@ class Pasien extends Model
         } while (self::where('member_code', $code)->exists());
 
         return $code;
+    }
+
+    public function getUmurAttribute()
+    {
+        $diff = Carbon::parse($this->tanggal_lahir)->diff(Carbon::now());
+        return (object) [
+            'tahun' => $diff->y,
+            'bulan' => $diff->m,
+            'hari' => $diff->d,
+        ];
     }
 
     public function gender()

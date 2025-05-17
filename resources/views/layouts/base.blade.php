@@ -25,11 +25,24 @@
             content: ' *';
             color: red;
         }
+
+        label.optional::after {
+            content: ' (optional)';
+            color: blue;
+            font-size: 0.75em;
+        }
+
+        label.auto::after {
+            content: ' (autocomplete)';
+            color: rgb(0, 116, 17);
+            font-size: 0.75em;
+        }
     </style>
 
     <!-- jQuery (required for DataTables plugin) -->
     <script src="{{ asset('js/lib/jquery.min.js') }}"></script>
     <script src="{{ asset('js/plugins/sweetalert2/sweetalert2.all.js') }}"></script>
+    <script src="{{ asset('js/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
 
     <!-- CSS -->
     <link rel="stylesheet" href="{{ asset('assets/main-cbr0_KuO.css') }}">

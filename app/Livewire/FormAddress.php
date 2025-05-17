@@ -16,9 +16,31 @@ class FormAddress extends Component
     public $kelurahan_id = null;
     public $prefix = '';
 
-    public function mount($prefix = '')
+    public function mount($prefix = '', $provinsi_id = null, $kota_id = null, $kecamatan_id = null, $kelurahan_id = null)
     {
         $this->prefix = $prefix;
+        $this->provinsi_id = $provinsi_id;
+        $this->kota_id = $kota_id;
+        $this->kecamatan_id = $kecamatan_id;
+        $this->kelurahan_id = $kelurahan_id;
+    }
+
+    public function updatedProvinsiId()
+    {
+        $this->kota_id = null;
+        $this->kecamatan_id = null;
+        $this->kelurahan_id = null;
+    }
+
+    public function updatedKotaId()
+    {
+        $this->kecamatan_id = null;
+        $this->kelurahan_id = null;
+    }
+
+    public function updatedKecamatanId()
+    {
+        $this->kelurahan_id = null;
     }
 
     public function render()
