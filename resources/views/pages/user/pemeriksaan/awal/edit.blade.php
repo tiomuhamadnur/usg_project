@@ -71,7 +71,7 @@
                             <label class="col-sm-3 col-form-label">Umur</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" disabled
-                                    value="{{ $pemeriksaan->pasien->umur ?? '-' }}">
+                                    value="{{ $pemeriksaan->pasien->umur->tahun }} tahun, {{ $pemeriksaan->pasien->umur->bulan }} bulan, {{ $pemeriksaan->pasien->umur->hari }} hari">
                             </div>
                         </div>
                         <div class="row mb-2">
