@@ -34,8 +34,6 @@
                                             <option value="member_code">Member ID</option>
                                             <option value="no_rm">No. Rekam Medis</option>
                                             <option value="satu_sehat_id">ID Satu Sehat</option>
-                                            <option value="no_hp">No. HP/WA</option>
-                                            <option value="email">Email</option>
                                         </select>
                                     </div>
                                     <div class="col-12 col-md-7">
@@ -64,14 +62,14 @@
                                                 <label class="col-sm-4 col-form-label">Member ID</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control" disabled
-                                                        value="{{ $pasien->member_code }}">
+                                                        value="{{ $pasien->member_code ?? '-' }}">
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
                                                 <label class="col-sm-4 col-form-label">Nama Pasien</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control" disabled
-                                                        value="{{ $pasien->name }}">
+                                                        value="{{ $pasien->name ?? '-' }}">
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
@@ -85,28 +83,28 @@
                                                 <label class="col-sm-4 col-form-label">NIK KTP</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control" disabled
-                                                        value="{{ $pasien->nik }}">
+                                                        value="{{ $pasien->nik ?? '-' }}">
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
                                                 <label class="col-sm-4 col-form-label">No. BPJS</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control" disabled
-                                                        value="{{ $pasien->no_bpjs }}">
+                                                        value="{{ $pasien->no_bpjs ?? '-' }}">
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
                                                 <label class="col-sm-4 col-form-label">Tempat Lahir</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control" disabled
-                                                        value="{{ $pasien->tempat_lahir }}">
+                                                        value="{{ $pasien->tempat_lahir ?? '-' }}">
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
                                                 <label class="col-sm-4 col-form-label">Tanggal Lahir</label>
                                                 <div class="col-sm-8">
                                                     <input type="date" class="form-control" disabled
-                                                        value="{{ $pasien->tanggal_lahir }}">
+                                                        value="{{ $pasien->tanggal_lahir ?? '-' }}">
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
@@ -120,13 +118,13 @@
                                                 <label class="col-sm-4 col-form-label">No. HP/WA</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control" disabled
-                                                        value="{{ $pasien->no_hp }}">
+                                                        value="{{ $pasien->no_hp ?? '-' }}">
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
                                                 <label class="col-sm-4 col-form-label">Alamat</label>
                                                 <div class="col-sm-8">
-                                                    <textarea class="form-control" rows="3" disabled>{{ $pasien->alamat }}, {{ $pasien->kelurahan->name ?? '-' }}, {{ $pasien->kecamatan->name ?? '-' }}, {{ $pasien->kota->name ?? '-' }}, {{ $pasien->provinsi->name ?? '-' }}</textarea>
+                                                    <textarea class="form-control" rows="3" disabled>{{ $pasien->alamat ?? '-' }}, {{ $pasien->kelurahan->name ?? '-' }}, {{ $pasien->kecamatan->name ?? '-' }}, {{ $pasien->kota->name ?? '-' }}, {{ $pasien->provinsi->name ?? '-' }}</textarea>
                                                 </div>
                                             </div>
                                         </form>
@@ -155,7 +153,8 @@
                                                     <select class="form-select" name="room_id" id="room_id" required>
                                                         <option value="" disabled selected>- pilih ruangan -</option>
                                                         @foreach ($room as $item)
-                                                            <option value="{{ $item->id }}">{{ $item->name }}
+                                                            <option value="{{ $item->id }}">
+                                                                {{ $item->name }}
                                                             </option>
                                                         @endforeach
                                                     </select>
