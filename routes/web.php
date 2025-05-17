@@ -44,11 +44,6 @@ Route::get('/home', function () {
     return redirect()->route('dashboard.index');
 });
 
-
-Route::view('/pages/slick', 'pages.slick');
-Route::view('/pages/datatables', 'pages.datatables');
-Route::view('/pages/blank', 'pages.blank');
-
 Route::get('/unassigned-user', function () {
     if(Auth::user()->role_id != null) {
         return redirect()->route('dashboard.index');
