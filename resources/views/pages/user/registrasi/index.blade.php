@@ -15,27 +15,29 @@
                         Data Registrasi
                     </h3>
                     <div class="my-2 mb-0 ms-3">
-                        <div class="dropdown">
-                            <button type="button" class="btn btn-primary dropdown-toggle" id="dropdown-default-primary"
-                                data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                <i class="fa fa-gear"></i>
-                                Action
-                            </button>
-                            <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-default-primary">
-                                <a class="dropdown-item" href="{{ route('registrasi.create') }}">
-                                    <i class="fa fa-circle-plus"></i>
-                                    Add New Data
-                                </a>
-                                <a class="dropdown-item" href="javascript:void(0)">
-                                    <i class="fa fa-filter"></i>
-                                    Filter
-                                </a>
-                                <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal"
-                                    data-bs-target="#exportModal">
-                                    <i class="fa fa-file-export"></i>
-                                    Export
-                                </a>
+                        <div class="input-group">
+                            <div class="dropdown">
+                                <button type="button" class="btn btn-primary dropdown-toggle" id="dropdown-default-primary"
+                                    data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <i class="fa fa-gear"></i>
+                                    Action
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-default-primary">
+                                    <a class="dropdown-item" href="javascript:void(0)">
+                                        <i class="fa fa-filter"></i>
+                                        Filter
+                                    </a>
+                                    <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal"
+                                        data-bs-target="#exportModal">
+                                        <i class="fa fa-file-export"></i>
+                                        Export
+                                    </a>
+                                </div>
                             </div>
+                            <a href="{{ route('registrasi.create') }}" class="btn btn-primary ms-2">
+                                <i class="fa fa-circle-plus"></i>
+                                Tambah Data
+                            </a>
                         </div>
                     </div>
                 </div>

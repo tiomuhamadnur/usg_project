@@ -58,7 +58,7 @@ class PasienController extends Controller
             "tanggal_lahir" => "required|date|before:today",
             "no_hp" => [
                 'required',
-                'regex:/^(\+62|62|0)8[1-9][0-9]{6,9}$/'
+                'regex:/^(?:\+62|62|0)(?:8[1-9][0-9]{5,8}|2[1-9][0-9]{6,9})$/'
             ],
             "email" => "nullable|email|max:255",
 
@@ -153,7 +153,7 @@ class PasienController extends Controller
             "tanggal_lahir" => "required|date|before:today",
             "no_hp" => [
                 'required',
-                'regex:/^(\+62|62|0)8[1-9][0-9]{6,9}$/'
+                'regex:/^(?:\+62|62|0)(?:8[1-9][0-9]{5,8}|2[1-9][0-9]{6,9})$/'
             ],
             "email" => "nullable|email|max:255",
 

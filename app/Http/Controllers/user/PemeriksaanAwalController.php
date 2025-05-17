@@ -38,13 +38,9 @@ class PemeriksaanAwalController extends Controller
     {
         $pemeriksaan = Pemeriksaan::where('uuid', $uuid)->firstOrFail();
 
-        $usia = Carbon::parse($pemeriksaan->pasien->tanggal_lahir)->diff(Carbon::now());
-        $umur = $usia->y . ' tahun, ' . $usia->m . ' bulan, ' . $usia->d . ' hari';
-
         $qrcode = QrCode::format('png')->size(150)->generate($pemeriksaan->code);
         $qrcode_base64 = base64_encode($qrcode);
 
-        $pemeriksaan->pasien->umur = $umur;
         $pemeriksaan->qr_code = $qrcode_base64;
 
         $status_pemeriksaan = StatusPemeriksaan::whereIn('id', [2])->get();

@@ -55,7 +55,7 @@ class UserController extends Controller
             "gelar_belakang" => "nullable|string",
             "no_hp" => [
                 'required',
-                'regex:/^(\+62|62|0)8[1-9][0-9]{6,9}$/'
+                'regex:/^(?:\+62|62|0)(?:8[1-9][0-9]{5,8}|2[1-9][0-9]{6,9})$/'
             ],
             "gender_id" => "required|numeric|exists:gender,id",
             "role_id" => "required|numeric|exists:role,id",

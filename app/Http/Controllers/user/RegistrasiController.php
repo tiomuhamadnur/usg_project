@@ -97,13 +97,17 @@ class RegistrasiController extends Controller
         //
     }
 
-    public function update(Request $request, string $id)
+    public function update(Request $request, string $uuid)
     {
         //
     }
 
-    public function destroy(string $id)
+    public function destroy(string $uuid)
     {
-        //
+        $pemeriksaan = Pemeriksaan::where('uuid', $uuid)->firstOrFail();
+
+        $pemeriksaan->delete();
+
+        return redirect()->route('registrasi.index')->withNotify('Data berhasil dihapus');
     }
 }

@@ -36,13 +36,9 @@ class PemeriksaanController extends Controller
     {
         $pemeriksaan = Pemeriksaan::where('uuid', $uuid)->firstOrFail();
 
-        $usia = Carbon::parse($pemeriksaan->pasien->tanggal_lahir)->diff(Carbon::now());
-        $umur = $usia->y . ' tahun, ' . $usia->m . ' bulan, ' . $usia->d . ' hari';
-
         $qrcode = QrCode::format('png')->size(150)->generate($pemeriksaan->code);
         $qrcode_base64 = base64_encode($qrcode);
 
-        $pemeriksaan->pasien->umur = $umur;
         $pemeriksaan->qr_code = $qrcode_base64;
 
         $status_pemeriksaan = StatusPemeriksaan::whereIn('id', [3])->get();
@@ -73,7 +69,7 @@ class PemeriksaanController extends Controller
         return redirect()->route('pemeriksaan-dokter.index')->withNotify('Data pemeriksaan Dokter berhasil disimpan, bisa dilanjut ke tahap pembayaran di Kasir.');
     }
 
-    public function destroy(string $id)
+    public function destroy(string $uuid)
     {
         //
     }

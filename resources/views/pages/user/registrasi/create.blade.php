@@ -78,7 +78,7 @@
                                                 <label class="col-sm-4 col-form-label">Jenis Kelamin</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control" disabled
-                                                        value="{{ $pasien->gender->name }}">
+                                                        value="{{ $pasien->gender->name ?? '-' }}">
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
@@ -113,7 +113,7 @@
                                                 <label class="col-sm-4 col-form-label">Golongan Darah</label>
                                                 <div class="col-sm-8">
                                                     <input type="text" class="form-control" disabled
-                                                        value="{{ $pasien->golongan_darah->name }}">
+                                                        value="{{ $pasien->golongan_darah->name ?? '-' }}">
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
@@ -126,7 +126,7 @@
                                             <div class="row mb-3">
                                                 <label class="col-sm-4 col-form-label">Alamat</label>
                                                 <div class="col-sm-8">
-                                                    <textarea class="form-control" rows="3" disabled>{{ $pasien->alamat }}, {{ $pasien->kelurahan->name }}, {{ $pasien->kecamatan->name }}, {{ $pasien->kota->name }}, {{ $pasien->provinsi->name }}</textarea>
+                                                    <textarea class="form-control" rows="3" disabled>{{ $pasien->alamat }}, {{ $pasien->kelurahan->name ?? '-' }}, {{ $pasien->kecamatan->name ?? '-' }}, {{ $pasien->kota->name ?? '-' }}, {{ $pasien->provinsi->name ?? '-' }}</textarea>
                                                 </div>
                                             </div>
                                         </form>
