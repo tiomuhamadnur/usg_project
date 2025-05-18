@@ -14,6 +14,9 @@
                     <h3 class="fs-3 fw-semibold my-2 mb-0">
                         Pemeriksaan Dokter
                     </h3>
+                    <a href="{{ route('pemeriksaan-dokter.index') }}" class="btn btn-danger">
+                        <i class="fa fa-times me-1"></i> Batal
+                    </a>
                 </div>
             </div>
             <div class="block-content block-content-full">
@@ -91,6 +94,15 @@
                             <label class="col-sm-3 col-form-label">Alamat</label>
                             <div class="col-sm-8">
                                 <textarea class="form-control" disabled rows="2">{{ $pemeriksaan->pasien->alamat }}, {{ $pemeriksaan->pasien->kelurahan->name }}, {{ $pemeriksaan->pasien->kecamatan->name }}, {{ $pemeriksaan->pasien->kota->name }}</textarea>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="col-sm-3 col-form-label">Riwayat Medis</label>
+                            <div class="col-sm-8">
+                                <a href="{{ route('pemeriksaan-dokter.show', $pemeriksaan->uuid ?? '') }}" target="_blank" class="btn btn-primary">
+                                    <i class="fa fa-rectangle-list"></i>
+                                    Lihat Riwayat
+                                </a>
                             </div>
                         </div>
                     </div>

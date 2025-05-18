@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers\user;
 
+use App\DataTables\HistoryPemeriksaanDataTable;
 use App\DataTables\PemeriksaanDokterDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Dokter;
+use App\Models\Pasien;
 use App\Models\Pemeriksaan;
 use App\Models\Room;
 use App\Models\StatusPembayaran;
@@ -72,9 +74,18 @@ class PemeriksaanController extends Controller
         //
     }
 
-    public function show(string $uuid)
+    public function show(string $uuid, HistoryPemeriksaanDataTable $dataTable)
     {
-        //
+        $pemeriksaan = Pemeriksaan::where('uuid', $uuid)->firstOrFail();
+
+        $prevURL = route('pemeriksaan-dokter.edit', $pemeriksaan->uuid);
+
+        return $dataTable->with([
+            'pasien_uuid' => $pemeriksaan->pasien->uuid,
+        ])->render('pages.user.pemeriksaan.dokter.history', compact([
+            'pemeriksaan',
+            'prevURL',
+        ]));
     }
 
     public function edit(string $uuid)

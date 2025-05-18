@@ -22,6 +22,7 @@ class RegistrasiDataTable extends DataTable
     protected $room_id;
     protected $status_pemeriksaan_id;
     protected $status_pembayaran_id;
+    protected $pasien_uuid;
 
     public function with(array|string $key, mixed $value = null): static
     {
@@ -102,6 +103,11 @@ class RegistrasiDataTable extends DataTable
             $query->where('status_pembayaran_id', $this->status_pembayaran_id);
         }
 
+        if($this->pasien_uuid != null)
+        {
+            $query->whereRelation('pasien', 'uuid', '=', $this->pasien_uuid);
+        }
+
         if ($this->start_date != null && $this->end_date != null) {
             $clean_start_date = explode('?', $this->start_date)[0];
             $clean_end_date = explode('?', $this->end_date)[0];
@@ -124,7 +130,7 @@ class RegistrasiDataTable extends DataTable
                     ->pageLength(10)
                     ->lengthMenu([10, 50, 100, 250, 500, 1000])
                     //->dom('Bfrtip')
-                    ->orderBy([0, 'asc'])
+                    ->orderBy([3, 'asc'])
                     ->selectStyleSingle()
                     ->buttons([
                         [

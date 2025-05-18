@@ -14,6 +14,9 @@
                     <h3 class="fs-3 fw-semibold my-2 mb-0">
                         Pemeriksaan Awal
                     </h3>
+                    <a href="{{ route('pemeriksaan-awal.index') }}" class="btn btn-danger">
+                        <i class="fa fa-times me-1"></i> Batal
+                    </a>
                 </div>
             </div>
             <div class="block-content block-content-full">

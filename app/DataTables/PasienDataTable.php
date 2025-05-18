@@ -20,6 +20,7 @@ class PasienDataTable extends DataTable
             ->addColumn('#', function ($item) {
                 $registrasiRoute = route('registrasi.create', ['type' => 'nik', 'value' => $item->nik]);
                 $editRoute = route('pasien.edit', $item->uuid);
+                $historyRoute = route('registrasi.index', ['pasien_uuid' => $item->uuid]);
                 $deleteRoute = route('pasien.destroy', $item->uuid);
                 $actionButton = "<div class='dropdown'>
                                     <button class='btn' data-bs-toggle='dropdown'>
@@ -35,6 +36,10 @@ class PasienDataTable extends DataTable
                                         <a class='dropdown-item' href='{$editRoute}'>
                                             <i class='fa fa-pencil'></i>
                                             Edit
+                                        </a>
+                                        <a class='dropdown-item' href='{$historyRoute}'>
+                                            <i class='fa fa-rectangle-list'></i>
+                                            Riwayat
                                         </a>
                                         <a class='dropdown-item text-danger' href='#' data-bs-toggle='modal' data-bs-target='#deleteModal' data-url='{$deleteRoute}'>
                                             <i class='fa fa-trash-can'></i>

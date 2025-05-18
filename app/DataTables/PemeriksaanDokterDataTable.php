@@ -52,10 +52,6 @@ class PemeriksaanDokterDataTable extends DataTable
                                             <i class='fa fa-pencil'></i>
                                             Edit
                                         </a>
-                                        <a class='dropdown-item' href='{$showRoute}'>
-                                            <i class='fa fa-eye'></i>
-                                            Show
-                                        </a>
                                     </div>
                                 </div>";
 

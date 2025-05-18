@@ -14,6 +14,9 @@
                     <h3 class="fs-3 fw-semibold my-2 mb-0">
                         Tambah Pasien Baru
                     </h3>
+                    <a href="{{ route('pasien.index') }}" class="btn btn-danger">
+                        <i class="fa fa-times me-1"></i> Batal
+                    </a>
                 </div>
             </div>
             <div class="block-content block-content-full">
@@ -177,7 +180,13 @@
                                         required>{{ old('alamat') }}</textarea>
                                 </div>
                             </div>
-                            @livewire('form-address', ['prefix' => ''], key('pasien'))
+                            @livewire('form-address', [
+                                'prefix' => '',
+                                'provinsi_id' => old('provinsi_id'),
+                                'kota_id' => old('kota_id'),
+                                'kecamatan_id' => old('kecamatan_id'),
+                                'kelurahan_id' => old('kelurahan_id'),
+                            ])
                             <div class="row mb-4">
                                 <div class="col-12 col-md-6">
                                     <label class="form-label optional">Alergi Obat</label>

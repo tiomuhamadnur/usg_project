@@ -25,55 +25,65 @@
                         <!-- jQuery Validation (.js-validation-signin class is initialized in js/pages/op_auth_signin.min.js which was auto compiled from _js/pages/op_auth_signin.js) -->
                         <!-- For more info and examples you can check out https://github.com/jzaefferer/jquery-validation -->
                         <form class="js-validation-signin" action="{{ route('login') }}" method="POST">
-                            @method('POST')
                             @csrf
                             <div class="mb-4">
+                                <label for="email" class="form-label">Email</label>
                                 <div class="input-group input-group-lg">
-                                    <input type="email" id="email" name="email"
-                                        class="form-control @error('email') is-invalid @enderror" name="email"
-                                        value="{{ old('email') }}" required autocomplete="email" autofocus
-                                        placeholder="Email">
                                     <span class="input-group-text">
                                         <i class="fa fa-user-circle"></i>
                                     </span>
+                                    <input type="email" id="email" name="email"
+                                        class="form-control @error('email') is-invalid @enderror"
+                                        value="{{ old('email') }}" required autocomplete="email" autofocus
+                                        placeholder="you@example.com">
                                 </div>
                                 @error('email')
-                                    <span class="text-xs text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                    <div class="invalid-feedback d-block">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
                             </div>
+
                             <div class="mb-4">
+                                <label for="password" class="form-label">Password</label>
                                 <div class="input-group input-group-lg">
-                                    <input type="password" class="form-control @error('password') is-invalid @enderror"
-                                        required autocomplete="current-password" id="password" name="password"
-                                        placeholder="Password">
                                     <span class="input-group-text">
                                         <i class="fa fa-asterisk"></i>
                                     </span>
+                                    <input type="password" id="password" name="password"
+                                        class="form-control @error('password') is-invalid @enderror" required
+                                        autocomplete="current-password" placeholder="Your password">
                                 </div>
                                 @error('password')
-                                    <span class="text-xs text-danger" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
+                                    <div class="invalid-feedback d-block">
+                                        {{ $message }}
+                                    </div>
                                 @enderror
                             </div>
-                            <div
-                                class="d-sm-flex justify-content-sm-between align-items-sm-center text-center text-sm-start mb-4">
-                                <div class="fw-semibold fs-sm py-1">
-                                    @if (Route::has('password.request'))
-                                        <a class="btn btn-link" href="{{ route('password.request') }}">
-                                            {{ __('Forgot Password?') }}
-                                        </a>
-                                    @endif
+
+                            <div class="d-flex justify-content-between align-items-center mb-4">
+                                <div class="form-check">
+                                    <input class="form-check-input" type="checkbox" name="remember" id="remember"
+                                        {{ old('remember') ? 'checked' : '' }}>
+                                    <label class="form-check-label" for="remember">
+                                        Remember Me
+                                    </label>
                                 </div>
+
+                                @if (Route::has('password.request'))
+                                    <a class="btn btn-link fs-sm" href="{{ route('password.request') }}">
+                                        {{ __('Forgot Password?') }}
+                                    </a>
+                                @endif
                             </div>
-                            <div class="text-center mb-4">
-                                <button type="submit" class="btn btn-hero btn-primary">
+
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-hero btn-primary w-100 py-2">
                                     <i class="fa fa-fw fa-sign-in-alt opacity-50 me-1"></i> Sign In
                                 </button>
                             </div>
                         </form>
+
                         <!-- END Sign In Form -->
                     </div>
                     <div class="block-content bg-body">

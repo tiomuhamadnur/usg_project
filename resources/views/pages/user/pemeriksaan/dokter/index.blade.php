@@ -16,7 +16,7 @@
                     </h3>
                     <div class="my-2 mb-0 ms-3">
                         <div class="dropdown">
-                            <button type="button" class="btn btn-primary dropdown-toggle" id="dropdown-default-primary"
+                            <button type="button" class="btn btn-secondary dropdown-toggle" id="dropdown-default-primary"
                                 data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i class="fa fa-gear"></i>
                                 Action

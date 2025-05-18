@@ -26,6 +26,7 @@ class RegistrasiController extends Controller
             'room_id' => 'nullable',
             'status_pemeriksaan_id' => 'nullable',
             'status_pembayaran_id' => 'nullable',
+            'pasien_uuid' => 'nullable'
         ], [
             'start_date.before_or_equal' => 'Tanggal awal harus <= tanggal akhir',
             'end_date.after_or_equal' => 'Tanggal akhir harus >= tanggal awal',
@@ -37,6 +38,7 @@ class RegistrasiController extends Controller
         $room_id = $request->room_id ?? null;
         $status_pemeriksaan_id = $request->status_pemeriksaan_id ?? null;
         $status_pembayaran_id = $request->status_pembayaran_id ?? null;
+        $pasien_uuid = $request->pasien_uuid ?? null;
 
         $dokter = Dokter::all();
         $room = Room::all();
@@ -50,6 +52,7 @@ class RegistrasiController extends Controller
             'room_id' => $room_id,
             'status_pemeriksaan_id' => $status_pemeriksaan_id,
             'status_pembayaran_id' => $status_pembayaran_id,
+            'pasien_uuid' => $pasien_uuid,
         ])->render('pages.user.registrasi.index', compact([
             'dokter',
             'room',
@@ -75,7 +78,7 @@ class RegistrasiController extends Controller
         $value = $request->value;
 
         $pasien = null;
-        $dokter = Dokter::all();
+        $dokter = Dokter::orderBy('name', 'ASC')->get();
         $room = Room::orderBy('name', 'ASC')->get();
 
         if ($type && $value) {
@@ -162,19 +165,44 @@ class RegistrasiController extends Controller
         ]));
     }
 
-    public function checkPemeriksaan(string $pasien_id)
-    {
-        //
-    }
-
     public function edit(string $uuid)
     {
-        //
+        $pemeriksaan = Pemeriksaan::where('uuid', $uuid)->firstOrFail();
+
+        if($pemeriksaan->status_pemeriksaan_id != 1)
+        {
+            return redirect()->route('registrasi.index')->withNotifyerror('Data pemeriksaan sudah berstatus "' . $pemeriksaan->status_pemeriksaan->name . '", tidak bisa diubah.');
+        }
+
+        $dokter = Dokter::orderBy('name', 'ASC')->get();
+        $room = Room::orderBy('name', 'ASC')->get();
+
+        return view('pages.user.registrasi.edit', compact([
+            'pemeriksaan',
+            'dokter',
+            'room',
+        ]));
     }
 
     public function update(Request $request, string $uuid)
     {
-        //
+        $pemeriksaan = Pemeriksaan::where('uuid', $uuid)->firstOrFail();
+
+        $rawData = $request->validate([
+            "dokter_id"        => "required|numeric|exists:users,id",
+            "room_id"          => "required|numeric|exists:room,id",
+            "datetime"         => "required|date|after_or_equal:now",
+            "rencana_pasien"   => "required|string",
+            "keluhan_pasien"   => "required|string",
+        ], [
+            'datetime.required' => 'Tanggal registrasi wajib diisi.',
+            'datetime.date' => 'Format tanggal registrasi tidak valid.',
+            'datetime.after_or_equal' => 'Tanggal registrasi tidak diperbolehkan backdate.',
+        ]);
+
+        $pemeriksaan->update($rawData);
+
+        return redirect()->route('registrasi.index')->withNotify('Data pemeriksaan berhasil diubah dengan code: ' . $pemeriksaan->code . ' No. urut: '. $pemeriksaan->no_urut);
     }
 
     public function destroy(string $uuid)
