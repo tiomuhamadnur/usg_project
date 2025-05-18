@@ -34,11 +34,18 @@ class RegistrasiController extends Controller
 
         $start_date = $request->start_date ?? Carbon::now()->format('Y-m-d');
         $end_date = $request->end_date ?? $start_date;
+        $pasien_uuid = $request->pasien_uuid ?? null;
+
+        if($pasien_uuid != null)
+        {
+            $start_date = $request->start_date ?? null;
+            $end_date = $request->end_date ?? $start_date;
+        }
+
         $dokter_id = $request->dokter_id ?? null;
         $room_id = $request->room_id ?? null;
         $status_pemeriksaan_id = $request->status_pemeriksaan_id ?? null;
         $status_pembayaran_id = $request->status_pembayaran_id ?? null;
-        $pasien_uuid = $request->pasien_uuid ?? null;
 
         $dokter = Dokter::all();
         $room = Room::all();
