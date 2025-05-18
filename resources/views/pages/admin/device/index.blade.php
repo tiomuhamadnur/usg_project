@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('header')
-    <title>Admin | Room</title>
+    <title>Admin | Device</title>
 @endsection
 
 @section('content')
@@ -12,7 +12,7 @@
             <div class="block-header block-header-default">
                 <div class="d-flex justify-content-between align-items-center w-100 flex-nowrap">
                     <h3 class="fs-3 fw-semibold my-2 mb-0">
-                        Data Room
+                        Data Device
                     </h3>
                     <div class="my-2 mb-0 ms-3">
                         <div class="dropdown">
@@ -63,7 +63,7 @@
     <div class="modal modal-blur fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-fromleft" role="document">
             <div class="modal-content">
-                <form action="{{ route('room.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('device.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('POST')
                     <div class="modal-header">
@@ -80,6 +80,30 @@
                             <label class="form-label required" for="code">Code</label>
                             <input type="text" class="form-control" name="code" id="code"
                                 placeholder="Input code" autocomplete="off" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label required" for="ip_address">IP Address</label>
+                            <input type="text" class="form-control" id="ip_address" name="ip_address"
+                                placeholder="Input ip address" autocomplete="off" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label required" for="username">Username</label>
+                            <input type="text" class="form-control" id="username" name="username"
+                                placeholder="Input username" autocomplete="off" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label required" for="password">Password</label>
+                            <input type="text" class="form-control" id="password" name="password"
+                                placeholder="Input password" autocomplete="off" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label required" for="room_id">Ruangan</label>
+                            <select class="form-select" name="room_id" id="room_id" required>
+                                <option value="" selected disabled>- pilih ruangan -</option>
+                                @foreach ($room as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -110,14 +134,38 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label required" for="name_edit">Name</label>
+                            <label class="form-label required" for="name">Name</label>
                             <input type="text" class="form-control" id="name_edit" name="name"
                                 placeholder="Input name" autocomplete="off" required>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label required" for="code_edit">Code</label>
-                            <input type="text" class="form-control" id="code_edit" name="code"
+                            <label class="form-label required" for="code">Code</label>
+                            <input type="text" class="form-control" name="code" id="code_edit"
                                 placeholder="Input code" autocomplete="off" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label required" for="ip_address">IP Address</label>
+                            <input type="text" class="form-control" id="ip_address_edit" name="ip_address"
+                                placeholder="Input ip address" autocomplete="off" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label required" for="username">Username</label>
+                            <input type="text" class="form-control" id="username_edit" name="username"
+                                placeholder="Input username" autocomplete="off" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label required" for="password">Password</label>
+                            <input type="text" class="form-control" id="password_edit" name="password"
+                                placeholder="Input password" autocomplete="off" required>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label required" for="room_id">Ruangan</label>
+                            <select class="form-select" name="room_id" id="room_id_edit" required>
+                                <option value="" selected disabled>- pilih ruangan -</option>
+                                @foreach ($room as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -143,10 +191,18 @@
                 var url = $(e.relatedTarget).data('url');
                 var name = $(e.relatedTarget).data('name');
                 var code = $(e.relatedTarget).data('code');
+                var ip_address = $(e.relatedTarget).data('ip_address');
+                var username = $(e.relatedTarget).data('username');
+                var password = $(e.relatedTarget).data('password');
+                var room_id = $(e.relatedTarget).data('room_id');
 
                 document.getElementById("editForm").action = url;
                 $('#name_edit').val(name);
                 $('#code_edit').val(code);
+                $('#ip_address_edit').val(ip_address);
+                $('#username_edit').val(username);
+                $('#password_edit').val(password);
+                $('#room_id_edit').val(room_id);
             });
         });
     </script>

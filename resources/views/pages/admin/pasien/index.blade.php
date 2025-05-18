@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('header')
-    <title>Admin | Pasien</title>
+    <title>Pasien</title>
 @endsection
 
 @section('content')

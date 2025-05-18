@@ -119,29 +119,29 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                 @endAdmin
 
                 @Suster
-                <li class="nav-main-item{{ request()->is('pemeriksaan-*') ? ' open' : '' }}">
-                    <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
-                        aria-expanded="true" href="#">
-                        <i class="nav-main-link-icon fa fa-stethoscope"></i>
-                        <span class="nav-main-link-name">Pemeriksaan</span>
-                    </a>
-                    <ul class="nav-main-submenu">
-                        <li class="nav-main-item">
-                            <a class="nav-main-link{{ request()->is('pemeriksaan-awal*') ? ' active' : '' }}"
-                                href="{{ route('pemeriksaan-awal.index') }}">
-                                <span class="nav-main-link-name">Pemeriksaan Awal</span>
-                            </a>
-                        </li>
-                        @Dokter
+                    <li class="nav-main-item{{ request()->is('pemeriksaan-*') ? ' open' : '' }}">
+                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
+                            aria-expanded="true" href="#">
+                            <i class="nav-main-link-icon fa fa-stethoscope"></i>
+                            <span class="nav-main-link-name">Pemeriksaan</span>
+                        </a>
+                        <ul class="nav-main-submenu">
                             <li class="nav-main-item">
-                                <a class="nav-main-link{{ request()->is('pemeriksaan-dokter*') ? ' active' : '' }}"
-                                    href="{{ route('pemeriksaan-dokter.index') }}">
-                                    <span class="nav-main-link-name">Pemeriksaan Dokter</span>
+                                <a class="nav-main-link{{ request()->is('pemeriksaan-awal*') ? ' active' : '' }}"
+                                    href="{{ route('pemeriksaan-awal.index') }}">
+                                    <span class="nav-main-link-name">Pemeriksaan Awal</span>
                                 </a>
                             </li>
-                        @endDokter
-                    </ul>
-                </li>
+                            @Dokter
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link{{ request()->is('pemeriksaan-dokter*') ? ' active' : '' }}"
+                                        href="{{ route('pemeriksaan-dokter.index') }}">
+                                        <span class="nav-main-link-name">Pemeriksaan Dokter</span>
+                                    </a>
+                                </li>
+                            @endDokter
+                        </ul>
+                    </li>
                 @endSuster
                 @Kasir
                     <li class="nav-main-item">
@@ -151,64 +151,95 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                             <span class="nav-main-link-name">Kasir</span>
                         </a>
                     </li>
-                @endKasir
-                @superAdmin
-                    <li class="nav-main-heading">Master Data</li>
                     <li class="nav-main-item">
-                        <a class="nav-main-link {{ request()->is('master-data/user*') ? ' active' : '' }}"
-                            href="{{ route('user.index') }}">
-                            <i class="nav-main-link-icon fa fa-users"></i>
-                            <span class="nav-main-link-name">Users</span>
-                        </a>
-                        <a class="nav-main-link {{ request()->is('master-data/gender*') ? ' active' : '' }}"
-                            href="{{ route('gender.index') }}">
-                            <i class="nav-main-link-icon si si-symbol-female"></i>
-                            <span class="nav-main-link-name">Gender</span>
-                        </a>
-                        <a class="nav-main-link {{ request()->is('master-data/role*') ? ' active' : '' }}"
-                            href="{{ route('role.index') }}">
-                            <i class="nav-main-link-icon fa fa-user-gear"></i>
-                            <span class="nav-main-link-name">Role</span>
-                        </a>
-                        <a class="nav-main-link {{ request()->is('master-data/room*') ? ' active' : '' }}"
-                            href="{{ route('room.index') }}">
-                            <i class="nav-main-link-icon fa fa-home"></i>
-                            <span class="nav-main-link-name">Room</span>
-                        </a>
-                        <a class="nav-main-link {{ request()->is('master-data/agama*') ? ' active' : '' }}"
-                            href="{{ route('agama.index') }}">
-                            <i class="nav-main-link-icon fa fa-star-and-crescent"></i>
-                            <span class="nav-main-link-name">Agama</span>
-                        </a>
-                        <a class="nav-main-link {{ request()->is('master-data/pendidikan*') ? ' active' : '' }}"
-                            href="{{ route('pendidikan.index') }}">
-                            <i class="nav-main-link-icon fa fa-school"></i>
-                            <span class="nav-main-link-name">Pendidikan</span>
-                        </a>
-                        <a class="nav-main-link {{ request()->is('master-data/pekerjaan*') ? ' active' : '' }}"
-                            href="{{ route('pekerjaan.index') }}">
-                            <i class="nav-main-link-icon fa fa-briefcase"></i>
-                            <span class="nav-main-link-name">Pekerjaan</span>
-                        </a>
-                        <a class="nav-main-link {{ request()->is('master-data/golongan-darah*') ? ' active' : '' }}"
-                            href="{{ route('golongan-darah.index') }}">
-                            <i class="nav-main-link-icon fa fa-droplet"></i>
-                            <span class="nav-main-link-name">Golongan Darah</span>
-                        </a>
-                        <a class="nav-main-link {{ request()->is('master-data/hubungan-pasien*') ? ' active' : '' }}"
-                            href="{{ route('hubungan-pasien.index') }}">
-                            <i class="nav-main-link-icon fa fa-users-viewfinder"></i>
-                            <span class="nav-main-link-name">Hubungan Pasien</span>
+                        <a class="nav-main-link {{ request()->is('laporan*') ? ' active' : '' }}"
+                            href="{{ route('laporan.index') }}">
+                            <i class="nav-main-link-icon fa fa-money-bill-trend-up"></i>
+                            <span class="nav-main-link-name">Laporan</span>
                         </a>
                     </li>
+                @endKasir
+                @superAdmin
+                    <li class="nav-main-item{{ request()->is('master-data*') ? ' open' : '' }}">
+                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
+                            aria-expanded="true" href="#">
+                            <i class="nav-main-link-icon fa fa-database"></i>
+                            <span class="nav-main-link-name">Master Data</span>
+                        </a>
+                        <ul class="nav-main-submenu">
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/user*') ? ' active' : '' }}"
+                                    href="{{ route('user.index') }}">
+                                    <i class="nav-main-link-icon fa fa-users"></i>
+                                    <span class="nav-main-link-name">Users</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/gender*') ? ' active' : '' }}"
+                                    href="{{ route('gender.index') }}">
+                                    <i class="nav-main-link-icon si si-symbol-female"></i>
+                                    <span class="nav-main-link-name">Gender</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/role*') ? ' active' : '' }}"
+                                    href="{{ route('role.index') }}">
+                                    <i class="nav-main-link-icon fa fa-user-gear"></i>
+                                    <span class="nav-main-link-name">Role</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/room*') ? ' active' : '' }}"
+                                    href="{{ route('room.index') }}">
+                                    <i class="nav-main-link-icon fa fa-home"></i>
+                                    <span class="nav-main-link-name">Room</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/agama*') ? ' active' : '' }}"
+                                    href="{{ route('agama.index') }}">
+                                    <i class="nav-main-link-icon fa fa-star-and-crescent"></i>
+                                    <span class="nav-main-link-name">Agama</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/pendidikan*') ? ' active' : '' }}"
+                                    href="{{ route('pendidikan.index') }}">
+                                    <i class="nav-main-link-icon fa fa-school"></i>
+                                    <span class="nav-main-link-name">Pendidikan</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/pekerjaan*') ? ' active' : '' }}"
+                                    href="{{ route('pekerjaan.index') }}">
+                                    <i class="nav-main-link-icon fa fa-briefcase"></i>
+                                    <span class="nav-main-link-name">Pekerjaan</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/golongan-darah*') ? ' active' : '' }}"
+                                    href="{{ route('golongan-darah.index') }}">
+                                    <i class="nav-main-link-icon fa fa-droplet"></i>
+                                    <span class="nav-main-link-name">Golongan Darah</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/hubungan-pasien*') ? ' active' : '' }}"
+                                    href="{{ route('hubungan-pasien.index') }}">
+                                    <i class="nav-main-link-icon fa fa-users-viewfinder"></i>
+                                    <span class="nav-main-link-name">Hubungan Pasien</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/device*') ? ' active' : '' }}"
+                                    href="{{ route('device.index') }}">
+                                    <i class="nav-main-link-icon fa fa-toolbox"></i>
+                                    <span class="nav-main-link-name">Device</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
                 @endsuperAdmin
-                {{-- <li class="nav-main-heading">More</li>
-                <li class="nav-main-item">
-                    <a class="nav-main-link" href="/">
-                        <i class="nav-main-link-icon fa fa-globe"></i>
-                        <span class="nav-main-link-name">Landing</span>
-                    </a>
-                </li> --}}
             </ul>
         </div>
         <!-- END Side Navigation -->

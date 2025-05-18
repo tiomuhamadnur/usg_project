@@ -3,6 +3,7 @@
 namespace App\DataTables;
 
 use App\Models\Pemeriksaan;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\EloquentDataTable;
@@ -15,6 +16,25 @@ use Yajra\DataTables\Services\DataTable;
 
 class PemeriksaanDokterDataTable extends DataTable
 {
+    protected $start_date;
+    protected $end_date;
+    protected $room_id;
+    protected $status_pemeriksaan_id;
+    protected $status_pembayaran_id;
+
+    public function with(array|string $key, mixed $value = null): static
+    {
+        if (is_array($key)) {
+            foreach ($key as $k => $v) {
+                $this->{$k} = $v;
+            }
+        } else {
+            $this->{$key} = $value;
+        }
+
+        return $this;
+    }
+
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
@@ -48,9 +68,38 @@ class PemeriksaanDokterDataTable extends DataTable
     {
         $query = $model
             ->with(['pasien', 'pasien.gender', 'dokter', 'room', 'status_pemeriksaan', 'status_pembayaran'])
-            ->where('status_pemeriksaan_id', 2) //Ambil data yang statusnya sudah selesai pemeriksaan awal
-            ->where('dokter_id', Auth::user()->id) //Ambil data yang di-assign ke dokter sesuai akun login
+            ->where('status_pemeriksaan_id', 2)
             ->newQuery();
+
+        if (Auth::user()->role_id != 1) {
+            $query->where('dokter_id', Auth::user()->id);
+        }
+
+        // Filter
+        if($this->room_id != null)
+        {
+            $query->where('room_id', $this->room_id);
+        }
+
+        if($this->status_pemeriksaan_id != null)
+        {
+            $query->where('status_pemeriksaan_id', $this->status_pemeriksaan_id);
+        }
+
+        if($this->status_pembayaran_id != null)
+        {
+            $query->where('status_pembayaran_id', $this->status_pembayaran_id);
+        }
+
+        if ($this->start_date != null && $this->end_date != null) {
+            $clean_start_date = explode('?', $this->start_date)[0];
+            $clean_end_date = explode('?', $this->end_date)[0];
+
+            $start = Carbon::parse($clean_start_date)->startOfDay()->format('Y-m-d H:i:s');
+            $end = Carbon::parse($clean_end_date)->endOfDay()->format('Y-m-d H:i:s');
+
+            $query->whereBetween('datetime', [$start, $end]);
+        }
 
         return $query;
     }

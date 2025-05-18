@@ -14,7 +14,7 @@
 
                 <!-- User Info -->
                 <div class="ms-2">
-                    <a class="text-white fw-semibold" href="javascript:void(0)">George Taylor</a>
+                    <a class="text-white fw-semibold" href="javascript:void(0)">Tio Muhamad Nur</a>
                     <div class="text-white-75 fs-sm">Full Stack Developer</div>
                 </div>
                 <!-- END User Info -->

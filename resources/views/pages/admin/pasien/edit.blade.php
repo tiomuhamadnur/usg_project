@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('header')
-    <title>Admin | Registrasi Pasien</title>
+    <title>Ubah Data Pasien</title>
 @endsection
 
 @section('content')

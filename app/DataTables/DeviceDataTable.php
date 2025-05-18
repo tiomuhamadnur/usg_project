@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Pasien;
+use App\Models\Device;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,15 +12,14 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class PasienDataTable extends DataTable
+class DeviceDataTable extends DataTable
 {
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('#', function ($item) {
-                $registrasiRoute = route('registrasi.create', ['type' => 'nik', 'value' => $item->nik]);
-                $editRoute = route('pasien.edit', $item->uuid);
-                $deleteRoute = route('pasien.destroy', $item->uuid);
+                $editRoute = route('device.update', $item->uuid);
+                $deleteRoute = route('device.destroy', $item->uuid);
                 $actionButton = "<div class='dropdown'>
                                     <button class='btn' data-bs-toggle='dropdown'>
                                         <i class='fa fa-pencil'></i>
@@ -28,11 +27,7 @@ class PasienDataTable extends DataTable
                                     </button>
 
                                     <div class='dropdown-menu dropdown-menu-end'>
-                                        <a class='dropdown-item' href='{$registrasiRoute}'>
-                                            <i class='fa fa-book'></i>
-                                            Registrasi
-                                        </a>
-                                        <a class='dropdown-item' href='{$editRoute}'>
+                                        <a class='dropdown-item' href='#' data-bs-toggle='modal' data-bs-target='#editModal' data-url='{$editRoute}' data-name='{$item->name}' data-code='{$item->code}' data-ip_address='{$item->ip_address}' data-username='{$item->username}' data-password='{$item->password}' data-room_id='{$item->room_id}'>
                                             <i class='fa fa-pencil'></i>
                                             Edit
                                         </a>
@@ -48,11 +43,11 @@ class PasienDataTable extends DataTable
             ->rawColumns(['#']);
     }
 
-    public function query(Pasien $model): QueryBuilder
+    public function query(Device $model): QueryBuilder
     {
-        $query = $model->with([
-            'gender',
-        ])->newQuery();
+        $query = $model
+            ->with(['room'])
+            ->newQuery();
 
         return $query;
     }
@@ -60,7 +55,7 @@ class PasienDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('pasien-table')
+                    ->setTableId('device-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     ->pageLength(10)
@@ -87,18 +82,18 @@ class PasienDataTable extends DataTable
                 ->exportable(false)
                 ->printable(false)
                 ->width(60)
-                ->addClass('text-center'),
-            Column::make('name')->title('Nama Lengkap'),
-            Column::make('member_code')->title('Kode Member'),
-            Column::make('gender.name')->title('Jenis Kelamin'),
-            Column::make('tempat_lahir')->title('Tempat Lahir'),
-            Column::make('tanggal_lahir')->title('Tanggal Lahir'),
-            Column::make('nik')->title('NIK KTP'),
+                ->addClass('text-center text-nowrap'),
+            Column::make('name')->addClass('text-nowrap fw-bolder')->title('Nama'),
+            Column::make('code')->addClass('text-nowrap')->title('Kode'),
+            Column::make('room.name')->addClass('text-nowrap')->title('Ruangan'),
+            Column::make('ip_address')->addClass('text-nowrap')->title('IP Address'),
+            Column::make('username')->addClass('text-nowrap')->title('Username'),
+            Column::make('password')->addClass('text-nowrap')->title('Password'),
         ];
     }
 
     protected function filename(): string
     {
-        return 'Pasien_' . date('YmdHis');
+        return 'Device_' . date('YmdHis');
     }
 }

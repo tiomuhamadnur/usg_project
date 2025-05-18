@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Pemeriksaan;
 use App\Models\Registrasi;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -15,6 +16,26 @@ use Yajra\DataTables\Services\DataTable;
 
 class RegistrasiDataTable extends DataTable
 {
+    protected $start_date;
+    protected $end_date;
+    protected $dokter_id;
+    protected $room_id;
+    protected $status_pemeriksaan_id;
+    protected $status_pembayaran_id;
+
+    public function with(array|string $key, mixed $value = null): static
+    {
+        if (is_array($key)) {
+            foreach ($key as $k => $v) {
+                $this->{$k} = $v;
+            }
+        } else {
+            $this->{$key} = $value;
+        }
+
+        return $this;
+    }
+
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
@@ -59,6 +80,37 @@ class RegistrasiDataTable extends DataTable
             'status_pemeriksaan',
             'status_pembayaran',
         ])->newQuery();
+
+        // Filter
+        if($this->dokter_id != null)
+        {
+            $query->where('dokter_id', $this->dokter_id);
+        }
+
+        if($this->room_id != null)
+        {
+            $query->where('room_id', $this->room_id);
+        }
+
+        if($this->status_pemeriksaan_id != null)
+        {
+            $query->where('status_pemeriksaan_id', $this->status_pemeriksaan_id);
+        }
+
+        if($this->status_pembayaran_id != null)
+        {
+            $query->where('status_pembayaran_id', $this->status_pembayaran_id);
+        }
+
+        if ($this->start_date != null && $this->end_date != null) {
+            $clean_start_date = explode('?', $this->start_date)[0];
+            $clean_end_date = explode('?', $this->end_date)[0];
+
+            $start = Carbon::parse($clean_start_date)->startOfDay()->format('Y-m-d H:i:s');
+            $end = Carbon::parse($clean_end_date)->endOfDay()->format('Y-m-d H:i:s');
+
+            $query->whereBetween('datetime', [$start, $end]);
+        }
 
         return $query;
     }

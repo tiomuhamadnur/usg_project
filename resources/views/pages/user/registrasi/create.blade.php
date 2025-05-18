@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('header')
-    <title>Admin | Registrasi Pasien</title>
+    <title>Registrasi Pasien</title>
 @endsection
 
 @section('content')
@@ -26,21 +26,18 @@
                                     @csrf
                                     @method('GET')
                                     <div class="col-12 col-md-5">
-                                        <label class="form-label required">Cari Berdasarkan?</label>
+                                        <label class="form-label required">Cari Pasien Berdasarkan?</label>
                                         <select class="form-select" name="type" id="type" required>
                                             <option value="" selected disabled>- pilih pencarian -</option>
-                                            <option value="nik">NIK KTP</option>
-                                            <option value="no_bpjs">No. BPJS</option>
-                                            <option value="member_code">Member ID</option>
-                                            <option value="no_rm">No. Rekam Medis</option>
-                                            <option value="satu_sehat_id">ID Satu Sehat</option>
+                                            <option value="nik" @selected($type == 'nik')>NIK KTP</option>
+                                            <option value="no_hp" @selected($type == 'no_hp')>No HP/WA</option>
                                         </select>
                                     </div>
                                     <div class="col-12 col-md-7">
                                         <label class="form-label required">Value</label>
                                         <div class="input-group">
                                             <input type="text" class="form-control" name="value" id="value"
-                                                placeholder="input value" required autocomplete="off">
+                                                placeholder="input value" value="{{ old('value', $value ?? '') }}" required autocomplete="off">
                                             <button type="submit" class="btn btn-success">
                                                 <i class="fa fa-magnifying-glass"></i>
                                                 Cari</button>
@@ -141,7 +138,8 @@
                                                     <select class="form-select" name="dokter_id" id="dokter_id" required>
                                                         <option value="" disabled selected>- pilih dokter -</option>
                                                         @foreach ($dokter as $item)
-                                                            <option value="{{ $item->id }}">{{ $item->name }}
+                                                            <option value="{{ $item->id }}" @selected(old('dokter_id') == $item->id)>
+                                                                {{ $item->name }}
                                                             </option>
                                                         @endforeach
                                                     </select>
@@ -153,7 +151,7 @@
                                                     <select class="form-select" name="room_id" id="room_id" required>
                                                         <option value="" disabled selected>- pilih ruangan -</option>
                                                         @foreach ($room as $item)
-                                                            <option value="{{ $item->id }}">
+                                                            <option value="{{ $item->id }}" @selected(old('room_id') == $item->id)>
                                                                 {{ $item->name }}
                                                             </option>
                                                         @endforeach
@@ -164,21 +162,21 @@
                                                 <label class="col-sm-4 col-form-label required">Tanggal & Jam</label>
                                                 <div class="col-sm-8">
                                                     <input type="datetime-local" name="datetime" id="datetime"
-                                                        class="form-control" required>
+                                                        class="form-control" required value="{{ old('datetime') }}">
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
                                                 <label class="col-sm-4 col-form-label required">Rencana Pasien</label>
                                                 <div class="col-sm-8">
                                                     <textarea class="form-control" name="rencana_pasien" id="rencana_pasien" rows="3"
-                                                        placeholder="input rencana tindakan"></textarea>
+                                                        placeholder="input rencana tindakan">{{ old('rencana_pasien') }}</textarea>
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
                                                 <label class="col-sm-4 col-form-label required">Keluhan Pasien</label>
                                                 <div class="col-sm-8">
                                                     <textarea class="form-control" name="keluhan_pasien" id="keluhan_pasien" rows="3"
-                                                        placeholder="input keluhan"></textarea>
+                                                        placeholder="input keluhan">{{ old('keluhan_pasien') }}</textarea>
                                                 </div>
                                             </div>
                                         </form>

@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('header')
-    <title>Admin | Kasir</title>
+    <title>Kasir</title>
 @endsection
 
 @section('content')

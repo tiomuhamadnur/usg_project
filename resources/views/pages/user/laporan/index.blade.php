@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('header')
-    <title>Pemeriksaan Awal</title>
+    <title>Laporan</title>
 @endsection
 
 @section('content')
@@ -12,7 +12,7 @@
             <div class="block-header block-header-default">
                 <div class="d-flex justify-content-between align-items-center w-100 flex-nowrap">
                     <h3 class="fs-3 fw-semibold my-2 mb-0">
-                        Data Pemeriksaan Awal
+                        Data Laporan
                     </h3>
                     <div class="my-2 mb-0 ms-3">
                         <div class="dropdown">
@@ -54,7 +54,7 @@
     <div class="modal modal-blur fade" id="filterModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-fromleft" role="document">
             <div class="modal-content">
-                <form action="{{ route('pemeriksaan-awal.index') }}" method="GET" enctype="multipart/form-data">
+                <form action="{{ route('laporan.index') }}" method="GET" enctype="multipart/form-data">
                     @csrf
                     @method('GET')
                     <div class="modal-header">
@@ -78,22 +78,11 @@
                             </div>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label" for="dokter_id">Dokter</label>
-                            <select class="form-select" name="dokter_id" id="dokter_id">
-                                <option value="" selected disabled>- pilih dokter -</option>
-                                @foreach ($dokter as $item)
-                                    <option value="{{ $item->id }}" @selected($item->id == $dokter_id)>
-                                        {{ $item->name }}
-                                    </option>
-                                @endforeach
-                            </select>
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label" for="room_id">Ruangan</label>
-                            <select class="form-select" name="room_id" id="room_id">
-                                <option value="" selected disabled>- pilih ruangan -</option>
-                                @foreach ($room as $item)
-                                    <option value="{{ $item->id }}" @selected($item->id == $room_id)>
+                            <label class="form-label" for="metode_pembayaran_id">Metode Bayar</label>
+                            <select class="form-select" name="metode_pembayaran_id" id="metode_pembayaran_id">
+                                <option value="" selected disabled>- pilih metode pembayaran -</option>
+                                @foreach ($metode_pembayaran as $item)
+                                    <option value="{{ $item->id }}" @selected($item->id == $metode_pembayaran_id)>
                                         {{ $item->name }}
                                     </option>
                                 @endforeach
@@ -105,7 +94,7 @@
                             Batal
                         </a>
                         <div class="d-flex gap-2">
-                            <a href="{{ route('pemeriksaan-awal.index') }}" class="btn btn-danger">
+                            <a href="{{ route('laporan.index') }}" class="btn btn-danger">
                                 <i class="fa fa-arrows-rotate"></i>
                                 Reset
                             </a>

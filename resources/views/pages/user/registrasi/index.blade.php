@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('header')
-    <title>Admin | Registrasi</title>
+    <title>Registrasi</title>
 @endsection
 
 @section('content')
@@ -26,7 +26,8 @@
                                 <ul class="dropdown-menu dropdown-menu-end w-100 w-md-auto"
                                     aria-labelledby="dropdown-default-primary">
                                     <li>
-                                        <a class="dropdown-item" href="javascript:void(0)">
+                                        <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal"
+                                            data-bs-target="#filterModal">
                                             <i class="fa fa-filter"></i> Filter
                                         </a>
                                     </li>
@@ -58,6 +59,101 @@
         <!-- END Table -->
     </div>
     <!-- END Page Content -->
+@endsection
+
+@section('modals')
+    <!-- Filter Modal -->
+    <div class="modal modal-blur fade" id="filterModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-fromleft" role="document">
+            <div class="modal-content">
+                <form action="{{ route('registrasi.index') }}" method="GET" enctype="multipart/form-data">
+                    @csrf
+                    @method('GET')
+                    <div class="modal-header">
+                        <h5 class="modal-title">Filter</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="dokter_id">Tanggal</label>
+                            <div class="row align-items-center g-2">
+                                <div class="col">
+                                    <input class="form-control" type="date" name="start_date"
+                                        value="{{ $start_date }}">
+                                </div>
+                                <div class="col-auto">
+                                    <span class="form-text">s/d</span>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" type="date" name="end_date" value="{{ $end_date }}">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="dokter_id">Dokter</label>
+                            <select class="form-select" name="dokter_id" id="dokter_id">
+                                <option value="" selected disabled>- pilih dokter -</option>
+                                @foreach ($dokter as $item)
+                                    <option value="{{ $item->id }}" @selected($item->id == $dokter_id)>
+                                        {{ $item->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="room_id">Ruangan</label>
+                            <select class="form-select" name="room_id" id="room_id">
+                                <option value="" selected disabled>- pilih ruangan -</option>
+                                @foreach ($room as $item)
+                                    <option value="{{ $item->id }}" @selected($item->id == $room_id)>
+                                        {{ $item->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="status_pemeriksaan_id">Status Pemeriksaan</label>
+                            <select class="form-select" name="status_pemeriksaan_id" id="status_pemeriksaan_id">
+                                <option value="" selected disabled>- pilih status pemeriksaan -</option>
+                                @foreach ($status_pemeriksaan as $item)
+                                    <option value="{{ $item->id }}" @selected($item->id == $status_pemeriksaan_id)>
+                                        {{ $item->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label" for="status_pembayaran_id">Status Pembayaran</label>
+                            <select class="form-select" name="status_pembayaran_id" id="status_pembayaran_id">
+                                <option value="" selected disabled>- pilih status pembayaran -</option>
+                                @foreach ($status_pembayaran as $item)
+                                    <option value="{{ $item->id }}" @selected($item->id == $status_pembayaran_id)>
+                                        {{ $item->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-between align-items-center">
+                        <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+                            Batal
+                        </a>
+                        <div class="d-flex gap-2">
+                            <a href="{{ route('registrasi.index') }}" class="btn btn-danger">
+                                <i class="fa fa-arrows-rotate"></i>
+                                Reset
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-filter"></i>
+                                Filter
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- END Filter Modal -->
 @endsection
 
 @push('scripts')

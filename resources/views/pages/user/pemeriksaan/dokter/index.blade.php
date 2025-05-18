@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('header')
-    <title>Admin | Pemeriksaan Dokter</title>
+    <title>Pemeriksaan Dokter</title>
 @endsection
 
 @section('content')
@@ -22,9 +22,9 @@
                                 Action
                             </button>
                             <div class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdown-default-primary">
-                                <a class="dropdown-item" href="javascript:void(0)">
-                                    <i class="fa fa-filter"></i>
-                                    Filter
+                                <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal"
+                                    data-bs-target="#filterModal">
+                                    <i class="fa fa-filter"></i> Filter
                                 </a>
                                 <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal"
                                     data-bs-target="#exportModal">
@@ -47,6 +47,57 @@
         <!-- END Table -->
     </div>
     <!-- END Page Content -->
+@endsection
+
+@section('modals')
+    <!-- Filter Modal -->
+    <div class="modal modal-blur fade" id="filterModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-fromleft" role="document">
+            <div class="modal-content">
+                <form action="{{ route('pemeriksaan-dokter.index') }}" method="GET" enctype="multipart/form-data">
+                    @csrf
+                    @method('GET')
+                    <div class="modal-header">
+                        <h5 class="modal-title">Filter</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="dokter_id">Tanggal</label>
+                            <div class="row align-items-center g-2">
+                                <div class="col">
+                                    <input class="form-control" type="date" name="start_date"
+                                        value="{{ $start_date }}">
+                                </div>
+                                <div class="col-auto">
+                                    <span class="form-text">s/d</span>
+                                </div>
+                                <div class="col">
+                                    <input class="form-control" type="date" name="end_date" value="{{ $end_date }}">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer d-flex justify-content-between align-items-center">
+                        <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+                            Batal
+                        </a>
+                        <div class="d-flex gap-2">
+                            <a href="{{ route('pemeriksaan-dokter.index') }}" class="btn btn-danger">
+                                <i class="fa fa-arrows-rotate"></i>
+                                Reset
+                            </a>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fa fa-filter"></i>
+                                Filter
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- END Filter Modal -->
 @endsection
 
 @push('scripts')

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\admin\AgamaController;
+use App\Http\Controllers\admin\DeviceController;
 use App\Http\Controllers\admin\GenderController;
 use App\Http\Controllers\admin\GolonganDarahController;
 use App\Http\Controllers\admin\HubunganPasienController;
@@ -12,6 +13,7 @@ use App\Http\Controllers\admin\RoomController;
 use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\user\KasirController;
+use App\Http\Controllers\user\LaporanController;
 use App\Http\Controllers\user\PemeriksaanAwalController;
 use App\Http\Controllers\user\PemeriksaanController;
 use App\Http\Controllers\user\RegistrasiController;
@@ -64,6 +66,8 @@ Route::group(['middleware' => ['auth', 'isAssigned']], function () {
 
     Route::resource('/kasir', KasirController::class)->middleware('Kasir');
 
+    Route::resource('/laporan', LaporanController::class)->middleware('Kasir');
+
     Route::group(['middleware' => ['superAdmin'], 'prefix' => 'master-data',], function () {
         Route::resource('/user', UserController::class);
         Route::resource('/gender', GenderController::class);
@@ -74,5 +78,6 @@ Route::group(['middleware' => ['auth', 'isAssigned']], function () {
         Route::resource('/pekerjaan', PekerjaanController::class);
         Route::resource('/golongan-darah', GolonganDarahController::class);
         Route::resource('/hubungan-pasien', HubunganPasienController::class);
+        Route::resource('/device', DeviceController::class);
     });
 });
