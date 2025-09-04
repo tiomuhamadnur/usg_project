@@ -126,7 +126,7 @@ class RegistrasiDataTable extends DataTable
         return $this->builder()
                     ->setTableId('registrasi-table')
                     ->columns($this->getColumns())
-                    ->minifiedAjax('')
+                    ->ajax('')
                     ->pageLength(10)
                     ->lengthMenu([10, 50, 100, 250, 500, 1000])
                     //->dom('Bfrtip')
