@@ -70,7 +70,7 @@ class UserDataTable extends DataTable
         return $this->builder()
                     ->setTableId('user-table')
                     ->columns($this->getColumns())
-                    ->minifiedAjax()
+                    ->minifiedAjax('')
                     ->pageLength(10)
                     ->lengthMenu([10, 50, 100, 250, 500, 1000])
                     ->orderBy([0, 'asc'])
@@ -89,6 +89,7 @@ class UserDataTable extends DataTable
                 ->width(60)
                 ->addClass('text-center'),
             Column::computed('name')->title('Nama'),
+            Column::computed('inisial')->title('Inisial'),
             Column::make('email')->title('Email'),
             Column::make('no_hp')->title('No. HP'),
             Column::make('gender.name')->title('Jenis Kelamin'),

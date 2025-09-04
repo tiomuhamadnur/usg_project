@@ -223,7 +223,7 @@
                                 <div class="col-12 col-md-8">
                                     <label class="form-label required">Nama Lengkap</label>
                                     <input type="text" class="form-control" name="pj_name" id="pj_name"
-                                        value="{{ old('pj_name') }}" placeholder="input nama lengkap pasien" required
+                                        value="{{ old('pj_name') }}" placeholder="input nama lengkap penanggung jawab" required
                                         autocomplete="off">
                                 </div>
                                 <div class="col-12 col-md-4">

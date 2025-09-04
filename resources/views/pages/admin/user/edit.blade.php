@@ -33,8 +33,8 @@
                                 <div class="col-12 col-md-6">
                                     <label class="form-label required">Nama Lengkap</label>
                                     <input type="text" class="form-control" name="name" id="name"
-                                        value="{{ old('name', $user->name ?? '') }}"
-                                        placeholder="input nama lengkap" required autocomplete="off">
+                                        value="{{ old('name', $user->name ?? '') }}" placeholder="input nama lengkap"
+                                        required autocomplete="off">
                                 </div>
                                 <div class="col-12 col-md-3">
                                     <label class="form-label optional">Gelar Belakang</label>
@@ -44,18 +44,22 @@
                                 </div>
                             </div>
                             <div class="row mb-4">
-                                <div class="col-12 col-md-6">
-                                    <label class="form-label required">No. HP/WA</label>
-                                    <input type="tel" class="form-control" name="no_hp" id="no_hp"
-                                        value="{{ old('no_hp', $user->no_hp ?? '') }}"
-                                        placeholder="contoh: 08xxxxxxxxxx" pattern="^(\+62|62|0)8[1-9][0-9]{6,9}$"
+                                <div class="col-12 col-md-4">
+                                    <label class="form-label required">Inisial</label>
+                                    <input type="text" class="form-control" name="inisial" id="inisial"
+                                        value="{{ old('inisial', $user->inisial ?? '') }}" placeholder="input inisial nama"
                                         required autocomplete="off">
                                 </div>
-                                <div class="col-12 col-md-6">
+                                <div class="col-12 col-md-4">
                                     <label class="form-label required">Email</label>
-                                    <input type="email" class="form-control"
-                                        placeholder="input email" value="{{ old('email', $user->email ?? '') }}"
-                                        autocomplete="off" disabled>
+                                    <input type="email" class="form-control" placeholder="input email"
+                                        value="{{ old('email', $user->email ?? '') }}" autocomplete="off" disabled>
+                                </div>
+                                <div class="col-12 col-md-4">
+                                    <label class="form-label required">No. HP/WA</label>
+                                    <input type="tel" class="form-control" name="no_hp" id="no_hp"
+                                        value="{{ old('no_hp', $user->no_hp ?? '') }}" placeholder="contoh: 08xxxxxxxxxx"
+                                        pattern="^(\+62|62|0)8[1-9][0-9]{6,9}$" required autocomplete="off">
                                 </div>
                             </div>
                             <div class="row mb-4">

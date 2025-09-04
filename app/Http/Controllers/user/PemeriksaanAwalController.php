@@ -13,6 +13,7 @@ use App\Models\StatusPemeriksaan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Milon\Barcode\DNS1D;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class PemeriksaanAwalController extends Controller
@@ -83,8 +84,12 @@ class PemeriksaanAwalController extends Controller
     {
         $pemeriksaan = Pemeriksaan::where('uuid', $uuid)->firstOrFail();
 
-        $qrcode = QrCode::format('png')->size(150)->generate($pemeriksaan->code);
-        $qrcode_base64 = base64_encode($qrcode);
+        // $qrcode = QrCode::format('png')->size(150)->generate($pemeriksaan->code);
+        // $qrcode_base64 = base64_encode($qrcode);
+
+        $dns1d = new DNS1D();
+        $barcode = $dns1d->getBarcodePNG($pemeriksaan->code, 'C128', 4, 90);
+        $qrcode_base64 = $barcode;
 
         $pemeriksaan->qr_code = $qrcode_base64;
 
@@ -123,7 +128,7 @@ class PemeriksaanAwalController extends Controller
 
         $pemeriksaan->update($rawData);
 
-        return redirect()->route('pemeriksaan-awal.index')->withNotify('Data pemeriksaan awal berhasil disimpan, sekarang data masuk ke Dokter ' . $pemeriksaan->dokter->name . ' di ruangan ' . $pemeriksaan->room->name);
+        return redirect()->route('pemeriksaan-awal.index')->withNotify('Data pemeriksaan awal berhasil disimpan, sekarang data masuk ke Dokter ' . $pemeriksaan->dokter->name ?? 'N/A');
     }
 
     public function destroy(string $id)

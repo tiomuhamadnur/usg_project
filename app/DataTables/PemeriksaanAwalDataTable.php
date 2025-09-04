@@ -101,7 +101,7 @@ class PemeriksaanAwalDataTable extends DataTable
         return $this->builder()
             ->setTableId('pemeriksaanawal-table')
             ->columns($this->getColumns())
-            ->minifiedAjax()
+            ->minifiedAjax('')
             ->pageLength(10)
             ->lengthMenu([10, 50, 100, 250, 500, 1000])
             //->dom('Bfrtip')
@@ -133,7 +133,7 @@ class PemeriksaanAwalDataTable extends DataTable
             Column::make('pasien.name')->addClass('text-nowrap')->title('Nama Pasien'),
             Column::make('pasien.gender.name')->title('Jenis Kelamin'),
             Column::make('dokter.name')->addClass('text-nowrap')->title('Dokter'),
-            Column::make('room.name')->title('Ruangan'),
+            // Column::make('room.name')->title('Ruangan'),
             Column::make('status_pemeriksaan.name')->title('Status Pemeriksaan'),
             Column::make('status_pembayaran.name')->title('Status Pembayaran'),
         ];

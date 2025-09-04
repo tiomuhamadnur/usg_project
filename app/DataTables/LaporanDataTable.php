@@ -96,7 +96,7 @@ class LaporanDataTable extends DataTable
         return $this->builder()
                     ->setTableId('laporan-table')
                     ->columns($this->getColumns())
-                    ->minifiedAjax()
+                    ->minifiedAjax('')
                     ->pageLength(10)
                     ->lengthMenu([10, 50, 100, 250, 500, 1000])
                     //->dom('Bfrtip')

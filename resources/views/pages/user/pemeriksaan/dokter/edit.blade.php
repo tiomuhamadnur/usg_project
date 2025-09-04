@@ -84,12 +84,12 @@
                                     value="{{ $pemeriksaan->dokter->name }}">
                             </div>
                         </div>
-                        <div class="row mb-2">
+                        {{-- <div class="row mb-2">
                             <label class="col-sm-3 col-form-label">Ruangan</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" disabled value="{{ $pemeriksaan->room->name }}">
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="row mb-2">
                             <label class="col-sm-3 col-form-label">Alamat</label>
                             <div class="col-sm-8">

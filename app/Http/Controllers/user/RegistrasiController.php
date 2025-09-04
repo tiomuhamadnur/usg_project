@@ -13,6 +13,7 @@ use App\Models\StatusPemeriksaan;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Milon\Barcode\DNS1D;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class RegistrasiController extends Controller
@@ -139,7 +140,7 @@ class RegistrasiController extends Controller
 
         $rawData = $request->validate([
             "dokter_id"        => "required|numeric|exists:users,id",
-            "room_id"          => "required|numeric|exists:room,id",
+            // "room_id"          => "required|numeric|exists:room,id",
             "datetime"         => "required|date|after_or_equal:now",
             "rencana_pasien"   => "required|string",
             "keluhan_pasien"   => "required|string",
@@ -150,25 +151,30 @@ class RegistrasiController extends Controller
             'datetime.after_or_equal' => 'Tanggal registrasi tidak diperbolehkan backdate.',
         ]);
 
-        $no_urut = Pemeriksaan::generateNoUrut($request->room_id, $request->datetime);
+        $no_urut = Pemeriksaan::generateNoUrut($request->dokter_id, $request->datetime);
         $rawData['no_urut'] = $no_urut;
         $rawData['pasien_id'] = $pasien->id;
 
         $data = Pemeriksaan::create($rawData);
 
-        return redirect()->route('registrasi.index')->withNotify('Data pemeriksaan berhasil ditambahkan dengan code: ' . $data->code . ' No. urut: '. $no_urut);
+        return redirect()->route('registrasi.index')->withNotify('Data pemeriksaan berhasil ditambahkan dengan Kode Registrasi: ' . $data->code . ' & No. urut: '. $no_urut);
     }
 
     public function show(string $uuid)
     {
         $pemeriksaan = Pemeriksaan::where('uuid', $uuid)->firstOrFail();
-        $qrcode = QrCode::format('png')->size(150)->generate($pemeriksaan->code);
 
-        $qrcode_base64 = base64_encode($qrcode);
+        $dns1d = new DNS1D();
+        $registrasi_barcode = $dns1d->getBarcodePNG($pemeriksaan->code, 'C128', 3, 70);
+        $registrasi_barcode_base64 = 'data:image/png;base64,' . $registrasi_barcode;
+
+        $pasien_barcode = $dns1d->getBarcodePNG($pemeriksaan->pasien->name, 'C128', 3, 70);
+        $pasien_barcode_base64 = 'data:image/png;base64,' . $pasien_barcode;
 
         return view('pages.user.registrasi.print', compact([
             'pemeriksaan',
-            'qrcode_base64'
+            'registrasi_barcode_base64',
+            'pasien_barcode_base64',
         ]));
     }
 
@@ -197,7 +203,7 @@ class RegistrasiController extends Controller
 
         $rawData = $request->validate([
             "dokter_id"        => "required|numeric|exists:users,id",
-            "room_id"          => "required|numeric|exists:room,id",
+            // "room_id"          => "required|numeric|exists:room,id",
             "datetime"         => "required|date|after_or_equal:now",
             "rencana_pasien"   => "required|string",
             "keluhan_pasien"   => "required|string",

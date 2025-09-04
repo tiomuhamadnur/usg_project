@@ -1,7 +1,7 @@
 @extends('auth.layouts.base')
 
 @section('header')
-    <title>Admin | Kasir</title>
+    <title>USGaja - Login</title>
 @endsection
 
 @section('content')
@@ -35,7 +35,7 @@
                                     <input type="email" id="email" name="email"
                                         class="form-control @error('email') is-invalid @enderror"
                                         value="{{ old('email') }}" required autocomplete="email" autofocus
-                                        placeholder="you@example.com">
+                                        placeholder="Your email">
                                 </div>
                                 @error('email')
                                     <div class="invalid-feedback d-block">
@@ -48,7 +48,7 @@
                                 <label for="password" class="form-label">Password</label>
                                 <div class="input-group input-group-lg">
                                     <span class="input-group-text">
-                                        <i class="fa fa-asterisk"></i>
+                                        <i class="fa fa-lock"></i>
                                     </span>
                                     <input type="password" id="password" name="password"
                                         class="form-control @error('password') is-invalid @enderror" required
@@ -61,7 +61,7 @@
                                 @enderror
                             </div>
 
-                            <div class="d-flex justify-content-between align-items-center mb-4">
+                            {{-- <div class="d-flex justify-content-between align-items-center mb-4">
                                 <div class="form-check">
                                     <input class="form-check-input" type="checkbox" name="remember" id="remember"
                                         {{ old('remember') ? 'checked' : '' }}>
@@ -75,7 +75,7 @@
                                         {{ __('Forgot Password?') }}
                                     </a>
                                 @endif
-                            </div>
+                            </div> --}}
 
                             <div class="text-center">
                                 <button type="submit" class="btn btn-hero btn-primary w-100 py-2">

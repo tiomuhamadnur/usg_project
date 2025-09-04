@@ -119,7 +119,7 @@
                                                 </select>
                                             </div>
                                         </div>
-                                        <div class="row mb-3">
+                                        {{-- <div class="row mb-3">
                                             <label class="col-sm-4 col-form-label required">Ruangan</label>
                                             <div class="col-sm-8">
                                                 <select class="form-select" name="room_id" id="room_id" required>
@@ -131,7 +131,7 @@
                                                     @endforeach
                                                 </select>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                         <div class="row mb-3">
                                             <label class="col-sm-4 col-form-label required">Tanggal & Jam</label>
                                             <div class="col-sm-8">

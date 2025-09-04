@@ -38,15 +38,15 @@ class Pemeriksaan extends Model
         return $code;
     }
 
-    public static function generateNoUrut($room_id, $datetime)
+    public static function generateNoUrut($dokter_id, $datetime)
     {
-        $room = Room::findOrFail($room_id);
-        $roomCode = strtoupper($room->code);
+        $dokter = User::findOrFail($dokter_id);
+        $dokterInitial = strtoupper($dokter->inisial);
 
-        $date = Carbon::parse($datetime)->toDateString(); // format YYYY-MM-DD
+        $date = Carbon::parse($datetime)->toDateString();
 
         $lastEntry = Pemeriksaan::whereDate('datetime', $date)
-                ->where('room_id', $room_id)
+                ->where('dokter_id', $dokter_id)
                 ->orderBy('no_urut', 'desc')
                 ->first();
 
@@ -58,7 +58,7 @@ class Pemeriksaan extends Model
         }
 
         // Format nomor urut: A-001, B-005, dst
-        $formattedNoUrut = $roomCode . '-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
+        $formattedNoUrut = $dokterInitial . '-' . str_pad($nextNumber, 3, '0', STR_PAD_LEFT);
 
         return $formattedNoUrut;
     }

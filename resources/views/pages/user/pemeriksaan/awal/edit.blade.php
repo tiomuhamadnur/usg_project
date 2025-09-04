@@ -29,8 +29,8 @@
                                     <input type="text" class="form-control" disabled value="{{ $pemeriksaan->code }}">
                                     <button type="submit" class="btn btn-success" data-bs-toggle="modal"
                                         data-bs-target="#QRCodeModal">
-                                        <i class="fa fa-qrcode"></i>
-                                        QR Code
+                                        <i class="fa fa-barcode"></i>
+                                        Barcode
                                     </button>
                                 </div>
                             </div>
@@ -84,12 +84,12 @@
                                     value="{{ $pemeriksaan->dokter->name }}">
                             </div>
                         </div>
-                        <div class="row mb-2">
+                        {{-- <div class="row mb-2">
                             <label class="col-sm-3 col-form-label">Ruangan</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" disabled value="{{ $pemeriksaan->room->name }}">
+                                <input type="text" class="form-control" disabled value="{{ $pemeriksaan->room->name ?? 'N/A' }}">
                             </div>
-                        </div>
+                        </div> --}}
                         <div class="row mb-2">
                             <label class="col-sm-3 col-form-label">Alamat</label>
                             <div class="col-sm-8">
@@ -298,7 +298,7 @@
 @endsection
 
 @section('modals')
-    <!-- QR Code Modal -->
+    <!-- Barcode Modal -->
     <div class="modal fade" id="QRCodeModal" tabindex="-1" role="dialog" aria-labelledby="modal-block-popin"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-popin" role="document">
@@ -314,7 +314,7 @@
                     </div>
                     <div class="block-content">
                         <div class="text-center">
-                            <img class="img img-thumbnail" style="height: 60%; width: 60%;" id="qrcode_img"
+                            <img class="img img-thumbnail" style="width: 80%;" id="qrcode_img"
                                 src="data:image/png;base64,{{ $pemeriksaan->qr_code }}" alt="QR-code">
                             <h1 class="mt-2 fw-bolder">{{ $pemeriksaan->code }}</h1>
                         </div>
@@ -326,7 +326,7 @@
             </div>
         </div>
     </div>
-    <!-- END QR Code Modal -->
+    <!-- END Barcode Modal -->
 @endsection
 
 @section('javascript')

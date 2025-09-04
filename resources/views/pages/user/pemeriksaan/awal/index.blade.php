@@ -88,7 +88,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="mb-3">
+                        {{-- <div class="mb-3">
                             <label class="form-label" for="room_id">Ruangan</label>
                             <select class="form-select" name="room_id" id="room_id">
                                 <option value="" selected disabled>- pilih ruangan -</option>
@@ -98,7 +98,7 @@
                                     </option>
                                 @endforeach
                             </select>
-                        </div>
+                        </div> --}}
                     </div>
                     <div class="modal-footer d-flex justify-content-between align-items-center">
                         <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
