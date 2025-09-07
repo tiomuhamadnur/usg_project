@@ -250,22 +250,59 @@
 @section('javascript')
     <script>
         $(document).ready(function() {
-            const tabMap = {
-                'prevToPengukuran': '#btabs-animated-slideup-home-tab',
-                'nextToStatus': '#btabs-animated-slideup-status-tab',
-            };
+            // --- INITIAL STATE ---
+            // Disable the "Status" tab to enforce a sequential workflow.
+            $('#btabs-animated-slideup-status-tab').prop('disabled', true);
 
-            $.each(tabMap, function(buttonId, targetTabSelector) {
-                $('#' + buttonId).on('click', function(e) {
-                    e.preventDefault(); // ⛔️ Hindari reload/fallback
-                    const $target = $(targetTabSelector);
-                    if ($target.length) {
-                        const tab = new bootstrap.Tab($target[0]);
-                        tab.show();
-                    } else {
-                        console.warn('Target tab not found for:', targetTabSelector);
+            /**
+             * Validates all required fields within a given tab pane.
+             * @param {string} tabPaneId The ID of the tab pane to validate (e.g., '#btabs-animated-slideup-home').
+             * @returns {boolean} Returns true if all required fields are filled, false otherwise.
+             */
+            function validateTab(tabPaneId) {
+                let isValid = true;
+                $(tabPaneId).find('[required]').each(function() {
+                    $(this).removeClass('is-invalid');
+                    if ($(this).val() === null || $(this).val().trim() === '') {
+                        isValid = false;
+                        $(this).addClass('is-invalid');
                     }
                 });
+
+                if (!isValid) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Data Belum Lengkap',
+                        text: 'Mohon lengkapi semua kolom yang wajib diisi sebelum melanjutkan.',
+                        confirmButtonColor: '#3085d6',
+                    });
+                }
+                return isValid;
+            }
+
+            // Remove 'is-invalid' class when user starts typing or changes input
+            $('form').on('input change', '.is-invalid', function() {
+                $(this).removeClass('is-invalid');
+            });
+
+            // --- TAB NAVIGATION HANDLERS ---
+
+            // "Next" button from Pembayaran to Status
+            $('#nextToStatus').on('click', function(e) {
+                e.preventDefault();
+                // Validate the current tab (#btabs-animated-slideup-home) before proceeding
+                if (validateTab('#btabs-animated-slideup-home')) {
+                    $('#btabs-animated-slideup-status-tab').prop('disabled', false);
+                    var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-status-tab')[0]);
+                    triggerTab.show();
+                }
+            });
+
+            // "Back" button from Status to Pembayaran
+            $('#prevToPengukuran').on('click', function(e) {
+                e.preventDefault();
+                var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-home-tab')[0]);
+                triggerTab.show();
             });
         });
     </script>

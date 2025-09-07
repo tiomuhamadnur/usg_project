@@ -118,8 +118,15 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                     </li>
                 @endAdmin
 
-                @Suster
-                    <li class="nav-main-item{{ request()->is('pemeriksaan-*') ? ' open' : '' }}">
+                @Admin
+                    <li class="nav-main-item">
+                        <a class="nav-main-link {{ request()->is('pemeriksaan-awal*') ? ' active' : '' }}"
+                            href="{{ route('pemeriksaan-awal.index') }}">
+                            <i class="nav-main-link-icon fa fa-stethoscope"></i>
+                            <span class="nav-main-link-name">Pemeriksaan Awal</span>
+                        </a>
+                    </li>
+                    {{-- <li class="nav-main-item{{ request()->is('pemeriksaan-*') ? ' open' : '' }}">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
                             aria-expanded="true" href="#">
                             <i class="nav-main-link-icon fa fa-stethoscope"></i>
@@ -141,9 +148,18 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                                 </li>
                             @endDokter
                         </ul>
+                    </li> --}}
+                @endAdmin
+                @Dokter
+                    <li class="nav-main-item">
+                        <a class="nav-main-link {{ request()->is('pemeriksaan-dokter*') ? ' active' : '' }}"
+                            href="{{ route('pemeriksaan-dokter.index') }}">
+                            <i class="nav-main-link-icon fa fa-user-md"></i>
+                            <span class="nav-main-link-name">Pemeriksaan Dokter</span>
+                        </a>
                     </li>
-                @endSuster
-                @Kasir
+                @endDokter
+                @Admin
                     <li class="nav-main-item">
                         <a class="nav-main-link {{ request()->is('kasir*') ? ' active' : '' }}"
                             href="{{ route('kasir.index') }}">
@@ -158,7 +174,7 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                             <span class="nav-main-link-name">Laporan</span>
                         </a>
                     </li>
-                @endKasir
+                @endAdmin
                 @superAdmin
                     <li class="nav-main-item{{ request()->is('master-data*') ? ' open' : '' }}">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"

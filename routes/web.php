@@ -60,13 +60,13 @@ Route::group(['middleware' => ['auth', 'isAssigned']], function () {
 
     Route::resource('/registrasi', RegistrasiController::class)->middleware('Admin');
 
-    Route::resource('/pemeriksaan-awal', PemeriksaanAwalController::class)->middleware(['Suster']);
+    Route::resource('/pemeriksaan-awal', PemeriksaanAwalController::class)->middleware(['Admin']);
 
     Route::resource('/pemeriksaan-dokter', PemeriksaanController::class)->middleware('Dokter');
 
-    Route::resource('/kasir', KasirController::class)->middleware('Kasir');
+    Route::resource('/kasir', KasirController::class)->middleware('Admin');
 
-    Route::resource('/laporan', LaporanController::class)->middleware('Kasir');
+    Route::resource('/laporan', LaporanController::class)->middleware('Admin');
 
     Route::group(['middleware' => ['superAdmin'], 'prefix' => 'master-data',], function () {
         Route::resource('/user', UserController::class);

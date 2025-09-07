@@ -5,9 +5,7 @@
 @endsection
 
 @section('content')
-    <!-- Page Content -->
     <div class="content">
-        <!-- Table -->
         <div class="block block-rounded">
             <div class="block-header block-header-default">
                 <div class="d-flex justify-content-between align-items-center w-100 flex-nowrap">
@@ -100,7 +98,6 @@
                 </div>
                 <div class="row border border-2 mt-3">
                     <div class="col-lg-12">
-                        <!-- Block Tabs Animated Slide Up -->
                         <div class="block block-rounded">
                             <form action="{{ route('pemeriksaan-awal.update', $pemeriksaan->uuid) }}" method="POST">
                                 @csrf
@@ -287,18 +284,14 @@
                                 </div>
                             </form>
                         </div>
-                        <!-- END Block Tabs Animated Slide Up -->
-                    </div>
+                        </div>
                 </div>
             </div>
         </div>
-        <!-- END Table -->
-    </div>
-    <!-- END Page Content -->
-@endsection
+        </div>
+    @endsection
 
 @section('modals')
-    <!-- Barcode Modal -->
     <div class="modal fade" id="QRCodeModal" tabindex="-1" role="dialog" aria-labelledby="modal-block-popin"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-popin" role="document">
@@ -326,32 +319,84 @@
             </div>
         </div>
     </div>
-    <!-- END Barcode Modal -->
-@endsection
+    @endsection
 
 @section('javascript')
     <script>
         $(document).ready(function() {
-            // Daftar ID tombol dan target tab-nya
-            const tabMap = {
-                'nextToAlergi': '#btabs-animated-slideup-profile-tab',
-                'prevToPengukuran': '#btabs-animated-slideup-home-tab',
-                'nextToSubjective': '#btabs-animated-slideup-subjective-tab',
-                'prevToSubjective': '#btabs-animated-slideup-subjective-tab',
-                'nextToAssessment': '#btabs-animated-slideup-assessment-tab',
-                'prevToAssessment': '#btabs-animated-slideup-assessment-tab',
-                'nextToPlan': '#btabs-animated-slideup-plan-tab',
-                'prevToPlan': '#btabs-animated-slideup-plan-tab',
-                'nextToStatus': '#btabs-animated-slideup-status-tab',
-                'prevToAlergi': '#btabs-animated-slideup-profile-tab'
-            };
+            // --- INITIAL STATE ---
+            // Disable tabs that have not been reached yet to enforce workflow
+            $('#btabs-animated-slideup-profile-tab').prop('disabled', true);
+            $('#btabs-animated-slideup-status-tab').prop('disabled', true);
 
-            // Pasang event handler dengan loop
-            $.each(tabMap, function(buttonId, targetTabSelector) {
-                $('#' + buttonId).on('click', function() {
-                    var triggerTab = new bootstrap.Tab($(targetTabSelector)[0]);
-                    triggerTab.show();
+
+            /**
+             * Validates all required fields within a given tab pane.
+             * @param {string} tabPaneId The ID of the tab pane to validate (e.g., '#btabs-animated-slideup-home').
+             * @returns {boolean} Returns true if all required fields are filled, false otherwise.
+             */
+            function validateTab(tabPaneId) {
+                let isValid = true;
+                $(tabPaneId).find('[required]').each(function() {
+                    $(this).removeClass('is-invalid');
+                    if ($(this).val() === null || $(this).val().trim() === '') {
+                        isValid = false;
+                        $(this).addClass('is-invalid');
+                    }
                 });
+
+                if (!isValid) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Data Belum Lengkap',
+                        text: 'Mohon lengkapi semua kolom yang wajib diisi sebelum melanjutkan.',
+                        confirmButtonColor: '#3085d6',
+                    });
+                }
+                return isValid;
+            }
+
+            // --- Remove 'is-invalid' class on input ---
+            $('form').on('input change', '.is-invalid', function() {
+                $(this).removeClass('is-invalid');
+            });
+
+
+            // --- TAB NAVIGATION HANDLERS ---
+
+            // Handler for "Next" button from Pengukuran to Alergi
+            $('#nextToAlergi').on('click', function(e) {
+                e.preventDefault();
+                if (validateTab('#btabs-animated-slideup-home')) {
+                    // Unlock and switch to the next tab
+                    $('#btabs-animated-slideup-profile-tab').prop('disabled', false);
+                    var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-profile-tab')[0]);
+                    triggerTab.show();
+                }
+            });
+
+            // Handler for "Next" button from Alergi to Status
+            $('#nextToStatus').on('click', function(e) {
+                e.preventDefault();
+                if (validateTab('#btabs-animated-slideup-profile')) {
+                    // Unlock and switch to the next tab
+                    $('#btabs-animated-slideup-status-tab').prop('disabled', false);
+                    var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-status-tab')[0]);
+                    triggerTab.show();
+                }
+            });
+
+            // Handlers for "Back" buttons
+            $('#prevToPengukuran').on('click', function(e) {
+                e.preventDefault();
+                var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-home-tab')[0]);
+                triggerTab.show();
+            });
+
+            $('#prevToAlergi').on('click', function(e) {
+                e.preventDefault();
+                var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-profile-tab')[0]);
+                triggerTab.show();
             });
         });
     </script>

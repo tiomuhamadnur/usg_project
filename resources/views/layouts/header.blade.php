@@ -38,14 +38,14 @@
                         <a class="dropdown-item" href="javascript:void(0)">
                             <i class="far fa-fw fa-user me-1"></i> Profile
                         </a>
-                        <a class="dropdown-item d-flex align-items-center justify-content-between"
+                        {{-- <a class="dropdown-item d-flex align-items-center justify-content-between"
                             href="javascript:void(0)">
                             <span><i class="far fa-fw fa-envelope me-1"></i> Inbox</span>
                             <span class="badge bg-primary rounded-pill">3</span>
                         </a>
                         <a class="dropdown-item" href="javascript:void(0)">
                             <i class="far fa-fw fa-file-alt me-1"></i> Invoices
-                        </a>
+                        </a> --}}
                         <div role="separator" class="dropdown-divider"></div>
 
                         <!-- Toggle Side Overlay -->
@@ -72,7 +72,7 @@
             <!-- END User Dropdown -->
 
             <!-- Notifications Dropdown -->
-            <div class="dropdown d-inline-block">
+            {{-- <div class="dropdown d-inline-block">
                 <button type="button" class="btn btn-alt-secondary" id="page-header-notifications-dropdown"
                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <i class="fa fa-fw fa-bell"></i>
@@ -147,15 +147,15 @@
                         </a>
                     </div>
                 </div>
-            </div>
+            </div> --}}
             <!-- END Notifications Dropdown -->
 
             <!-- Toggle Side Overlay -->
             <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-            <button type="button" class="btn btn-alt-secondary" data-toggle="layout"
+            {{-- <button type="button" class="btn btn-alt-secondary" data-toggle="layout"
                 data-action="side_overlay_toggle">
                 <i class="far fa-fw fa-list-alt"></i>
-            </button>
+            </button> --}}
             <!-- END Toggle Side Overlay -->
         </div>
         <!-- END Right Section -->

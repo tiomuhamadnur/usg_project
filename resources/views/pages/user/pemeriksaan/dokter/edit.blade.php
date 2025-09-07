@@ -309,7 +309,7 @@
                                             <div class="row mb-2">
                                                 <label class="col-sm-4 col-form-label required">Keluhan Tambahan</label>
                                                 <div class="col-sm-7">
-                                                    <textarea class="form-control" rows="3" name="keluhan_tambahan" placeholder="input keluhan tambahan" required>{{ $pemeriksaan->keluhan_tambahan }}</textarea>
+                                                    <textarea class="form-control" rows="3" name="keluhan_tambahan" placeholder="input keluhan tambahan (isi '-' jika tidak ada)" required>{{ $pemeriksaan->keluhan_tambahan }}</textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -467,7 +467,7 @@
     <!-- END QR Code Modal -->
 @endsection
 
-@section('javascript')
+{{-- @section('javascript')
     <script>
         $(document).ready(function() {
             // Daftar ID tombol dan target tab-nya
@@ -490,6 +490,131 @@
                     var triggerTab = new bootstrap.Tab($(targetTabSelector)[0]);
                     triggerTab.show();
                 });
+            });
+        });
+    </script>
+@endsection --}}
+
+
+
+@section('javascript')
+    <script>
+        $(document).ready(function() {
+            // --- INITIAL STATE ---
+            // Disable tabs to enforce a sequential workflow.
+            // The "Subjective" tab is active by default, so we'll start by disabling the subsequent tabs.
+            $('#btabs-animated-slideup-assessment-tab').prop('disabled', true);
+            $('#btabs-animated-slideup-plan-tab').prop('disabled', true);
+            $('#btabs-animated-slideup-status-tab').prop('disabled', true);
+
+            /**
+             * Validates all required fields within a given tab pane.
+             * @param {string} tabPaneId The ID of the tab pane to validate (e.g., '#btabs-animated-slideup-subjective').
+             * @returns {boolean} Returns true if all required fields are filled, false otherwise.
+             */
+            function validateTab(tabPaneId) {
+                let isValid = true;
+                $(tabPaneId).find('[required]').each(function() {
+                    $(this).removeClass('is-invalid');
+                    if ($(this).val() === null || $(this).val().trim() === '') {
+                        isValid = false;
+                        $(this).addClass('is-invalid');
+                    }
+                });
+
+                if (!isValid) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Data Belum Lengkap',
+                        text: 'Mohon lengkapi semua kolom yang wajib diisi sebelum melanjutkan.',
+                        confirmButtonColor: '#3085d6',
+                    });
+                }
+                return isValid;
+            }
+
+            // Remove 'is-invalid' class when user starts typing
+            $('form').on('input change', '.is-invalid', function() {
+                $(this).removeClass('is-invalid');
+            });
+
+            // --- TAB NAVIGATION HANDLERS ---
+
+            // "Next" button from Subjective to Assessment
+            $('#nextToAssessment').on('click', function(e) {
+                e.preventDefault();
+                if (validateTab('#btabs-animated-slideup-subjective')) {
+                    $('#btabs-animated-slideup-assessment-tab').prop('disabled', false);
+                    var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-assessment-tab')[0]);
+                    triggerTab.show();
+                }
+            });
+
+            // "Next" button from Assessment to Plan
+            $('#nextToPlan').on('click', function(e) {
+                e.preventDefault();
+                if (validateTab('#btabs-animated-slideup-assessment')) {
+                    $('#btabs-animated-slideup-plan-tab').prop('disabled', false);
+                    var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-plan-tab')[0]);
+                    triggerTab.show();
+                }
+            });
+
+            // "Next" button from Plan to Status
+            $('#nextToStatus').on('click', function(e) {
+                e.preventDefault();
+                if (validateTab('#btabs-animated-slideup-plan')) {
+                    $('#btabs-animated-slideup-status-tab').prop('disabled', false);
+                    var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-status-tab')[0]);
+                    triggerTab.show();
+                }
+            });
+
+            // "Back" button from Assessment to Subjective
+            $('#prevToSubjective').on('click', function(e) {
+                e.preventDefault();
+                var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-subjective-tab')[0]);
+                triggerTab.show();
+            });
+
+            // "Back" button from Plan to Assessment
+            $('#prevToAssessment').on('click', function(e) {
+                e.preventDefault();
+                var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-assessment-tab')[0]);
+                triggerTab.show();
+            });
+
+            // "Back" button from Status to Plan
+            $('#prevToPlan').on('click', function(e) {
+                e.preventDefault();
+                var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-plan-tab')[0]);
+                triggerTab.show();
+            });
+
+            // Since the "Pengukuran" and "Alergi" tabs are read-only, we don't need validation for their "Next" buttons.
+            // We just need to handle the navigation.
+            $('#nextToAlergi').on('click', function(e) {
+                e.preventDefault();
+                var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-profile-tab')[0]);
+                triggerTab.show();
+            });
+
+            $('#nextToSubjective').on('click', function(e) {
+                e.preventDefault();
+                var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-subjective-tab')[0]);
+                triggerTab.show();
+            });
+
+            $('#prevToPengukuran').on('click', function(e) {
+                e.preventDefault();
+                var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-home-tab')[0]);
+                triggerTab.show();
+            });
+
+            $('#prevToAlergi').on('click', function(e) {
+                e.preventDefault();
+                var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-profile-tab')[0]);
+                triggerTab.show();
             });
         });
     </script>

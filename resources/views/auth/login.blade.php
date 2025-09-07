@@ -89,8 +89,8 @@
                     <div class="block-content bg-body">
                         <div class="d-flex justify-content-center text-center push">
                             <div class="col-sm-12 order-sm-2 mb-1 mb-sm-0 text-center">
-                                Crafted with <i class="fa fa-heart text-danger"></i> by <a
-                                    href="https://instagram.com/tyomuhamadnur" class="fw-semibold" target="_blank">Tio
+                                Developed by <a
+                                    href="https://www.linkedin.com/in/tiomuhamadnur/" class="fw-semibold" target="_blank">Tio
                                     Muhamad Nur</a>
                             </div>
                         </div>

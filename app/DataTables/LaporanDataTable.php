@@ -32,6 +32,7 @@ class LaporanDataTable extends DataTable
 
         return $this;
     }
+
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))

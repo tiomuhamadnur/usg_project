@@ -4,6 +4,7 @@ namespace App\DataTables;
 
 use App\Models\Kasir;
 use App\Models\Pemeriksaan;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -15,6 +16,23 @@ use Yajra\DataTables\Services\DataTable;
 
 class KasirDataTable extends DataTable
 {
+    protected $start_date;
+    protected $end_date;
+    protected $metode_pembayaran_id;
+
+    public function with(array|string $key, mixed $value = null): static
+    {
+        if (is_array($key)) {
+            foreach ($key as $k => $v) {
+                $this->{$k} = $v;
+            }
+        } else {
+            $this->{$key} = $value;
+        }
+
+        return $this;
+    }
+
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
@@ -51,6 +69,22 @@ class KasirDataTable extends DataTable
             ->where('status_pemeriksaan_id', 3) //status selesai pemeriksaan dokter
             ->where('status_pembayaran_id', 1) //status belum bayar
             ->newQuery(); //Ambil data yang statusnya open (baru dibuat)
+
+        // Filter
+        if($this->metode_pembayaran_id != null)
+        {
+            $query->where('metode_pembayaran_id', $this->metode_pembayaran_id);
+        }
+
+        if ($this->start_date != null && $this->end_date != null) {
+            $clean_start_date = explode('?', $this->start_date)[0];
+            $clean_end_date = explode('?', $this->end_date)[0];
+
+            $start = Carbon::parse($clean_start_date)->startOfDay()->format('Y-m-d H:i:s');
+            $end = Carbon::parse($clean_end_date)->endOfDay()->format('Y-m-d H:i:s');
+
+            $query->whereBetween('datetime', [$start, $end]);
+        }
 
         return $query;
     }
