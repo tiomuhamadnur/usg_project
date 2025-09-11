@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Pasien;
+use App\Models\Obat;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,15 +12,14 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class PasienDataTable extends DataTable
+class ObatDataTable extends DataTable
 {
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('#', function ($item) {
-                $registrasiRoute = route('registrasi.create', ['type' => 'nik', 'value' => $item->nik]);
-                $editRoute = route('pasien.edit', $item->uuid);
-                $deleteRoute = route('pasien.destroy', $item->uuid);
+                $editRoute = route('obat.update', $item->uuid);
+                $deleteRoute = route('obat.destroy', $item->uuid);
                 $actionButton = "<div class='dropdown'>
                                     <button class='btn' data-bs-toggle='dropdown'>
                                         <i class='fa fa-pencil'></i>
@@ -28,11 +27,19 @@ class PasienDataTable extends DataTable
                                     </button>
 
                                     <div class='dropdown-menu dropdown-menu-end'>
-                                        <a class='dropdown-item' href='{$registrasiRoute}'>
-                                            <i class='fa fa-book'></i>
-                                            Registrasi
-                                        </a>
-                                        <a class='dropdown-item' href='{$editRoute}'>
+                                        <a class='dropdown-item' href='#' data-bs-toggle='modal' data-bs-target='#editModal'
+                                        data-url='{$editRoute}'
+                                        data-name='{$item->name}'
+                                        data-code='{$item->code}'
+                                        data-stock='{$item->stock}'
+                                        data-unit_id='{$item->unit_id}'
+                                        data-sediaan_id='{$item->sediaan_id}'
+                                        data-harga_modal='{$item->harga_modal}'
+                                        data-harga_jual='{$item->harga_jual}'
+                                        data-merk='{$item->merk}'
+                                        data-bpom='{$item->bpom}'
+                                        data-kandungan='{$item->kandungan}'
+                                        data-deskripsi='{$item->deskripsi}'>
                                             <i class='fa fa-pencil'></i>
                                             Edit
                                         </a>
@@ -45,27 +52,14 @@ class PasienDataTable extends DataTable
 
                 return $actionButton;
             })
-            ->addColumn('riwayat', function ($item) {
-                $historyRoute = route('registrasi.index', ['pasien_uuid' => $item->uuid]);
-                $actionButton = "<a class='btn btn-sm btn-primary' href='{$historyRoute}'>
-                                    <i class='fa fa-rectangle-list'></i>
-                                    Lihat Riwayat
-                                </a>";
-
-                return $actionButton;
-            })
-            ->addColumn('umur', function ($item) {
-                $umur = $item->umur->tahun . ' Tahun ' . $item->umur->bulan . ' Bulan ' . $item->umur->hari . ' hari';
-                return $umur;
-            })
-            ->rawColumns(['umur', 'riwayat', '#']);
+            ->rawColumns(['#']);
     }
 
-    public function query(Pasien $model): QueryBuilder
+    public function query(Obat $model): QueryBuilder
     {
-        $query = $model->with([
-            'gender',
-        ])->newQuery();
+        $query = $model
+            ->with(['unit', 'sediaan'])
+            ->newQuery();
 
         return $query;
     }
@@ -73,13 +67,12 @@ class PasienDataTable extends DataTable
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('pasien-table')
+                    ->setTableId('obat-table')
                     ->columns($this->getColumns())
                     ->ajax('')
                     ->pageLength(10)
                     ->lengthMenu([10, 50, 100, 250, 500, 1000])
-                    //->dom('Bfrtip')
-                    ->orderBy([2, 'asc'])
+                    ->orderBy([0, 'asc'])
                     ->selectStyleSingle()
                     ->buttons([
                         [
@@ -101,19 +94,22 @@ class PasienDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center'),
-            Column::computed('riwayat')->title('Riwayat')->addClass('text-center'),
-            Column::make('name')->title('Nama Lengkap')->addClass('fw-bolder'),
-            Column::make('member_code')->title('Kode Member'),
-            Column::make('gender.name')->title('Jenis Kelamin'),
-            Column::make('no_hp')->title('No HP/WA'),
-            Column::make('tanggal_lahir')->title('Tanggal Lahir'),
-            Column::computed('umur')->title('Umur')->addClass('text-wrap'),
-            Column::make('nik')->title('NIK KTP'),
+            Column::make('name')->title('Name'),
+            Column::make('code')->title('Code'),
+            Column::make('stock')->title('Stock'),
+            Column::make('unit.code')->title('Unit'),
+            Column::make('sediaan.code')->title('Sediaan'),
+            Column::make('harga_modal')->title('Harga Modal'),
+            Column::make('harga_jual')->title('Harga Jual'),
+            Column::make('merk')->title('Merk'),
+            Column::make('deskripsi')->title('Deskripsi')->addClass('text-wrap'),
+            Column::make('kandungan')->title('Kandungan')->addClass('text-wrap'),
+            Column::make('bpom')->title('BPOM'),
         ];
     }
 
     protected function filename(): string
     {
-        return 'Pasien_' . date('YmdHis');
+        return 'Obat_' . date('YmdHis');
     }
 }

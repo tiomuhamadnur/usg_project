@@ -54,7 +54,7 @@ class PasienController extends Controller
             "no_bpjs" => "nullable|string|max:20|unique:pasien,no_bpjs",
             "no_rm" => "nullable|string|max:20|unique:pasien,no_rm",
             "satu_sehat_id" => "nullable|string|max:50|unique:pasien,satu_sehat_id",
-            "tempat_lahir" => "required|string|max:100",
+            "tempat_lahir" => "nullable|string|max:100",
             "tanggal_lahir" => "required|date|before:today",
             "no_hp" => [
                 'required',
@@ -63,6 +63,10 @@ class PasienController extends Controller
             "email" => "nullable|email|max:255",
 
             // Info tambahan
+            "hpht" => "nullable|date",
+            "hpl" => "nullable|date",
+            "gravida" => "nullable|numeric|min:0",
+            "para" => "nullable|numeric|min:0",
             "agama_id" => "nullable|numeric|exists:agama,id",
             "pendidikan_id" => "nullable|numeric|exists:pendidikan,id",
             "pekerjaan_id" => "nullable|numeric|exists:pekerjaan,id",
@@ -149,7 +153,7 @@ class PasienController extends Controller
             "no_bpjs" => "nullable|string|max:20|unique:pasien,no_bpjs," . $pasien->id,
             "no_rm" => "nullable|string|max:20|unique:pasien,no_rm," . $pasien->id,
             "satu_sehat_id" => "nullable|string|max:50|unique:pasien,satu_sehat_id," . $pasien->id,
-            "tempat_lahir" => "required|string|max:100",
+            "tempat_lahir" => "nullable|string|max:100",
             "tanggal_lahir" => "required|date|before:today",
             "no_hp" => [
                 'required',
@@ -158,6 +162,11 @@ class PasienController extends Controller
             "email" => "nullable|email|max:255",
 
             // Info tambahan
+            "hpht" => "nullable|date",
+            "hpl" => "nullable|date",
+            "gravida" => "nullable|numeric|min:0",
+            "para" => "nullable|numeric|min:0",
+            "abortus" => "nullable|numeric|min:0",
             "agama_id" => "nullable|numeric|exists:agama,id",
             "pendidikan_id" => "nullable|numeric|exists:pendidikan,id",
             "pekerjaan_id" => "nullable|numeric|exists:pekerjaan,id",

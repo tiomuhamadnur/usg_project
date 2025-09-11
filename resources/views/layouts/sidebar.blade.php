@@ -253,6 +253,41 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                                     <span class="nav-main-link-name">Device</span>
                                 </a>
                             </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/unit*') ? ' active' : '' }}"
+                                    href="{{ route('unit.index') }}">
+                                    <i class="nav-main-link-icon fa fa-wrench"></i>
+                                    <span class="nav-main-link-name">Unit</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/sediaan*') ? ' active' : '' }}"
+                                    href="{{ route('sediaan.index') }}">
+                                    <i class="nav-main-link-icon fa fa-eyedropper"></i>
+                                    <span class="nav-main-link-name">Sediaan</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/obat*') ? ' active' : '' }}"
+                                    href="{{ route('obat.index') }}">
+                                    <i class="nav-main-link-icon fa fa-medkit"></i>
+                                    <span class="nav-main-link-name">Obat</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/kategori*') ? ' active' : '' }}"
+                                    href="{{ route('kategori.index') }}">
+                                    <i class="nav-main-link-icon fa fa-tags"></i>
+                                    <span class="nav-main-link-name">Kategori</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/layanan*') ? ' active' : '' }}"
+                                    href="{{ route('layanan.index') }}">
+                                    <i class="nav-main-link-icon fa fa-heart"></i>
+                                    <span class="nav-main-link-name">Layanan</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 @endsuperAdmin

@@ -26,7 +26,7 @@
                             <div class="row mb-4">
                                 <div class="col-12 col-md-6">
                                     <label class="form-label required">Nama Lengkap Pasien</label>
-                                    <input type="text" class="form-control" name="name" id="name"
+                                    <input type="text" class="form-control text-capitalize" name="name" id="name"
                                         value="{{ old('name', $pasien->name ?? '') }}"
                                         placeholder="input nama lengkap pasien" required autocomplete="off">
                                 </div>
@@ -49,19 +49,19 @@
                                 </div>
                             </div>
                             <div class="row mb-4">
-                                <div class="col-12 col-md-4">
+                                {{-- <div class="col-12 col-md-4">
                                     <label class="form-label optional">No. BPJS</label>
                                     <input type="text" class="form-control" name="no_bpjs"
                                         value="{{ old('no_bpjs', $pasien->no_bpjs ?? '') }}" placeholder="input no. bpjs"
                                         autocomplete="off">
-                                </div>
-                                <div class="col-12 col-md-4">
+                                </div> --}}
+                                <div class="col-12 col-md-6">
                                     <label class="form-label optional">No. RM</label>
                                     <input type="text" class="form-control" name="no_rm"
                                         value="{{ old('no_rm', $pasien->no_rm ?? '') }}" placeholder="input no. rekam medis"
                                         autocomplete="off">
                                 </div>
-                                <div class="col-12 col-md-4">
+                                <div class="col-12 col-md-6">
                                     <label class="form-label optional">ID Satu Sehat</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" name="satu_sehat_id"
@@ -74,13 +74,13 @@
                                 </div>
                             </div>
                             <div class="row mb-4">
-                                <div class="col-12 col-md-3">
+                                {{-- <div class="col-12 col-md-3">
                                     <label class="form-label required">Tempat Lahir</label>
                                     <input type="text" class="form-control" name="tempat_lahir"
                                         value="{{ old('tempat_lahir', $pasien->tempat_lahir ?? '') }}"
                                         placeholder="input tempat lahir" required autocomplete="off">
-                                </div>
-                                <div class="col-12 col-md-3">
+                                </div> --}}
+                                <div class="col-12 col-md-6">
                                     <label class="form-label required">Tanggal Lahir</label>
                                     <input type="date" class="form-control" name="tanggal_lahir" id="tanggal_lahir"
                                         value="{{ old('tanggal_lahir', $pasien->tanggal_lahir ?? '') }}"
@@ -113,8 +113,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row mb-4">
-                                <div class="col-12 col-md-6">
+                            {{-- <div class="row mb-4">
+                                <div class="col-12 col-md-12">
                                     <label class="form-label required">No. HP/WA</label>
                                     <input type="tel" class="form-control" name="no_hp" id="no_hp"
                                         value="{{ old('no_hp', $pasien->no_hp ?? '') }}"
@@ -127,9 +127,50 @@
                                         placeholder="input email" value="{{ old('email', $pasien->email ?? '') }}"
                                         autocomplete="off">
                                 </div>
-                            </div>
+                            </div> --}}
                             <div class="row mb-4">
                                 <div class="col-12 col-md-3">
+                                    <label class="form-label required">No. HP/WA</label>
+                                    <input type="tel" class="form-control" name="no_hp" id="no_hp"
+                                        value="{{ old('no_hp', $pasien->no_hp ?? '') }}" placeholder="contoh: 08xxxxxxxxxx"
+                                        pattern="^(\+62|62|0)8[1-9][0-9]{6,9}$" required autocomplete="off">
+                                </div>
+                                <div class="col-12 col-md-3">
+                                    <label class="form-label optional">HPHT</label>
+                                    <input type="date" class="form-control" name="hpht" id="hpht"
+                                        value="{{ old('hpht', $pasien->hpht ?? '') }}" autocomplete="off">
+                                </div>
+                                <div class="col-12 col-md-6">
+                                    <label class="form-label optional">Riwayat Kehamilan</label>
+                                    <div class="row g-2">
+                                        <div class="col-12 col-md-4">
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" min="0" name="gravida" id="gravida" value="{{ old('gravida', $pasien->gravida ?? '0') }}" autocomplete="off">
+                                                <span class="input-group-text">G (Gravida)</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" min="0" name="para" id="para" value="{{ old('para', $pasien->para ?? '0') }}" autocomplete="off">
+                                                <span class="input-group-text">P (Para)</span>
+                                            </div>
+                                        </div>
+                                        <div class="col-12 col-md-4">
+                                            <div class="input-group">
+                                                <input type="number" class="form-control" min="0" name="abortus" id="abortus" value="{{ old('abortus', $pasien->abortus ?? '0') }}" autocomplete="off">
+                                                <span class="input-group-text">A (Abortus)</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                {{-- <div class="col-12 col-md-6">
+                                    <label class="form-label optional">Email</label>
+                                    <input type="email" class="form-control" name="email" id="email"
+                                        placeholder="input email" value="{{ old('email') }}" autocomplete="off">
+                                </div> --}}
+                            </div>
+                            <div class="row mb-4">
+                                <div class="col-12 col-md-6">
                                     <label class="form-label optional">Agama</label>
                                     <select class="form-select" name="agama_id">
                                         <option value="" selected disabled>- pilih agama -</option>
@@ -140,7 +181,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-12 col-md-3">
+                                {{-- <div class="col-12 col-md-3">
                                     <label class="form-label optional">Pendidikan</label>
                                     <select class="form-select" name="pendidikan_id">
                                         <option value="" selected disabled>- pilih pendidikan -</option>
@@ -161,8 +202,8 @@
                                             </option>
                                         @endforeach
                                     </select>
-                                </div>
-                                <div class="col-12 col-md-3">
+                                </div> --}}
+                                <div class="col-12 col-md-6">
                                     <label class="form-label optional">Golongan Darah</label>
                                     <select class="form-select" name="golongan_darah_id">
                                         <option value="" selected disabled>- pilih golongan darah -</option>

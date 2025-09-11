@@ -107,4 +107,14 @@ class Pemeriksaan extends Model
     {
         return $this->belongsTo(MetodePembayaran::class);
     }
+
+    public function layanans()
+    {
+        return $this->hasMany(DetailLayanan::class, 'pemeriksaan_id');
+    }
+
+    public function obats()
+    {
+        return $this->hasMany(DetailObat::class, 'pemeriksaan_id');
+    }
 }

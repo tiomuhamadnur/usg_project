@@ -61,7 +61,9 @@ class KasirController extends Controller
 
     public function edit(string $uuid)
     {
-        $pemeriksaan = Pemeriksaan::where('uuid', $uuid)->firstOrFail();
+        $pemeriksaan = Pemeriksaan::with(['layanans.layanan', 'obats.obat'])
+                                ->where('uuid', $uuid)
+                                ->firstOrFail();
 
         $usia = Carbon::parse($pemeriksaan->pasien->tanggal_lahir)->diff(Carbon::now());
         $umur = $usia->y . ' tahun, ' . $usia->m . ' bulan, ' . $usia->d . ' hari';
@@ -76,11 +78,24 @@ class KasirController extends Controller
         $status_pemeriksaan = StatusPemeriksaan::whereIn('id', [4])->get();
         $status_pembayaran = StatusPembayaran::whereIn('id', [2])->get();
 
+        // Hitung biaya layanan
+        $biaya_layanan = $pemeriksaan->layanans->sum(function ($item) {
+            return $item->layanan->harga ?? 0;
+        });
+
+        // Hitung biaya obat (harga_jual * jumlah)
+        $biaya_obat = $pemeriksaan->obats->sum(function ($item) {
+            return ($item->obat->harga_jual ?? 0) * ($item->jumlah ?? 0);
+        });
+
+        $total_bayar = $biaya_layanan + $biaya_obat;
+
         return view('pages.user.kasir.edit', compact([
             'pemeriksaan',
             'metode_pembayaran',
             'status_pemeriksaan',
             'status_pembayaran',
+            'total_bayar',
         ]));
     }
 

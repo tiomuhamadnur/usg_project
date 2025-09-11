@@ -99,7 +99,8 @@
                         <div class="row mb-2">
                             <label class="col-sm-3 col-form-label">Riwayat Medis</label>
                             <div class="col-sm-8">
-                                <a href="{{ route('pemeriksaan-dokter.show', $pemeriksaan->uuid ?? '') }}" target="_blank" class="btn btn-primary">
+                                <a href="{{ route('pemeriksaan-dokter.show', $pemeriksaan->uuid ?? '') }}" target="_blank"
+                                    class="btn btn-primary">
                                     <i class="fa fa-rectangle-list"></i>
                                     Lihat Riwayat
                                 </a>
@@ -157,6 +158,15 @@
                                             aria-selected="false">
                                             <i class="fa fa-paper-plane"></i>
                                             Plan
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link" id="btabs-animated-slideup-pelayanan-tab"
+                                            data-bs-toggle="tab" data-bs-target="#btabs-animated-slideup-pelayanan"
+                                            role="tab" aria-controls="btabs-animated-slideup-pelayanan"
+                                            aria-selected="false">
+                                            <i class="fa fa-heart"></i>
+                                            Pelayanan
                                         </button>
                                     </li>
                                     <li class="nav-item">
@@ -301,6 +311,48 @@
                                                 </div>
                                             </div>
                                             <div class="row mb-2">
+                                                <label class="col-sm-4 col-form-label optional">HPHT</label>
+                                                <div class="col-sm-7">
+                                                    <input type="date" class="form-control" name="hpht"
+                                                        id="hpht" autocomplete="off"
+                                                        value="{{ $pemeriksaan->pasien->hpht ?? null }}">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <label class="col-sm-4 col-form-label optional">Riwayat Kehamilan</label>
+                                                <div class="col-sm-7">
+                                                    <div class="row g-2">
+                                                        <div class="col-12 col-md-4">
+                                                            <div class="input-group">
+                                                                <input type="number" class="form-control" min="0"
+                                                                    name="gravida" id="gravida"
+                                                                    value="{{ old('gravida', $pemeriksaan->pasien->gravida ?? '0') }}"
+                                                                    autocomplete="off">
+                                                                <span class="input-group-text">G (Gravida)</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-4">
+                                                            <div class="input-group">
+                                                                <input type="number" class="form-control" min="0"
+                                                                    name="para" id="para"
+                                                                    value="{{ old('para', $pemeriksaan->pasien->para ?? '0') }}"
+                                                                    autocomplete="off">
+                                                                <span class="input-group-text">P (Para)</span>
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-12 col-md-4">
+                                                            <div class="input-group">
+                                                                <input type="number" class="form-control" min="0"
+                                                                    name="abortus" id="abortus"
+                                                                    value="{{ old('abortus', $pemeriksaan->pasien->abortus ?? '0') }}"
+                                                                    autocomplete="off">
+                                                                <span class="input-group-text">A (Abortus)</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2">
                                                 <label class="col-sm-4 col-form-label required">Keluhan Utama</label>
                                                 <div class="col-sm-7">
                                                     <textarea class="form-control" rows="3" name="keluhan_utama" placeholder="input keluhan utama" required>{{ $pemeriksaan->keluhan_utama ?? $pemeriksaan->keluhan_pasien }}</textarea>
@@ -309,7 +361,8 @@
                                             <div class="row mb-2">
                                                 <label class="col-sm-4 col-form-label required">Keluhan Tambahan</label>
                                                 <div class="col-sm-7">
-                                                    <textarea class="form-control" rows="3" name="keluhan_tambahan" placeholder="input keluhan tambahan (isi '-' jika tidak ada)" required>{{ $pemeriksaan->keluhan_tambahan }}</textarea>
+                                                    <textarea class="form-control" rows="3" name="keluhan_tambahan"
+                                                        placeholder="input keluhan tambahan (isi '-' jika tidak ada)" required>{{ $pemeriksaan->keluhan_tambahan }}</textarea>
                                                 </div>
                                             </div>
                                         </div>
@@ -368,21 +421,133 @@
                                         <h4 class="fw-bolder">Plan Pasien</h4>
                                         <div class="row col-12">
                                             <div class="row mb-2">
-                                                <label class="col-sm-4 col-form-label required">Terapi Obat</label>
+                                                <label class="col-sm-4 col-form-label required">Saran/Kunjungan
+                                                    berikutnya</label>
                                                 <div class="col-sm-7">
-                                                    <textarea class="form-control" rows="3" name="terapi_obat" placeholder="input terapi obat" required>{{ $pemeriksaan->terapi_obat }}</textarea>
+                                                    <textarea class="form-control" rows="3" name="saran" placeholder="input saran/kunjungan berikutnya"
+                                                        required>{{ $pemeriksaan->saran }}</textarea>
                                                 </div>
                                             </div>
                                             <div class="row mb-2">
-                                                <label class="col-sm-4 col-form-label required">Saran/Anjuran</label>
-                                                <div class="col-sm-7">
-                                                    <textarea class="form-control" rows="3" name="saran" placeholder="input saran/anjuran" required>{{ $pemeriksaan->saran }}</textarea>
+                                                <label class="col-sm-4 col-form-label optional">Terapi Obat</label>
+                                                {{-- <div class="col-sm-7">
+                                                    <textarea class="form-control" rows="3" name="terapi_obat" placeholder="input terapi obat" required>{{ $pemeriksaan->terapi_obat }}</textarea>
+                                                </div> --}}
+                                                <div class="col-sm-7 mb-2">
+                                                    <button type="submit" class="btn btn-sm btn-primary"
+                                                        data-bs-toggle="modal" data-bs-target="#addObatModal">
+                                                        <i class="fa fa-plus"></i>
+                                                        Tambah Terapi Obat
+                                                    </button>
+                                                    <div class="col-sm-7 mt-3">
+                                                        <table
+                                                            class="table table-bordered table-striped table-vcenter table-sm fs-sm text-nowrap align-middle">
+                                                            <thead>
+                                                                <th class="text-center">No</th>
+                                                                <th>Obat</th>
+                                                                <th class="text-center">Jumlah</th>
+                                                                <th class="text-center">Dosis</th>
+                                                                <th>Aturan Pakai</th>
+                                                                <th>Catatan Obat</th>
+                                                                <th class="text-center">#</th>
+                                                            </thead>
+                                                            <tbody>
+                                                                @if ($pemeriksaan->obats->count() > 0)
+                                                                    @foreach ($pemeriksaan->obats as $item)
+                                                                        <tr>
+                                                                            <td class="text-center">
+                                                                                {{ $loop->iteration }}.</td>
+                                                                            <td class="text-center">
+                                                                                <input type="hidden" name="obat_id[]" value="{{ $item->obat->id }}" required>
+                                                                                {{ $item->obat->name ?? 'N/A' }}</td>
+                                                                            <td class="text-center">
+                                                                                <input type="hidden" name="jumlah[]" value="{{ $item->jumlah }}" required>
+                                                                                {{ $item->jumlah ?? '0' }}</td>
+                                                                            <td class="text-center">
+                                                                                <input type="hidden" name="dosis[]" value="{{ $item->dosis }}" required>
+                                                                                {{ $item->dosis ?? 'N/A' }}</td>
+                                                                            <td>
+                                                                                <input type="hidden" name="aturan_pakai[]" value="{{ $item->aturan_pakai }}" required>
+                                                                                {{ $item->aturan_pakai ?? 'N/A' }}
+                                                                            </td>
+                                                                            <td>
+                                                                                <input type="hidden" name="catatan_obat[]" value="{{ $item->catatan_obat }}" required>
+                                                                                {{ $item->catatan_obat ?? 'N/A' }}
+                                                                            </td>
+                                                                            <td class="text-center">
+                                                                                <button type="button"
+                                                                                    class="btn btn-sm btn-danger btn-delete-obat">
+                                                                                    <i class="fa fa-trash"></i>
+                                                                                </button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                @endif
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-end mt-3">
                                             <button type="button" class="btn btn-lg btn-secondary me-2"
                                                 id="prevToAssessment">
+                                                <i class="fa fa-arrow-left"></i>
+                                                Back
+                                            </button>
+                                            <button type="button" class="btn btn-lg btn-success" id="nextToPelayanan">
+                                                <i class="fa fa-arrow-right"></i>
+                                                Next
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="tab-pane fade fade-up" id="btabs-animated-slideup-pelayanan"
+                                        role="tabpanel" aria-labelledby="btabs-animated-slideup-pelayanan-tab"
+                                        tabindex="0">
+                                        <h4 class="fw-bolder">Pelayanan</h4>
+                                        <div class="row col-12">
+                                            <div class="row mb-2">
+                                                <label class="col-sm-4 col-form-label required">Jenis Pelayanan</label>
+                                                <div class="col-sm-7 mb-2">
+                                                    <button type="submit" class="btn btn-sm btn-primary"
+                                                        data-bs-toggle="modal" data-bs-target="#addLayananModal">
+                                                        <i class="fa fa-plus"></i>
+                                                        Tambah Jenis Pelayanan
+                                                    </button>
+                                                    <div class="col-sm-7 mt-3">
+                                                        <table
+                                                            class="table table-bordered table-striped table-vcenter table-sm fs-sm text-nowrap align-middle">
+                                                            <thead>
+                                                                <th class="text-center">No</th>
+                                                                <th>Jenis Layanan</th>
+                                                                <th class="text-center">#</th>
+                                                            </thead>
+                                                            <tbody>
+                                                                @if ($pemeriksaan->layanans->count() > 0)
+                                                                    @foreach ($pemeriksaan->layanans as $item)
+                                                                        <tr>
+                                                                            <td class="text-center">
+                                                                                {{ $loop->iteration }}.</td>
+                                                                            <td class="text-center">
+                                                                                <input type="hidden" name="layanan_id[]" value="{{ $item->layanan->id }}" required>
+                                                                                {{ $item->layanan->name ?? 'N/A' }}</td>
+                                                                            <td class="text-center">
+                                                                                <button type="button"
+                                                                                    class="btn btn-sm btn-danger btn-delete-obat">
+                                                                                    <i class="fa fa-trash"></i>
+                                                                                </button>
+                                                                            </td>
+                                                                        </tr>
+                                                                    @endforeach
+                                                                @endif
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-end mt-3">
+                                            <button type="button" class="btn btn-lg btn-secondary me-2" id="prevToPlan">
                                                 <i class="fa fa-arrow-left"></i>
                                                 Back
                                             </button>
@@ -412,7 +577,8 @@
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-end mt-3">
-                                            <button type="button" class="btn btn-lg btn-secondary me-2" id="prevToPlan">
+                                            <button type="button" class="btn btn-lg btn-secondary me-2"
+                                                id="prevToPelayanan">
                                                 <i class="fa fa-arrow-left"></i>
                                                 Back
                                             </button>
@@ -465,56 +631,142 @@
         </div>
     </div>
     <!-- END QR Code Modal -->
+
+    <!-- Add Obat Modal -->
+    <div class="modal modal-blur fade" id="addObatModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-fromleft" role="document">
+            <div class="modal-content">
+                <form action="#" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Obat</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label required" for="obat_id">Obat</label>
+                            <select class="form-select" name="obat_id" id="obat_id" required>
+                                <option value="" disabled selected>- pilih obat -</option>
+                                @foreach ($obat as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label required" for="jumlah">Jumlah</label>
+                            <input type="number" class="form-control" name="jumlah" min="1" id="jumlah"
+                                required placeholder="input jumlah obat">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label required" for="dosis">Dosis</label>
+                            <input type="text" class="form-control" name="dosis" id="dosis" required
+                                placeholder="input dosis (ex: 3x1 tablet)">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label required" for="aturan_pakai">Aturan Pakai</label>
+                            <input type="text" class="form-control" name="aturan_pakai" id="aturan_pakai" required
+                                placeholder="input aturan pakai (ex: Sebelum makan)">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label required" for="catatan_obat">Catatan Obat</label>
+                            <textarea class="form-control" name="catatan_obat" id="catatan_obat" placeholder="input catatan obat" required
+                                rows="4"></textarea>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+                            Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary ms-auto">
+                            <i class="fa fa-plus"></i>
+                            Add new
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- END Add Obat Modal -->
+
+    <!-- Add Layanan Modal -->
+    <div class="modal modal-blur fade" id="addLayananModal" tabindex="-1" role="dialog" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-fromleft" role="document">
+            <div class="modal-content">
+                <form action="#" method="POST">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add Pelayanan</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label class="form-label required" for="layanan_id">Jenis Pelayanan</label>
+                            <select class="form-select" name="layanan_id" id="layanan_id" required>
+                                <option value="" disabled selected>- pilih jenis pelayanan -</option>
+                                @foreach ($layanan as $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}
+                                        ({{ $item->kategori->name ?? 'N/A' }})
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
+                            Cancel
+                        </a>
+                        <button type="submit" class="btn btn-primary ms-auto">
+                            <i class="fa fa-plus"></i>
+                            Add new
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- END Add Layanan Modal -->
 @endsection
-
-{{-- @section('javascript')
-    <script>
-        $(document).ready(function() {
-            // Daftar ID tombol dan target tab-nya
-            const tabMap = {
-                'nextToAlergi': '#btabs-animated-slideup-profile-tab',
-                'prevToPengukuran': '#btabs-animated-slideup-home-tab',
-                'nextToSubjective': '#btabs-animated-slideup-subjective-tab',
-                'prevToSubjective': '#btabs-animated-slideup-subjective-tab',
-                'nextToAssessment': '#btabs-animated-slideup-assessment-tab',
-                'prevToAssessment': '#btabs-animated-slideup-assessment-tab',
-                'nextToPlan': '#btabs-animated-slideup-plan-tab',
-                'prevToPlan': '#btabs-animated-slideup-plan-tab',
-                'nextToStatus': '#btabs-animated-slideup-status-tab',
-                'prevToAlergi': '#btabs-animated-slideup-profile-tab'
-            };
-
-            // Pasang event handler dengan loop
-            $.each(tabMap, function(buttonId, targetTabSelector) {
-                $('#' + buttonId).on('click', function() {
-                    var triggerTab = new bootstrap.Tab($(targetTabSelector)[0]);
-                    triggerTab.show();
-                });
-            });
-        });
-    </script>
-@endsection --}}
-
-
 
 @section('javascript')
     <script>
         $(document).ready(function() {
-            // --- INITIAL STATE ---
-            // Disable tabs to enforce a sequential workflow.
-            // The "Subjective" tab is active by default, so we'll start by disabling the subsequent tabs.
-            $('#btabs-animated-slideup-assessment-tab').prop('disabled', true);
-            $('#btabs-animated-slideup-plan-tab').prop('disabled', true);
-            $('#btabs-animated-slideup-status-tab').prop('disabled', true);
+            // --- SETUP ---
+            // Simpan semua tombol tab dalam sebuah array untuk kemudahan pengelolaan
+            const tabButtons = [
+                '#btabs-animated-slideup-home-tab',
+                '#btabs-animated-slideup-profile-tab',
+                '#btabs-animated-slideup-subjective-tab',
+                '#btabs-animated-slideup-assessment-tab',
+                '#btabs-animated-slideup-plan-tab',
+                '#btabs-animated-slideup-pelayanan-tab', // <-- Tab Pelayanan ada di sini (index 5)
+                '#btabs-animated-slideup-status-tab'
+            ];
 
             /**
-             * Validates all required fields within a given tab pane.
-             * @param {string} tabPaneId The ID of the tab pane to validate (e.g., '#btabs-animated-slideup-subjective').
-             * @returns {boolean} Returns true if all required fields are filled, false otherwise.
+             * Mengupdate status disabled pada semua tab.
+             * Hanya tab sampai 'activeIndex' yang akan aktif, sisanya akan dinonaktifkan.
+             * @param {number} activeIndex Indeks dari tab yang saat ini aktif.
+             */
+            function updateTabStates(activeIndex) {
+                tabButtons.forEach((tabId, index) => {
+                    // Selama index tab (misal: Pelayanan di index 5) lebih besar dari activeIndex (Subjective di index 2),
+                    // maka tab tersebut akan di-disable.
+                    if (index > activeIndex && index >= 3) { // <-- LOGIKA INI PENYEBABNYA
+                        $(tabId).prop('disabled', true);
+                    } else {
+                        $(tabId).prop('disabled', false);
+                    }
+                });
+            }
+
+            /**
+             * Memvalidasi semua field yang 'required' di dalam sebuah tab pane.
+             * @param {string} tabPaneId ID dari tab pane yang akan divalidasi.
+             * @returns {boolean} True jika valid, false jika tidak.
              */
             function validateTab(tabPaneId) {
                 let isValid = true;
-                $(tabPaneId).find('[required]').each(function() {
+                const $tabPane = $(tabPaneId);
+
+                $tabPane.find('[required]').each(function() {
                     $(this).removeClass('is-invalid');
                     if ($(this).val() === null || $(this).val().trim() === '') {
                         isValid = false;
@@ -522,7 +774,21 @@
                     }
                 });
 
-                if (!isValid) {
+                // 🔴 Tambahan khusus untuk tab pelayanan
+                if (tabPaneId === '#btabs-animated-slideup-pelayanan') {
+                    const layananCount = $tabPane.find('table tbody tr').length;
+                    if (layananCount === 0) {
+                        isValid = false;
+                        Swal.fire({
+                            icon: 'warning',
+                            title: 'Belum ada layanan',
+                            text: 'Silakan pilih minimal satu jenis pelayanan sebelum melanjutkan.',
+                            confirmButtonColor: '#3085d6',
+                        });
+                    }
+                }
+
+                if (!isValid && tabPaneId !== '#btabs-animated-slideup-pelayanan') {
                     Swal.fire({
                         icon: 'warning',
                         title: 'Data Belum Lengkap',
@@ -530,92 +796,227 @@
                         confirmButtonColor: '#3085d6',
                     });
                 }
+
                 return isValid;
             }
 
-            // Remove 'is-invalid' class when user starts typing
+            // --- INITIAL STATE ---
+            // 1. Dapatkan index tab yang aktif saat halaman dimuat ('Subjective' adalah index 2).
+            const initialActiveIndex = tabButtons.indexOf('#' + $('.nav-tabs-block .nav-link.active').attr('id'));
+
+            // 2. Panggil fungsi updateTabStates dengan index 2.
+            // Fungsi ini akan menonaktifkan semua tab setelah index 2, TERMASUK 'Pelayanan'.
+            updateTabStates(initialActiveIndex);
+
+            // Tambahkan listener untuk event 'show.bs.tab'
+            $('.nav-tabs-block .nav-link').on('show.bs.tab', function(e) {
+                const activeTabId = $(e.target).attr('id');
+                const activeIndex = tabButtons.indexOf('#' + activeTabId);
+                updateTabStates(activeIndex);
+            });
+
+            // Hapus class 'is-invalid' saat pengguna mulai mengisi form
             $('form').on('input change', '.is-invalid', function() {
                 $(this).removeClass('is-invalid');
             });
 
             // --- TAB NAVIGATION HANDLERS ---
+            function navigateToTab(buttonSelector, validationPaneId, targetTabSelector) {
+                $(buttonSelector).on('click', function(e) {
+                    e.preventDefault();
+                    if (!validationPaneId || validateTab(validationPaneId)) {
+                        const triggerTab = new bootstrap.Tab($(targetTabSelector)[0]);
+                        triggerTab.show();
+                    }
+                });
+            }
 
-            // "Next" button from Subjective to Assessment
-            $('#nextToAssessment').on('click', function(e) {
-                e.preventDefault();
-                if (validateTab('#btabs-animated-slideup-subjective')) {
-                    $('#btabs-animated-slideup-assessment-tab').prop('disabled', false);
-                    var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-assessment-tab')[0]);
-                    triggerTab.show();
+            // Navigasi Read-only (tanpa validasi)
+            navigateToTab('#nextToAlergi', null, '#btabs-animated-slideup-profile-tab');
+            navigateToTab('#nextToSubjective', null, '#btabs-animated-slideup-subjective-tab');
+            navigateToTab('#prevToPengukuran', null, '#btabs-animated-slideup-home-tab');
+            navigateToTab('#prevToAlergi', null, '#btabs-animated-slideup-profile-tab');
+
+            // Navigasi dengan Validasi
+            navigateToTab('#nextToAssessment', '#btabs-animated-slideup-subjective',
+                '#btabs-animated-slideup-assessment-tab');
+            navigateToTab('#nextToPlan', '#btabs-animated-slideup-assessment', '#btabs-animated-slideup-plan-tab');
+            navigateToTab('#nextToPelayanan', '#btabs-animated-slideup-plan',
+                '#btabs-animated-slideup-pelayanan-tab');
+            navigateToTab('#nextToStatus', '#btabs-animated-slideup-pelayanan',
+                '#btabs-animated-slideup-status-tab');
+
+            // Navigasi Mundur dari Tab Validasi
+            navigateToTab('#prevToSubjective', null, '#btabs-animated-slideup-subjective-tab');
+            navigateToTab('#prevToAssessment', null, '#btabs-animated-slideup-assessment-tab');
+            navigateToTab('#prevToPlan', null, '#btabs-animated-slideup-plan-tab');
+            navigateToTab('#prevToPelayanan', null, '#btabs-animated-slideup-pelayanan-tab');
+
+
+            // --- PELAYANAN HANDLER ---
+            // Saat pilih layanan di select
+            $('#layanan_id').on('change', function() {
+                const layananId = $(this).val();
+                const layananName = $(this).find('option:selected').text();
+
+                if (!layananId) return; // belum pilih
+
+                const $tableBody = $('#btabs-animated-slideup-pelayanan table tbody');
+
+                // --- CEK DUPLIKAT ---
+                let isDuplicate = false;
+                $tableBody.find('input[name="layanan_id[]"]').each(function() {
+                    if ($(this).val() === layananId) {
+                        isDuplicate = true;
+                        return false; // stop loop
+                    }
+                });
+
+                if (isDuplicate) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Layanan sudah ada',
+                        text: 'Jenis pelayanan ini sudah ditambahkan ke tabel.',
+                        confirmButtonColor: '#3085d6',
+                    });
+                    // reset select & jangan tutup modal
+                    $(this).val('');
+                    return;
                 }
+
+                // hitung nomor urut
+                const rowCount = $tableBody.find('tr').length + 1;
+
+                // buat row baru
+                const newRow = `
+                    <tr>
+                        <td class="text-center">${rowCount}.</td>
+                        <td>
+                            <input type="hidden" name="layanan_id[]" value="${layananId}" required>
+                            ${layananName}
+                        </td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-sm btn-danger btn-delete">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+
+                $tableBody.append(newRow);
+
+                // reset select
+                $(this).val('');
+
+                // tutup modal (Bootstrap 5 API)
+                const modalEl = document.getElementById('addLayananModal');
+                const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                modal.hide();
             });
 
-            // "Next" button from Assessment to Plan
-            $('#nextToPlan').on('click', function(e) {
+            // hapus row layanan
+            $(document).on('click', '.btn-delete', function() {
+                $(this).closest('tr').remove();
+
+                // update nomor urut
+                $('#btabs-animated-slideup-pelayanan table tbody tr').each(function(i) {
+                    $(this).find('td:first').text((i + 1) + '.');
+                });
+            });
+
+
+
+            // --- OBAT HANDLER ---
+            $('#addObatModal form').on('submit', function(e) {
                 e.preventDefault();
-                if (validateTab('#btabs-animated-slideup-assessment')) {
-                    $('#btabs-animated-slideup-plan-tab').prop('disabled', false);
-                    var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-plan-tab')[0]);
-                    triggerTab.show();
+
+                const obatId = $('#obat_id').val();
+                const obatName = $('#obat_id option:selected').text();
+                const jumlah = $('#jumlah').val();
+                const dosis = $('#dosis').val();
+                const aturanPakai = $('#aturan_pakai').val();
+                const catatanObat = $('#catatan_obat').val();
+
+                if (!obatId) return;
+
+                const $tableBody = $('#btabs-animated-slideup-plan table tbody');
+
+                // --- CEK DUPLIKAT OBAT ---
+                let isDuplicate = false;
+                $tableBody.find('input[name="obat_id[]"]').each(function() {
+                    if ($(this).val() === obatId) {
+                        isDuplicate = true;
+                        return false;
+                    }
+                });
+
+                if (isDuplicate) {
+                    Swal.fire({
+                        icon: 'warning',
+                        title: 'Obat sudah ada',
+                        text: 'Obat ini sudah ditambahkan ke tabel.',
+                        confirmButtonColor: '#3085d6',
+                    });
+                    return;
                 }
+
+                // hitung nomor urut
+                const rowCount = $tableBody.find('tr').length + 1;
+
+                // buat row baru
+                const newRow = `
+                    <tr>
+                        <td class="text-center">${rowCount}.</td>
+                        <td>
+                            <input type="hidden" name="obat_id[]" value="${obatId}" required>
+                            ${obatName}
+                        </td>
+                        <td class="text-center">
+                            <input type="hidden" name="jumlah[]" value="${jumlah}" required>
+                            ${jumlah}
+                        </td>
+                        <td class="text-center">
+                            <input type="hidden" name="dosis[]" value="${dosis}" required>
+                            ${dosis}
+                        </td>
+                        <td>
+                            <input type="hidden" name="aturan_pakai[]" value="${aturanPakai}" required>
+                            ${aturanPakai}
+                        </td>
+                        <td>
+                            <input type="hidden" name="catatan_obat[]" value="${catatanObat}" required>
+                            ${catatanObat}
+                        </td>
+                        <td class="text-center">
+                            <button type="button" class="btn btn-sm btn-danger btn-delete-obat">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+
+                $tableBody.append(newRow);
+
+                // reset form modal
+                $('#addObatModal form')[0].reset();
+
+                // tutup modal (Bootstrap 5 API)
+                const modalEl = document.getElementById('addObatModal');
+                const modal = bootstrap.Modal.getInstance(modalEl) || new bootstrap.Modal(modalEl);
+                modal.hide();
             });
 
-            // "Next" button from Plan to Status
-            $('#nextToStatus').on('click', function(e) {
-                e.preventDefault();
-                if (validateTab('#btabs-animated-slideup-plan')) {
-                    $('#btabs-animated-slideup-status-tab').prop('disabled', false);
-                    var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-status-tab')[0]);
-                    triggerTab.show();
-                }
+            // hapus row obat
+            $(document).on('click', '.btn-delete-obat', function() {
+                $(this).closest('tr').remove();
+
+                // update nomor urut
+                $('#btabs-animated-slideup-plan table tbody tr').each(function(i) {
+                    $(this).find('td:first').text((i + 1) + '.');
+                });
             });
 
-            // "Back" button from Assessment to Subjective
-            $('#prevToSubjective').on('click', function(e) {
-                e.preventDefault();
-                var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-subjective-tab')[0]);
-                triggerTab.show();
-            });
 
-            // "Back" button from Plan to Assessment
-            $('#prevToAssessment').on('click', function(e) {
-                e.preventDefault();
-                var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-assessment-tab')[0]);
-                triggerTab.show();
-            });
-
-            // "Back" button from Status to Plan
-            $('#prevToPlan').on('click', function(e) {
-                e.preventDefault();
-                var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-plan-tab')[0]);
-                triggerTab.show();
-            });
-
-            // Since the "Pengukuran" and "Alergi" tabs are read-only, we don't need validation for their "Next" buttons.
-            // We just need to handle the navigation.
-            $('#nextToAlergi').on('click', function(e) {
-                e.preventDefault();
-                var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-profile-tab')[0]);
-                triggerTab.show();
-            });
-
-            $('#nextToSubjective').on('click', function(e) {
-                e.preventDefault();
-                var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-subjective-tab')[0]);
-                triggerTab.show();
-            });
-
-            $('#prevToPengukuran').on('click', function(e) {
-                e.preventDefault();
-                var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-home-tab')[0]);
-                triggerTab.show();
-            });
-
-            $('#prevToAlergi').on('click', function(e) {
-                e.preventDefault();
-                var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-profile-tab')[0]);
-                triggerTab.show();
-            });
         });
     </script>
 @endsection

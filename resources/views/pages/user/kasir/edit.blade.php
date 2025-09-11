@@ -126,12 +126,70 @@
                                         <h4 class="fw-bolder">Pembayaran Pasien</h4>
                                         <div class="row col-12">
                                             <div class="row mb-2">
+                                                <label class="col-sm-4 col-form-label required">Jenis Pelayanan</label>
+                                                <div class="col-sm-7">
+                                                    <table
+                                                        class="table table-bordered table-striped table-vcenter table-sm fs-sm text-nowrap align-middle">
+                                                        <thead>
+                                                            <th class="text-center">No</th>
+                                                            <th>Jenis Layanan</th>
+                                                            <th>Harga (Rp.)</th>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($pemeriksaan->layanans as $item)
+                                                                <tr>
+                                                                    <td class="text-center">{{ $loop->iteration }}.</td>
+                                                                    <td>{{ $item->layanan->name ?? 'N/A' }}</td>
+                                                                    <td>{{ $item->layanan->harga ?? '0' }}</td>
+                                                                </tr>
+                                                            @endforeach
+                                                            @if ($pemeriksaan->layanans->count() == 0)
+                                                                <tr>
+                                                                    <td class="text-center" colspan="3">Tidak ada layanan</td>
+                                                                </tr>
+                                                            @endif
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <label class="col-sm-4 col-form-label required">Terapi Obat</label>
+                                                <div class="col-sm-7">
+                                                    <table
+                                                        class="table table-bordered table-striped table-vcenter table-sm fs-sm text-nowrap align-middle">
+                                                        <thead>
+                                                            <th class="text-center">No</th>
+                                                            <th>Nama Obat</th>
+                                                            <th class="text-center">Jumlah</th>
+                                                            <th>Harga Satuan (Rp.)</th>
+                                                            <th>Sub Total (Rp.)</th>
+                                                        </thead>
+                                                        <tbody>
+                                                            @foreach ($pemeriksaan->obats as $item)
+                                                                <tr>
+                                                                    <td class="text-center">{{ $loop->iteration }}.</td>
+                                                                    <td>{{ $item->obat->name ?? 'N/A' }}</td>
+                                                                    <td class="text-center">{{ $item->jumlah ?? '-' }}</td>
+                                                                    <td>{{ $item->obat->harga_jual ?? '0' }}</td>
+                                                                    <td>{{ $item->obat->harga_jual * $item->jumlah }}</td>
+                                                                </tr>
+                                                            @endforeach
+                                                            @if ($pemeriksaan->obats->count() == 0)
+                                                                <tr>
+                                                                    <td class="text-center" colspan="5">Tidak ada obat</td>
+                                                                </tr>
+                                                            @endif
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2">
                                                 <label class="col-sm-4 col-form-label required">Total Bayar (Rp.)</label>
                                                 <div class="col-sm-7">
                                                     <input type="number" min="1" class="form-control"
                                                         name="total_bayar" autocomplete="off" required
                                                         placeholder="input total bayar"
-                                                        value="{{ $pemeriksaan->total_bayar }}">
+                                                        value="{{ $total_bayar }}">
                                                 </div>
                                             </div>
                                             <div class="row mb-2">
