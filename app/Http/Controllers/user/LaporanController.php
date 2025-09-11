@@ -5,8 +5,10 @@ namespace App\Http\Controllers\user;
 use App\DataTables\LaporanDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\MetodePembayaran;
+use App\Models\Pemeriksaan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class LaporanController extends Controller
 {
@@ -51,7 +53,16 @@ class LaporanController extends Controller
 
     public function show(string $uuid)
     {
-        //
+        $pemeriksaan = Pemeriksaan::where('uuid', $uuid)->firstOrFail();
+
+        // return view('pages.user.laporan.pdf', compact([
+        //     'pemeriksaan',
+        // ]));
+
+        $tanggal = Carbon::parse($pemeriksaan->datetime)->format('Y-m-d');
+
+        $pdf = Pdf::loadView('pages.user.laporan.pdf', compact(['pemeriksaan']))->setPaper('a4', 'potrait');
+        return $pdf->stream($tanggal . '_Laporan Pemeriksaan_' . $pemeriksaan->code. '_' . $pemeriksaan->pasien->name . '.pdf');
     }
 
     public function edit(string $uuid)
