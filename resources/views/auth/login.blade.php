@@ -11,13 +11,38 @@
             width: auto;
             /* proporsional */
         }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+        }
+
+        .bg-image {
+            position: relative;
+            min-height: 100vh;
+            background: url('{{ asset('media/photos/photo19@2x.jpg') }}') center center / cover no-repeat;
+        }
+
+        .bg-image::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background-color: #F60088; /* pink overlay */
+            opacity: 0.9; /* ubah opacity sesuai selera */
+            z-index: 0;
+        }
+
+        .bg-image > * {
+            position: relative;
+            z-index: 1;
+        }
     </style>
 @endsection
 
 @section('content')
     <!-- Page Content -->
-    <div class="bg-image" style="background-image: url('{{ asset('media/photos/photo19@2x.jpg') }}');">
-        <div class="row g-0 justify-content-center bg-primary-dark-op">
+    <div class="bg-image">
+        <div class="row g-0 justify-content-center">
             <div class="hero-static col-sm-8 col-md-6 col-xl-4 d-flex align-items-center p-2 px-sm-0">
                 <!-- Sign In Block -->
                 <div class="block block-transparent block-rounded w-100 mb-0 overflow-hidden">

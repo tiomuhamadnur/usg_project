@@ -52,6 +52,10 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $r) {
 Auth::routes();
 
 Route::get('/home', function () {
+    if(Auth::user()->role_id == 1) {
+        return redirect()->route('dashboard-admin.index');
+    }
+
     return redirect()->route('dashboard.index');
 });
 
