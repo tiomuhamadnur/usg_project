@@ -7,7 +7,7 @@
                     target="_blank">Tio Muhamad Nur</a>
             </div>
             <div class="col-sm-6 order-sm-1 text-center text-sm-start">
-                <a class="fw-semibold" target="_blank">USGAja</a> &copy;
+                <a class="fw-semibold" target="_blank">USGaja</a> &copy;
                 <span data-toggle="year-copy"></span>
             </div>
         </div>

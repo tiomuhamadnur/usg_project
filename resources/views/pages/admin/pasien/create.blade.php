@@ -14,7 +14,7 @@
                     <h3 class="fs-3 fw-semibold my-2 mb-0">
                         Tambah Pasien Baru
                     </h3>
-                    <a href="{{ route('pasien.index') }}" class="btn btn-danger">
+                    <a href="{{ route('dashboard.index') }}" class="btn btn-secondary">
                         <i class="fa fa-times me-1"></i> Batal
                     </a>
                 </div>
@@ -45,10 +45,9 @@
                                     </select>
                                 </div>
                                 <div class="col-12 col-md-3">
-                                    <label class="form-label required">NIK</label>
+                                    <label class="form-label optional">NIK</label>
                                     <input type="text" class="form-control" name="nik" id="nik"
-                                        value="{{ old('nik') }}" placeholder="input NIK (16 digit)" required
-                                        autocomplete="off">
+                                        value="{{ old('nik') }}" placeholder="input NIK (16 digit)" autocomplete="off">
                                 </div>
                             </div>
                             <div class="row mb-4">
@@ -75,13 +74,13 @@
                                 </div>
                             </div>
                             <div class="row mb-4">
-                                {{-- <div class="col-12 col-md-3">
-                                    <label class="form-label required">Tempat Lahir</label>
+                                <div class="col-12 col-md-3">
+                                    <label class="form-label optional">Tempat Lahir</label>
                                     <input type="text" class="form-control" name="tempat_lahir"
-                                        value="{{ old('tempat_lahir') }}" placeholder="input tempat lahir" required
+                                        value="{{ old('tempat_lahir') }}" placeholder="input tempat lahir"
                                         autocomplete="off">
-                                </div> --}}
-                                <div class="col-12 col-md-6">
+                                </div>
+                                <div class="col-12 col-md-3">
                                     <label class="form-label required">Tanggal Lahir</label>
                                     <input type="date" class="form-control" name="tanggal_lahir" id="tanggal_lahir"
                                         value="{{ old('tanggal_lahir') }}" placeholder="input tanggal lahir" required
@@ -131,19 +130,19 @@
                                     <div class="row g-2">
                                         <div class="col-12 col-md-4">
                                             <div class="input-group">
-                                                <input type="number" class="form-control" min="0" name="gravida" id="gravida" value="{{ old('gravida', '0') }}" autocomplete="off">
+                                                <input type="number" class="form-control" min="0" name="gravida" id="gravida" value="{{ old('gravida') }}" autocomplete="off">
                                                 <span class="input-group-text">G (Gravida)</span>
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-4">
                                             <div class="input-group">
-                                                <input type="number" class="form-control" min="0" name="para" id="para" value="{{ old('para', '0') }}" autocomplete="off">
+                                                <input type="number" class="form-control" min="0" name="para" id="para" value="{{ old('para') }}" autocomplete="off">
                                                 <span class="input-group-text">P (Para)</span>
                                             </div>
                                         </div>
                                         <div class="col-12 col-md-4">
                                             <div class="input-group">
-                                                <input type="number" class="form-control" min="0" name="abortus" id="abortus" value="{{ old('abortus', '0') }}" autocomplete="off">
+                                                <input type="number" class="form-control" min="0" name="abortus" id="abortus" value="{{ old('abortus') }}" autocomplete="off">
                                                 <span class="input-group-text">A (Abortus)</span>
                                             </div>
                                         </div>
@@ -286,6 +285,19 @@
 @section('javascript')
     <script>
         $(document).ready(function() {
+            // Event ketika gender_id laki-laki
+            $('#gender_id').on('change', function () {
+                let gender = $(this).val();
+
+                if (gender == 1) {
+                    // disable semua input
+                    $('#hpht, #gravida, #para, #abortus').prop('disabled', true).val('');
+                } else {
+                    // enable semua input
+                    $('#hpht, #gravida, #para, #abortus').prop('disabled', false);
+                }
+            });
+
             // Copy data identitas dari Pasien ke PJ
             function copyIdentitasKePJ(dariPasien) {
                 if (dariPasien) {

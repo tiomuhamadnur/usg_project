@@ -42,15 +42,15 @@ class PemeriksaanDokterDataTable extends DataTable
                 $editRoute = route('pemeriksaan-dokter.edit', $item->uuid);
                 $showRoute = route('pemeriksaan-dokter.show', $item->uuid);
                 $actionButton = "<div class='dropdown'>
-                                    <button class='btn' data-bs-toggle='dropdown'>
-                                        <i class='fa fa-pencil'></i>
-                                        Edit
+                                    <button class='btn btn-sm btn-primary' data-bs-toggle='dropdown'>
+                                        <i class='fa fa-eye'></i>
+                                        Lihat
                                     </button>
 
                                     <div class='dropdown-menu dropdown-menu-end'>
                                         <a class='dropdown-item' href='{$editRoute}'>
-                                            <i class='fa fa-pencil'></i>
-                                            Edit
+                                            <i class='fa fa-eye'></i>
+                                            Lihat
                                         </a>
                                     </div>
                                 </div>";
@@ -94,7 +94,7 @@ class PemeriksaanDokterDataTable extends DataTable
             $start = Carbon::parse($clean_start_date)->startOfDay()->format('Y-m-d H:i:s');
             $end = Carbon::parse($clean_end_date)->endOfDay()->format('Y-m-d H:i:s');
 
-            $query->whereBetween('datetime', [$start, $end]);
+            $query->whereBetween('datetime_registrasi', [$start, $end]);
         }
 
         return $query;
@@ -133,7 +133,7 @@ class PemeriksaanDokterDataTable extends DataTable
                 ->addClass('text-center text-nowrap'),
             Column::make('code')->addClass('text-nowrap fw-bolder')->title('Kode Registrasi'),
             Column::make('no_urut')->addClass('text-nowrap fw-bolder')->title('No Antrean'),
-            Column::make('datetime')->addClass('text-nowrap')->title('Tanggal & Jam'),
+            Column::make('datetime_registrasi')->addClass('text-nowrap')->title('Tanggal Registrasi'),
             Column::make('pasien.name')->addClass('text-nowrap')->title('Nama Pasien'),
             Column::make('pasien.gender.name')->title('Jenis Kelamin'),
             Column::make('dokter.name')->addClass('text-nowrap')->title('Dokter'),

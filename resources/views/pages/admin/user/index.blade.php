@@ -43,8 +43,7 @@
                 <div class="table-responsive">
                     {{ $dataTable->table([
                         'class' => 'table table-bordered table-striped table-vcenter table-sm fs-sm text-nowrap align-middle',
-                    ])
-                    }}
+                    ]) }}
                 </div>
             </div>
         </div>

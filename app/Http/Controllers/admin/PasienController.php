@@ -50,7 +50,7 @@ class PasienController extends Controller
             // Data Pasien
             "name" => "required|string|max:255",
             "gender_id" => "required|numeric|exists:gender,id",
-            "nik" => "required|digits:16|unique:pasien,nik",
+            "nik" => "nullable|digits:16|unique:pasien,nik",
             "no_bpjs" => "nullable|string|max:20|unique:pasien,no_bpjs",
             "no_rm" => "nullable|string|max:20|unique:pasien,no_rm",
             "satu_sehat_id" => "nullable|string|max:50|unique:pasien,satu_sehat_id",
@@ -149,7 +149,7 @@ class PasienController extends Controller
             // Data Pasien
             "name" => "required|string|max:255",
             "gender_id" => "required|numeric|exists:gender,id",
-            "nik" => "required|digits:16|unique:pasien,nik," . $pasien->id,
+            "nik" => "nullable|digits:16|unique:pasien,nik," . $pasien->id,
             "no_bpjs" => "nullable|string|max:20|unique:pasien,no_bpjs," . $pasien->id,
             "no_rm" => "nullable|string|max:20|unique:pasien,no_rm," . $pasien->id,
             "satu_sehat_id" => "nullable|string|max:50|unique:pasien,satu_sehat_id," . $pasien->id,
@@ -201,7 +201,7 @@ class PasienController extends Controller
 
         $pasien->update($data);
 
-        return redirect()->route('pasien.index')->withNotify('Data Pasien ' . $pasien->name . ' berhasil diubah.');
+        return redirect()->route('pasien.index')->withNotify('Data Pasien <strong>' . $pasien->name . '</strong> berhasil diubah.');
     }
 
     public function destroy(string $uuid)

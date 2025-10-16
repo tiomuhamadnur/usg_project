@@ -45,7 +45,8 @@
     <script src="{{ asset('js/plugins/jquery-validation/jquery.validate.min.js') }}"></script>
 
     <!-- CSS -->
-    <link rel="stylesheet" href="{{ asset('assets/main-cbr0_KuO.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('assets/main-cbr0_KuO.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('assets/usgaja-00.css') }}">
 
     <!-- JS -->
     <script type="module" src="{{ asset('assets/app-ByhcSUcv.js') }}"></script> <!-- Dashmix app.js -->
@@ -56,6 +57,15 @@
 
     @yield('js')
     @livewireStyles
+
+    <style>
+        .bg-header-dark {
+            background-color: #F60088 !important;
+        }
+        .bg-header-dark .content-header {
+            background-color: rgba(246, 0, 136, 0.5) !important; /* ganti yg bg-white-5 */
+        }
+    </style>
 </head>
 
 <body>
@@ -108,7 +118,7 @@
 
         'sidebar-dark page-header-dark dark-mode'   Enable dark mode (light sidebar/header is not supported with dark mode)
     -->
-    <div id="page-container" class="sidebar-o enable-page-overlay sidebar-dark side-scroll page-header-fixed">
+    <div id="page-container" class="sidebar-o enable-page-overlay side-scroll page-header-fixed">
         <!-- side overlay -->
         @include('layouts.overlay')
         <!-- end side overlay -->

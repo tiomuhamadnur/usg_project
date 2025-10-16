@@ -7,240 +7,186 @@
 @section('content')
     <!-- Page Content -->
     <div class="content">
-        <!-- Dashboard -->
-        <div class="row">
-            <div class="col-md-6 col-xl-3">
-                <a class="block block-rounded block-link-pop" href="javascript:void(0)">
-                    <div class="block-content block-content-full d-flex align-items-center justify-content-between">
-                        <div>
-                            <i class="fa fa-2x fa-arrow-up text-primary"></i>
+        <!-- Home -->
+        @Admin
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block block-rounded block-link-shadow card">
+                        {{-- Header --}}
+                        <div class="block-header bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h2 class="fs-3 fw-semibold my-2 mb-0">
+                                {{-- 👋 Halo, {{ auth()->user()->name ?? 'Admin' }}! --}}
+                                📝 Registrasi
+                            </h2>
                         </div>
-                        <div class="ms-3 text-end">
-                            <p class="fs-3 fw-medium mb-0">
-                                + 30%
-                            </p>
-                            <p class="text-muted mb-0">
-                                Earnings
-                            </p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-6 col-xl-3">
-                <a class="block block-rounded block-link-pop" href="javascript:void(0)">
-                    <div class="block-content block-content-full d-flex align-items-center justify-content-between">
-                        <div>
-                            <i class="far fa-2x fa-user-circle text-success"></i>
-                        </div>
-                        <div class="ms-3 text-end">
-                            <p class="fs-3 fw-medium mb-0">
-                                +78%
-                            </p>
-                            <p class="text-muted mb-0">
-                                Users
-                            </p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-6 col-xl-3">
-                <a class="block block-rounded block-link-pop" href="javascript:void(0)">
-                    <div class="block-content block-content-full d-flex align-items-center justify-content-between">
-                        <div class="me-3">
-                            <p class="fs-3 fw-medium mb-0">
-                                960
-                            </p>
-                            <p class="text-muted mb-0">
-                                Sales
-                            </p>
-                        </div>
-                        <div>
-                            <i class="fa fa-2x fa-chart-area text-danger"></i>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-6 col-xl-3">
-                <a class="block block-rounded block-link-pop" href="javascript:void(0)">
-                    <div class="block-content block-content-full d-flex align-items-center justify-content-between">
-                        <div class="me-3">
-                            <p class="fs-3 fw-medium mb-0">
-                                359
-                            </p>
-                            <p class="text-muted mb-0">
-                                Projects
-                            </p>
-                        </div>
-                        <div>
-                            <i class="fa fa-2x fa-box text-warning"></i>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-6 col-xl-3">
-                <a class="block block-rounded block-link-shadow bg-primary" href="javascript:void(0)">
-                    <div class="block-content block-content-full d-flex align-items-center justify-content-between">
-                        <div>
-                            <i class="fa fa-2x fa-arrow-alt-circle-up text-primary-lighter"></i>
-                        </div>
-                        <div class="ms-3 text-end">
-                            <p class="text-white fs-3 fw-medium mb-0">
-                                + 45%
-                            </p>
-                            <p class="text-white-75 mb-0">
-                                Earnings
-                            </p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-6 col-xl-3">
-                <a class="block block-rounded block-link-shadow bg-success" href="javascript:void(0)">
-                    <div class="block-content block-content-full d-flex align-items-center justify-content-between">
-                        <div>
-                            <i class="far fa-2x fa-user text-success-light"></i>
-                        </div>
-                        <div class="ms-3 text-end">
-                            <p class="text-white fs-3 fw-medium mb-0">
-                                +98%
-                            </p>
-                            <p class="text-white-75 mb-0">
-                                Users
-                            </p>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-6 col-xl-3">
-                <a class="block block-rounded block-link-shadow bg-danger" href="javascript:void(0)">
-                    <div class="block-content block-content-full d-flex align-items-center justify-content-between">
-                        <div class="me-3">
-                            <p class="text-white fs-3 fw-medium mb-0">
-                                450
-                            </p>
-                            <p class="text-white-75 mb-0">
-                                Sales
-                            </p>
-                        </div>
-                        <div>
-                            <i class="fa fa-2x fa-chart-line text-black-50"></i>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-6 col-xl-3">
-                <a class="block block-rounded block-link-shadow bg-warning" href="javascript:void(0)">
-                    <div class="block-content block-content-full d-flex align-items-center justify-content-between">
-                        <div class="me-3">
-                            <p class="text-white fs-3 fw-medium mb-0">
-                                63
-                            </p>
-                            <p class="text-white-75 mb-0">
-                                Projects
-                            </p>
-                        </div>
-                        <div>
-                            <i class="fa fa-2x fa-boxes text-black-50"></i>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-6">
-                <a class="block block-rounded block-link-shadow" href="javascript:void(0)">
-                    <div class="block-content block-content-full">
-                        <div class="row text-center">
-                            <div class="col-4 border-end">
-                                <div class="py-3">
-                                    <div class="item item-circle bg-body-light mx-auto">
-                                        <i class="fa fa-briefcase text-primary"></i>
-                                    </div>
-                                    <p class="fs-3 fw-medium mt-3 mb-0">
-                                        61
-                                    </p>
-                                    <p class="text-muted mb-0">
-                                        Projects
-                                    </p>
+
+                        {{-- Content --}}
+                        <div class="block-content block-content-full">
+                            <div class="row g-4">
+                                {{-- Pasien Lama --}}
+                                <div class="col-md-6">
+                                    <a href="{{ route('registrasi.create') }}"
+                                        class="block block-rounded block-link-shadow text-center h-100 btn btn-outline-primary">
+                                        <div class="block-content block-content-full py-4">
+                                            <div class="item item-circle bg-light mx-auto mb-3">
+                                                <i class="fa fa-user fs-2 text-primary"></i>
+                                            </div>
+                                            <p class="fs-5 fw-semibold text-dark mb-1">Pasien Lama</p>
+                                            <p class="text-muted small mb-0">Registrasi ulang pasien terdaftar</p>
+                                        </div>
+                                    </a>
                                 </div>
-                            </div>
-                            <div class="col-4 border-end">
-                                <div class="py-3">
-                                    <div class="item item-circle bg-body-light mx-auto">
-                                        <i class="fa fa-chart-line text-primary"></i>
-                                    </div>
-                                    <p class="fs-3 fw-medium mt-3 mb-0">
-                                        50
-                                    </p>
-                                    <p class="text-muted mb-0">
-                                        Sales
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="py-3">
-                                    <div class="item item-circle bg-body-light mx-auto">
-                                        <i class="fa fa-users text-primary"></i>
-                                    </div>
-                                    <p class="fs-3 fw-medium mt-3 mb-0">
-                                        15
-                                    </p>
-                                    <p class="text-muted mb-0">
-                                        Clients
-                                    </p>
+
+                                {{-- Pasien Baru --}}
+                                <div class="col-md-6">
+                                    <a href="{{ route('pasien.create') }}"
+                                        class="block block-rounded block-link-shadow text-center h-100 btn btn-outline-success">
+                                        <div class="block-content block-content-full py-4">
+                                            <div class="item item-circle bg-light mx-auto mb-3">
+                                                <i class="fa fa-user-plus fs-2 text-success"></i>
+                                            </div>
+                                            <p class="fs-5 fw-semibold text-dark mb-1">Pasien Baru</p>
+                                            <p class="text-muted small mb-0">Registrasi pasien baru</p>
+                                        </div>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </a>
+                </div>
             </div>
-            <div class="col-md-6">
-                <a class="block block-rounded bg-gd-sublime" href="javascript:void(0)">
-                    <div class="block-content block-content-full">
-                        <div class="row text-center">
-                            <div class="col-4 border-end border-black-op">
-                                <div class="py-3">
-                                    <div class="item item-circle bg-black-25 mx-auto">
-                                        <i class="fa fa-briefcase text-white"></i>
-                                    </div>
-                                    <p class="text-white fs-3 fw-medium mt-3 mb-0">
-                                        61
-                                    </p>
-                                    <p class="text-white-75 mb-0">
-                                        Projects
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-4 border-end border-black-op">
-                                <div class="py-3">
-                                    <div class="item item-circle bg-black-25 mx-auto">
-                                        <i class="fa fa-chart-line text-white"></i>
-                                    </div>
-                                    <p class="text-white fs-3 fw-medium mt-3 mb-0">
-                                        50
-                                    </p>
-                                    <p class="text-white-75 mb-0">
-                                        Sales
-                                    </p>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="py-3">
-                                    <div class="item item-circle bg-black-25 mx-auto">
-                                        <i class="fa fa-users text-white"></i>
-                                    </div>
-                                    <p class="text-white fs-3 fw-medium mt-3 mb-0">
-                                        15
-                                    </p>
-                                    <p class="text-white-75 mb-0">
-                                        Clients
-                                    </p>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block block-rounded block-link-shadow card">
+                        {{-- Header --}}
+                        <div
+                            class="block-header block-header-default bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h3 class="fs-3 fw-semibold my-2 mb-0">
+                                {{-- 👨‍⚕️ Halo, {{ auth()->user()->name ?? 'Dokter' }}! --}}
+                                🩺 Pemeriksaan Awal
+                            </h3>
+                        </div>
+
+                        {{-- Content --}}
+                        <div class="block-content block-content-full">
+                            <div class="row justify-content-center">
+                                <div class="col-12 col-md-8 col-lg-8">
+                                    <form action="{{ route('pemeriksaan-awal.create') }}" method="GET">
+                                        <div class="py-4">
+                                            <label for="code" class="form-label fw-semibold">🔎 Cari Pasien</label>
+                                            <div class="input-group input-group-lg">
+                                                <span class="input-group-text bg-light">
+                                                    <i class="fa fa-user-injured text-primary"></i>
+                                                </span>
+                                                <input type="text" class="form-control" name="code" id="code"
+                                                    placeholder="Masukkan No. Registrasi (ex: REG-123)" autofocus required
+                                                    autocomplete="off">
+                                                <button class="btn btn-primary" type="submit">
+                                                    <i class="fa fa-search"></i> Cari
+                                                </button>
+                                            </div>
+                                            <small class="text-muted">
+                                                Bisa menggunakan nomor registrasi atau scan barcode pasien.
+                                            </small>
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </a>
+                </div>
             </div>
-        </div>
-        <!-- END Dashboard -->
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block block-rounded block-link-shadow card">
+                        {{-- Header --}}
+                        <div
+                            class="block-header block-header-default bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h3 class="fs-3 fw-semibold my-2 mb-0">
+                                {{-- 👨‍⚕️ Halo, {{ auth()->user()->name ?? 'Dokter' }}! --}}
+                                💰 Kasir
+                            </h3>
+                        </div>
+
+                        {{-- Content --}}
+                        <div class="block-content block-content-full">
+                            <div class="row justify-content-center">
+                                <div class="col-12 col-md-8 col-lg-8">
+                                    <form action="{{ route('kasir.create') }}" method="GET">
+                                        <div class="py-4">
+                                            <label for="code" class="form-label fw-semibold">🔎 Cari Pasien</label>
+                                            <div class="input-group input-group-lg">
+                                                <span class="input-group-text bg-light">
+                                                    <i class="fa fa-user-injured text-primary"></i>
+                                                </span>
+                                                <input type="text" class="form-control" name="code" id="code"
+                                                    placeholder="Masukkan No. Registrasi (ex: REG-123)" autofocus required
+                                                    autocomplete="off">
+                                                <button class="btn btn-primary" type="submit">
+                                                    <i class="fa fa-search"></i> Cari
+                                                </button>
+                                            </div>
+                                            <small class="text-muted">
+                                                Bisa menggunakan nomor registrasi atau scan barcode pasien.
+                                            </small>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endAdmin
+
+
+        @Dokter
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="block block-rounded block-link-shadow card">
+                        {{-- Header --}}
+                        <div
+                            class="block-header block-header-default bg-primary text-white d-flex justify-content-between align-items-center">
+                            <h3 class="fs-3 fw-semibold my-2 mb-0">
+                                {{-- 👨‍⚕️ Halo, {{ auth()->user()->name ?? 'Dokter' }}! --}}
+                                👨‍⚕️ Pemeriksaan Dokter
+                            </h3>
+                        </div>
+
+                        {{-- Content --}}
+                        <div class="block-content block-content-full">
+                            <div class="row justify-content-center">
+                                <div class="col-12 col-md-8 col-lg-8">
+                                    <form action="{{ route('pemeriksaan-dokter.create') }}" method="GET">
+                                        <div class="py-4">
+                                            <label for="code" class="form-label fw-semibold">🔎 Cari Pasien</label>
+                                            <div class="input-group input-group-lg">
+                                                <span class="input-group-text bg-light">
+                                                    <i class="fa fa-user-injured text-primary"></i>
+                                                </span>
+                                                <input type="text" class="form-control" name="code" id="code"
+                                                    placeholder="Masukkan No. Registrasi (ex: REG-123)" autofocus required
+                                                    autocomplete="off">
+                                                <button class="btn btn-primary" type="submit">
+                                                    <i class="fa fa-search"></i> Cari
+                                                </button>
+                                            </div>
+                                            <small class="text-muted">
+                                                Bisa menggunakan nomor registrasi atau scan barcode pasien.
+                                            </small>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        @endDokter
+
+        <!-- END Home -->
     </div>
     <!-- END Page Content -->
 @endsection

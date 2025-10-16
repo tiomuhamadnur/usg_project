@@ -4,13 +4,19 @@ namespace App\Http\Controllers\user;
 
 use App\DataTables\KasirDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\DetailObat;
+use App\Models\LogObat;
 use App\Models\MetodePembayaran;
+use App\Models\Obat;
 use App\Models\Pemeriksaan;
 use App\Models\StatusPembayaran;
 use App\Models\StatusPemeriksaan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Milon\Barcode\DNS1D;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class KasirController extends Controller
@@ -20,7 +26,8 @@ class KasirController extends Controller
         $request->validate([
             'start_date' => 'nullable|date|before_or_equal:end_date',
             'end_date' => 'nullable|date|after_or_equal:start_date',
-            'metode_pembayaran_id' => 'nullable',
+            'metode_pembayaran_id' => 'nullable|exists:metode_pembayaran,id',
+            'status_pembayaran_id' => 'nullable|exists:status_pembayaran,id',
         ], [
             'start_date.before_or_equal' => 'Tanggal awal harus <= tanggal akhir',
             'end_date.after_or_equal' => 'Tanggal akhir harus >= tanggal awal',
@@ -29,24 +36,38 @@ class KasirController extends Controller
         $start_date = $request->start_date ?? Carbon::now()->format('Y-m-d');
         $end_date = $request->end_date ?? $start_date;
         $metode_pembayaran_id = $request->metode_pembayaran_id ?? null;
+        $status_pembayaran_id = $request->status_pembayaran_id ?? 1; //Status belum bayar
 
         $metode_pembayaran = MetodePembayaran::all();
+        $status_pembayaran = StatusPembayaran::all();
 
         return $dataTable->with([
             'start_date' => $start_date,
             'end_date' => $end_date,
             'metode_pembayaran_id' => $metode_pembayaran_id,
+            'status_pembayaran_id' => $status_pembayaran_id,
         ])->render('pages.user.kasir.index', compact([
             'start_date',
             'end_date',
             'metode_pembayaran',
             'metode_pembayaran_id',
+            'status_pembayaran',
+            'status_pembayaran_id',
         ]));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $pemeriksaan = Pemeriksaan::where('code', $request->code)
+                        ->where('status_pemeriksaan_id', 3) //status Selesai pemeriksaan dokter
+                        ->where('status_pembayaran_id', 1) //status Belum lunas
+                        ->first();
+
+        if(!$pemeriksaan) {
+            return redirect()->back()->withNotifyerror('Data pasien tidak ditemukan!');
+        }
+
+        return redirect()->route('kasir.edit', $pemeriksaan->uuid);
     }
 
     public function store(Request $request)
@@ -68,8 +89,12 @@ class KasirController extends Controller
         $usia = Carbon::parse($pemeriksaan->pasien->tanggal_lahir)->diff(Carbon::now());
         $umur = $usia->y . ' tahun, ' . $usia->m . ' bulan, ' . $usia->d . ' hari';
 
-        $qrcode = QrCode::format('png')->size(150)->generate($pemeriksaan->code);
-        $qrcode_base64 = base64_encode($qrcode);
+        // $qrcode = QrCode::format('png')->size(150)->generate($pemeriksaan->code);
+        // $qrcode_base64 = base64_encode($qrcode);
+
+        $dns1d = new DNS1D();
+        $barcode = $dns1d->getBarcodePNG($pemeriksaan->code, 'C128', 4, 90);
+        $qrcode_base64 = $barcode;
 
         $pemeriksaan->pasien->umur = $umur;
         $pemeriksaan->qr_code = $qrcode_base64;
@@ -88,7 +113,7 @@ class KasirController extends Controller
             return ($item->obat->harga_jual ?? 0) * ($item->jumlah ?? 0);
         });
 
-        $total_bayar = $biaya_layanan + $biaya_obat;
+        $total_bayar = $biaya_layanan;
 
         return view('pages.user.kasir.edit', compact([
             'pemeriksaan',
@@ -103,18 +128,69 @@ class KasirController extends Controller
     {
         $pemeriksaan = Pemeriksaan::where('uuid', $uuid)->firstOrFail();
 
-        $rawData = $request->validate([
+        $validator = Validator::make($request->all(), [
             "total_bayar" => "required|numeric|min:1",
             "metode_pembayaran_id" => "required|numeric|min:1",
             "status_pemeriksaan_id" => "required|numeric|min:1",
             "status_pembayaran_id" => "required|numeric|min:1",
+            "uuid"   => "required|array",
+            "uuid.*" => "required|uuid|exists:detail_obat,uuid",
+            "is_confirmed.*" => "nullable|in:0,1",
         ]);
 
-        $rawData["kasir_id"] = Auth::user()->id;
+        // 🔍 Validasi stok hanya untuk obat yang dikonfirmasi
+        $validator->after(function ($validator) use ($request) {
+            foreach ($request->uuid as $i => $uuidObat) {
+                $isConfirmed = $request->is_confirmed[$i] ?? 0;
+                if ($isConfirmed) {
+                    $detail = DetailObat::where('uuid', $uuidObat)->first();
+                    $obat = Obat::find($detail->obat_id);
+                    if ($obat->stock < $detail->jumlah) {
+                        $validator->errors()->add("uuid.$i", "Stok obat <strong>{$obat->name} ({$obat->sediaan->name})</strong> tidak mencukupi. <br> <strong>Sisa Stok:</strong> {$obat->stock} {$obat->unit->code} <br> <strong>Dibutuhkan:</strong> {$detail->jumlah} {$detail->obat->unit->code}");
+                    }
+                }
+            }
+        });
+
+        if ($validator->fails()) {
+            return redirect()
+                ->back()
+                ->withInput()
+                ->withNotifyerror($validator->errors()->first());
+        }
+
+        // ✅ Kalau validasi lolos, langsung update
+        $rawData = $request->only([
+            "total_bayar", "metode_pembayaran_id", "status_pemeriksaan_id", "status_pembayaran_id"
+        ]);
+        $rawData["kasir_id"] = Auth::id();
+        $rawData['datetime_invoice'] = now();
 
         $pemeriksaan->update($rawData);
 
-        return redirect()->route('kasir.index')->withNotify('Data pemeriksaan dan pembayaran berhasil disimpan, pasien diperbolehkan pulang.');
+        foreach ($request->uuid as $i => $uuidObat) {
+            $detail_obat = DetailObat::where('uuid', $uuidObat)->first();
+            $isConfirmed = $request->is_confirmed[$i] ?? 0;
+
+            // Simpan status confirm
+            $detail_obat->update([
+                'is_confirmed' => $isConfirmed,
+            ]);
+
+            // 📉 Hanya kurangi stok kalau confirmed
+            if ($isConfirmed) {
+                LogObat::create([
+                    'obat_id'        => $detail_obat->obat_id,
+                    'tipe'           => '-',
+                    'qty'            => $detail_obat->jumlah,
+                    'pemeriksaan_id' => $pemeriksaan->id,
+                ]);
+            }
+        }
+
+        return redirect()
+            ->route('dashboard.index')
+            ->withNotify("Data pemeriksaan berhasil disimpan. <br><strong>Pasien diperbolehkan pulang</strong>.");
     }
 
     public function destroy(string $id)

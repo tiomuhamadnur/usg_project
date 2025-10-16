@@ -30,7 +30,32 @@
 
     <!-- Stylesheets -->
     <!-- Dashmix framework -->
-    <link rel="stylesheet" href="{{ asset('assets/main-cbr0_KuO.css') }}">
+    {{-- <link rel="stylesheet" href="{{ asset('assets/main-cbr0_KuO.css') }}"> --}}
+    <link rel="stylesheet" href="{{ asset('assets/usgaja-00.css') }}">
+    <style>
+        .bg-header-dark {
+            background-color: #F60088 !important;
+        }
+        .bg-header-dark .content-header {
+            background-color: rgba(246, 0, 136, 0.5) !important; /* ganti yg bg-white-5 */
+        }
+
+        /* ganti overlay/gradient biru jadi pink */
+        .bg-image {
+            background-color: #F60088 !important;
+        }
+
+        /* kalau ada versi header dengan bg-image */
+        .bg-header-image {
+            background-color: #F60088 !important;
+        }
+
+        /* kalau ada transparansi/overlay */
+        .bg-image:before,
+        .bg-header-image:before {
+            background: rgba(246, 0, 136, 0.6) !important;
+        }
+    </style>
 </head>
 
 <body>

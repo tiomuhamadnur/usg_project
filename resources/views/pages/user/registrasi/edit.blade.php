@@ -133,14 +133,22 @@
                                             </div>
                                         </div> --}}
                                         <div class="row mb-3">
-                                            <label class="col-sm-4 col-form-label required">Tanggal & Jam</label>
+                                            <label class="col-sm-4 col-form-label required">Tanggal Registrasi</label>
                                             <div class="col-sm-8">
-                                                <input type="datetime-local" name="datetime" id="datetime"
+                                                <input type="datetime-local" name="datetime_registrasi" id="datetime_registrasi"
                                                     class="form-control" required
-                                                    value="{{ old('datetime', $pemeriksaan->datetime ?? '') }}">
+                                                    value="{{ old('datetime_registrasi', $pemeriksaan->datetime)}}">
                                             </div>
                                         </div>
-                                        <div class="row mb-3">
+                                            <div class="row mb-3">
+                                                <div class="d-flex justify-content-end">
+                                                    <button type="submit" form="formRegistrasi" class="btn btn-lg btn-primary my-3">
+                                                        <i class="fa fa-floppy-disk"></i>
+                                                        Simpan Perubahan
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        {{-- <div class="row mb-3">
                                             <label class="col-sm-4 col-form-label required">Rencana Pasien</label>
                                             <div class="col-sm-8">
                                                 <textarea class="form-control" name="rencana_pasien" id="rencana_pasien" rows="3"
@@ -153,7 +161,7 @@
                                                 <textarea class="form-control" name="keluhan_pasien" id="keluhan_pasien" rows="3"
                                                     placeholder="input keluhan">{{ old('keluhan_pasien', $pemeriksaan->keluhan_pasien ?? '') }}</textarea>
                                             </div>
-                                        </div>
+                                        </div> --}}
                                     </form>
                                 </div>
                             </div>
@@ -163,12 +171,12 @@
                     </div>
                 </div>
             </div>
-            <div class="block-header block-header-default d-flex justify-content-end">
+            {{-- <div class="block-header block-header-default d-flex justify-content-end">
                 <button type="submit" form="formRegistrasi" class="btn btn-lg btn-primary my-3">
                     <i class="fa fa-floppy-disk"></i>
                     Simpan Perubahan
                 </button>
-            </div>
+            </div> --}}
         </div>
         <!-- END Table -->
     </div>

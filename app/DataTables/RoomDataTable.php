@@ -21,7 +21,7 @@ class RoomDataTable extends DataTable
                 $editRoute = route('room.update', $item->uuid);
                 $deleteRoute = route('room.destroy', $item->uuid);
                 $actionButton = "<div class='dropdown'>
-                                    <button class='btn' data-bs-toggle='dropdown'>
+                                    <button class='btn btn-sm btn-primary' data-bs-toggle='dropdown'>
                                         <i class='fa fa-pencil'></i>
                                         Edit
                                     </button>

@@ -21,7 +21,7 @@ class AgamaDataTable extends DataTable
                 $editRoute = route('agama.update', $item->uuid);
                 $deleteRoute = route('agama.destroy', $item->uuid);
                 $actionButton = "<div class='dropdown'>
-                                    <button class='btn' data-bs-toggle='dropdown'>
+                                    <button class='btn btn-sm btn-primary' data-bs-toggle='dropdown'>
                                         <i class='fa fa-pencil'></i>
                                         Edit
                                     </button>

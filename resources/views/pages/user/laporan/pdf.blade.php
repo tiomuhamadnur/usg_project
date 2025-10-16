@@ -4,11 +4,38 @@
     <head>
         <meta charset="UTF-8">
         <title>Laporan Pemeriksaan - {{ $pemeriksaan->code ?? 'N/A' }}</title>
-        <link rel="shortcut icon" href="{{ public_path('media/favicons/favicon.png') }}">
+        <!-- Icons -->
+        <link rel="shortcut icon" href="{{ asset('media/favicons/favicon.png') }}">
+        <link rel="icon" sizes="192x192" type="image/png" href="{{ asset('media/favicons/favicon.png') }}">
+        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('media/favicons/favicon.png') }}">
+        <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
         <style>
             @page {
-                size: A4 portrait;
-                margin: 10mm;
+                margin: 25mm 5mm 20mm 5mm;
+            }
+
+            .header {
+                position: fixed;
+                top: -80px;
+                left: 0px;
+                right: 0px;
+                height: 60px;
+                text-align: left;
+                line-height: 35px;
+            }
+
+            .footer {
+                position: fixed;
+                bottom: -60px;
+                left: 0;
+                right: 0;
+                text-align: right;
+                font-size: 12px;
+                color: #555;
+            }
+
+            .page-break {
+                page-break-after: always;
             }
 
             body {
@@ -22,7 +49,7 @@
             }
 
             .header img {
-                height: 80px;
+                height: 70px;
             }
 
             .title {
@@ -30,24 +57,6 @@
                 font-weight: bold;
                 margin-bottom: 15px;
                 font-size: 14px;
-            }
-
-            .table {
-                width: 100%;
-                border-collapse: collapse;
-                margin-bottom: 10px;
-            }
-
-            .table th,
-            .table td {
-                border: 1px solid #000;
-                padding: 5px;
-                vertical-align: top;
-            }
-
-            .table.no-border td {
-                border: none;
-                padding: 3px 5px;
             }
 
             .signature {
@@ -66,6 +75,18 @@
 
             .h-70 {
                 height: 70px;
+            }
+
+            .h-80 {
+                height: 80px;
+            }
+
+            .h-90 {
+                height: 90px;
+            }
+
+            .h-100 {
+                height: 100px;
             }
 
             .h-15 {
@@ -99,6 +120,9 @@
         <div class="header">
             <img src="{{ public_path('media/favicons/favicon.png') }}" alt="Logo Klinik">
         </div>
+        <div class="footer">
+            <i> USGaja © {{ \Carbon\Carbon::now()->translatedFormat('Y') }} - (Dokumen ini dicetak pada {{ \Carbon\Carbon::now() }})</i>
+        </div>
 
         <div class="title">
             LAPORAN PEMERIKSAAN PASIEN
@@ -106,39 +130,44 @@
 
         <table class="table no-border">
             <tr>
-                <td style="width: 150px">No. Pemeriksaan</td>
-                <td>: {{ $pemeriksaan->code ?? '-' }}</td>
+                <td style="width: 150px"><b>No. Registrasi</b></td>
+                <td class="font-weight-bold">: {{ $pemeriksaan->code ?? '-' }}</td>
             </tr>
             <tr>
-                <td>Pasien</td>
-                <td>: {{ $pemeriksaan->pasien->name ?? '-' }}</td>
+                <td><b>Pasien</b></td>
+                <td class="font-weight-bold">: {{ $pemeriksaan->pasien->name ?? '-' }}</td>
             </tr>
             <tr>
-                <td>NIK</td>
+                <td><b>NIK</b></td>
                 <td>: {{ $pemeriksaan->pasien->nik ?? '-' }}</td>
             </tr>
             <tr>
-                <td>Dokter</td>
-                <td>: {{ $pemeriksaan->dokter->name ?? '-' }}</td>
+                <td><b>Dokter</b></td>
+                <td>
+                    : {{ $pemeriksaan->dokter->gelar_depan ?? '' }} {{ $pemeriksaan->dokter->name ?? '-' }}
+                    {{ $pemeriksaan->dokter->gelar_belakang ?? '' }}
+                </td>
             </tr>
             <tr>
-                <td>Tanggal Pemeriksaan</td>
-                <td>: {{ $pemeriksaan->datetime ?? '-' }}</td>
+                <td><b>Tanggal Pemeriksaan</b></td>
+                <td>: {{ $pemeriksaan->datetime_pemeriksaan_awal ?? '-' }}</td>
             </tr>
         </table>
 
         <p><b>DATA VITAL:</b></p>
         <table class="table-outline">
-            <tr>
-                <td style="width: 150px">HPHT</td>
-                <td>: {{ $pemeriksaan->pasien->hpht ?? '-' }}</td>
-            </tr>
-            <tr>
-                <td>GPA</td>
-                <td>:
-                    G{{ $pemeriksaan->pasien->gravida ?? '-' }}P{{ $pemeriksaan->pasien->para ?? '-' }}A{{ $pemeriksaan->pasien->abortus ?? '-' }}
-                </td>
-            </tr>
+            @if ($pemeriksaan->pasien->gender_id == 2)
+                <tr>
+                    <td style="width: 150px">HPHT</td>
+                    <td>: {{ $pemeriksaan->pasien->hpht ?? '-' }}</td>
+                </tr>
+                <tr>
+                    <td>GPA</td>
+                    <td>:
+                        G{{ $pemeriksaan->pasien->gravida ?? '-' }}P{{ $pemeriksaan->pasien->para ?? '-' }}A{{ $pemeriksaan->pasien->abortus ?? '-' }}
+                    </td>
+                </tr>
+            @endif
             <tr>
                 <td>Nadi</td>
                 <td>: {{ $pemeriksaan->nadi ?? '-' }} bpm</td>
@@ -211,12 +240,35 @@
         <table class="table-outline">
             <tr>
                 <td>Layanan</td>
-                <td>: @if ($pemeriksaan->layanans->count() > 0)
-                        @foreach ($pemeriksaan->layanans as $item)
-                            <li>{{ $item->layanan->name ?? 'N/A' }} ({{ $item->layanan->kategori->name ?? 'N/A' }})
-                            </li>
-                        @endforeach
-                    @endif
+                <td>:
+                    <table style="border-collapse: collapse; width:100%; text-align:center">
+                        <thead>
+                            <tr>
+                                <th style="border: 1px solid #000; padding: 5px; width: 20px;">No.</th>
+                                <th style="border: 1px solid #000; padding: 5px;">Layanan</th>
+                                <th style="border: 1px solid #000; padding: 5px;">Kategori</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if ($pemeriksaan->layanans->count() > 0)
+                                @foreach ($pemeriksaan->layanans as $item)
+                                    <tr>
+                                        <td style="border: 1px solid #000; padding: 5px;">{{ $loop->iteration }}.</td>
+                                        <td style="border: 1px solid #000; padding: 5px;">
+                                            {{ $item->layanan->name ?? '-' }}
+                                        </td>
+                                        <td style="border: 1px solid #000; padding: 5px;">
+                                            {{ $item->layanan->kategori->name ?? '-' }}
+                                        </td>
+                                    </tr>
+                                @endforeach
+                            @else
+                                <tr>
+                                    <td class="text-center" colspan="3">Tidak ada layanan</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
                 </td>
             </tr>
             <tr>
@@ -253,6 +305,10 @@
                                         </td>
                                     </tr>
                                 @endforeach
+                            @else
+                                <tr>
+                                    <td class="text-center" colspan="6">Tidak ada obat</td>
+                                </tr>
                             @endif
                         </tbody>
                     </table>
@@ -293,25 +349,26 @@
             </tr>
         </table>
 
-        {{-- <p><b>TANDA TANGAN:</b></p>
-    <table class="table signature">
-        <tr>
-            <td class="col-3">Dokter</td>
-            <td class="col-3">Suster</td>
-            <td class="col-3">Pasien</td>
-        </tr>
-        <tr>
-            <td class="h-70"></td>
-            <td class="h-70"></td>
-            <td class="h-70"></td>
-        </tr>
-        <tr>
-            <td class="h-15">{{ $pemeriksaan->dokter->name ?? '' }}</td>
-            <td class="h-15">{{ $pemeriksaan->suster->name ?? '' }}</td>
-            <td class="h-15">{{ $pemeriksaan->pasien->name ?? '' }}</td>
-        </tr>
-    </table> --}}
-
+        <table class="table signature">
+            <tr>
+                <td class="col-3"></td>
+                <td class="col-3"></td>
+                <td class="col-3">Dokter Pemeriksa,</td>
+            </tr>
+            <tr>
+                <td class="h-100"></td>
+                <td class="h-100"></td>
+                <td class="h-100"></td>
+            </tr>
+            <tr>
+                <td class="h-15"></td>
+                <td class="h-15"></td>
+                <td class="h-15 font-weight-bold" style="border-bottom:1pt solid black;"><b>
+                        {{ $pemeriksaan->dokter->gelar_depan ?? '' }} {{ $pemeriksaan->dokter->name ?? '' }}
+                        {{ $pemeriksaan->dokter->gelar_belakang ?? '' }}</b>
+                </td>
+            </tr>
+        </table>
     </body>
 
 </html>

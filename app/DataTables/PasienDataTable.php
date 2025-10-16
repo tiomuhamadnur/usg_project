@@ -18,19 +18,19 @@ class PasienDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('#', function ($item) {
-                $registrasiRoute = route('registrasi.create', ['type' => 'nik', 'value' => $item->nik]);
+                $registrasiRoute = route('registrasi.create', ['uuid' => $item->uuid]);
                 $editRoute = route('pasien.edit', $item->uuid);
                 $deleteRoute = route('pasien.destroy', $item->uuid);
                 $actionButton = "<div class='dropdown'>
-                                    <button class='btn' data-bs-toggle='dropdown'>
-                                        <i class='fa fa-pencil'></i>
-                                        Edit
+                                    <button class='btn btn-sm btn-primary' data-bs-toggle='dropdown'>
+                                        <i class='fa fa-eye'></i>
+                                        Lihat
                                     </button>
 
                                     <div class='dropdown-menu dropdown-menu-end'>
                                         <a class='dropdown-item' href='{$registrasiRoute}'>
                                             <i class='fa fa-book'></i>
-                                            Registrasi
+                                            Tambahkan Registrasi
                                         </a>
                                         <a class='dropdown-item' href='{$editRoute}'>
                                             <i class='fa fa-pencil'></i>
@@ -47,9 +47,9 @@ class PasienDataTable extends DataTable
             })
             ->addColumn('riwayat', function ($item) {
                 $historyRoute = route('registrasi.index', ['pasien_uuid' => $item->uuid]);
-                $actionButton = "<a class='btn btn-sm btn-primary' href='{$historyRoute}'>
+                $actionButton = "<a class='btn btn-sm btn-success' href='{$historyRoute}'>
                                     <i class='fa fa-rectangle-list'></i>
-                                    Lihat Riwayat
+                                    Riwayat
                                 </a>";
 
                 return $actionButton;
@@ -107,7 +107,7 @@ class PasienDataTable extends DataTable
             Column::make('gender.name')->title('Jenis Kelamin'),
             Column::make('no_hp')->title('No HP/WA'),
             Column::make('tanggal_lahir')->title('Tanggal Lahir'),
-            Column::computed('umur')->title('Umur')->addClass('text-wrap'),
+            // Column::computed('umur')->title('Umur')->addClass('text-wrap'),
             Column::make('nik')->title('NIK KTP'),
         ];
     }

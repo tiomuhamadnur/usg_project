@@ -26,11 +26,11 @@
                                     data-bs-target="#filterModal">
                                     <i class="fa fa-filter"></i> Filter
                                 </a>
-                                <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal"
+                                {{-- <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal"
                                     data-bs-target="#exportModal">
                                     <i class="fa fa-file-export"></i>
                                     Export
-                                </a>
+                                </a> --}}
                             </div>
                         </div>
                     </div>
@@ -57,8 +57,8 @@
                 <form action="{{ route('kasir.index') }}" method="GET" enctype="multipart/form-data">
                     @csrf
                     @method('GET')
-                    <div class="modal-header">
-                        <h5 class="modal-title">Filter</h5>
+                    <div class="modal-header bg-primary">
+                        <h5 class="modal-title text-white">Filter</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -88,13 +88,24 @@
                                 @endforeach
                             </select>
                         </div>
+                        {{-- <div class="mb-3">
+                            <label class="form-label" for="status_pembayaran_id">Status Bayar</label>
+                            <select class="form-select" name="status_pembayaran_id" id="status_pembayaran_id">
+                                <option value="" selected disabled>- pilih status pembayaran -</option>
+                                @foreach ($status_pembayaran as $item)
+                                    <option value="{{ $item->id }}" @selected($item->id == $status_pembayaran_id)>
+                                        {{ $item->name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                        </div> --}}
                     </div>
                     <div class="modal-footer d-flex justify-content-between align-items-center">
                         <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
                             Batal
                         </a>
                         <div class="d-flex gap-2">
-                            <a href="{{ route('kasir.index') }}" class="btn btn-danger">
+                            <a href="{{ route('kasir.index') }}" class="btn btn-secondary">
                                 <i class="fa fa-arrows-rotate"></i>
                                 Reset
                             </a>

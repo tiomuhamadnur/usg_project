@@ -14,7 +14,7 @@
                     <h3 class="fs-3 fw-semibold my-2 mb-0">
                         Registrasi Pasien
                     </h3>
-                    <a href="{{ route('registrasi.index') }}" class="btn btn-danger">
+                    <a href="{{ route('dashboard.index') }}" class="btn btn-secondary">
                         <i class="fa fa-times me-1"></i> Batal
                     </a>
                 </div>
@@ -24,34 +24,22 @@
                     <div class="col-lg-12">
                         <!-- Form Grid with Labels -->
                         <form action="#">
-                            <div class="row mb-4">
-                                <form action="{{ route('registrasi.create') }}" method="GET">
-                                    @csrf
-                                    @method('GET')
-                                    <div class="col-12 col-md-5">
-                                        <label class="form-label required">Cari Pasien Berdasarkan?</label>
-                                        <select class="form-select" name="type" id="type" required>
-                                            <option value="" selected disabled>- pilih pencarian -</option>
-                                            <option value="nik" @selected($type == 'nik')>NIK KTP</option>
-                                            <option value="no_hp" @selected($type == 'no_hp')>No HP/WA</option>
-                                        </select>
-                                    </div>
-                                    <div class="col-12 col-md-7">
-                                        <label class="form-label required">Value</label>
-                                        <div class="input-group">
-                                            <input type="text" class="form-control" name="value" id="value"
-                                                placeholder="input value" value="{{ old('value', $value ?? '') }}" required autocomplete="off">
-                                            <button type="submit" class="btn btn-success">
-                                                <i class="fa fa-magnifying-glass"></i>
-                                                Cari</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
+                            @if(!$pasien)
+                                <div class="row mb-3">
+                                    @livewire('registrasi-pasien', [
+                                        'value' => old('value'),
+                                    ])
+                                </div>
+                            @endif
                             <!-- Form Horizontal - Default Style -->
                             @if ($pasien != null)
-                                <div class="row">
+                                {{-- <div class="row">
                                     <hr class="border border-3 border-dark my-4">
+                                </div> --}}
+                                <div class="d-flex align-items-center w-100 flex-nowrap mb-4">
+                                    <a href="{{ route('registrasi.create') }}" class="btn btn-warning ms-auto">
+                                        <i class="fa fa-search me-1"></i> Cari Pasien Lain
+                                    </a>
                                 </div>
                                 <div class="row col-12">
                                     <div class="col-6">
@@ -130,8 +118,8 @@
                                         </form>
                                     </div>
                                     <div class="col-6">
-                                        <form class="mb-5" id="formRegistrasi"
-                                            action="{{ route('registrasi.store') }}" method="POST">
+                                        <form class="mb-5" id="formRegistrasi" action="{{ route('registrasi.store') }}"
+                                            method="POST">
                                             @method('POST')
                                             @csrf
                                             <input type="hidden" name="pasien_uuid" value="{{ $pasien->uuid }}">
@@ -141,7 +129,8 @@
                                                     <select class="form-select" name="dokter_id" id="dokter_id" required>
                                                         <option value="" disabled selected>- pilih dokter -</option>
                                                         @foreach ($dokter as $item)
-                                                            <option value="{{ $item->id }}" @selected(old('dokter_id') == $item->id)>
+                                                            <option value="{{ $item->id }}"
+                                                                @selected(old('dokter_id') == $item->id)>
                                                                 {{ $item->name }}
                                                             </option>
                                                         @endforeach
@@ -162,13 +151,22 @@
                                                 </div>
                                             </div> --}}
                                             <div class="row mb-3">
-                                                <label class="col-sm-4 col-form-label required">Tanggal & Jam</label>
+                                                <label class="col-sm-4 col-form-label required">Tanggal Registrasi</label>
                                                 <div class="col-sm-8">
-                                                    <input type="datetime-local" name="datetime" id="datetime"
-                                                        class="form-control" required value="{{ old('datetime') }}">
+                                                    <input type="date" disabled name="datetime" id="datetime"
+                                                        class="form-control" required
+                                                        value="{{ old('datetime', now()->format('Y-m-d')) }}">
                                                 </div>
                                             </div>
                                             <div class="row mb-3">
+                                                <div class="d-flex justify-content-end">
+                                                    <button type="submit" form="formRegistrasi" class="btn btn-lg btn-primary my-3">
+                                                        <i class="fa fa-floppy-disk"></i>
+                                                        Simpan
+                                                    </button>
+                                                </div>
+                                            </div>
+                                            {{-- <div class="row mb-3">
                                                 <label class="col-sm-4 col-form-label required">Rencana Pasien</label>
                                                 <div class="col-sm-8">
                                                     <textarea class="form-control" name="rencana_pasien" id="rencana_pasien" rows="3"
@@ -181,7 +179,7 @@
                                                     <textarea class="form-control" name="keluhan_pasien" id="keluhan_pasien" rows="3"
                                                         placeholder="input keluhan">{{ old('keluhan_pasien') }}</textarea>
                                                 </div>
-                                            </div>
+                                            </div> --}}
                                         </form>
                                     </div>
                                 </div>
@@ -192,14 +190,14 @@
                     </div>
                 </div>
             </div>
-            <div class="block-header block-header-default d-flex justify-content-end">
-                @if ($pasien != null)
+            {{-- @if ($pasien != null)
+                <div class="block-header block-header-default d-flex justify-content-end">
                     <button type="submit" form="formRegistrasi" class="btn btn-lg btn-primary my-3">
                         <i class="fa fa-floppy-disk"></i>
                         Simpan
                     </button>
-                @endif
-            </div>
+                </div>
+            @endif --}}
         </div>
         <!-- END Table -->
     </div>

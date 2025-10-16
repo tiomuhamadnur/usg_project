@@ -21,7 +21,7 @@ class HubunganPasienDataTable extends DataTable
                 $editRoute = route('hubungan-pasien.update', $item->uuid);
                 $deleteRoute = route('hubungan-pasien.destroy', $item->uuid);
                 $actionButton = "<div class='dropdown'>
-                                    <button class='btn' data-bs-toggle='dropdown'>
+                                    <button class='btn btn-sm btn-primary' data-bs-toggle='dropdown'>
                                         <i class='fa fa-pencil'></i>
                                         Edit
                                     </button>

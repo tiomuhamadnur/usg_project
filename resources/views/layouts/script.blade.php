@@ -24,8 +24,25 @@
         Swal.fire({
             title: "Yeheeey!",
             icon: "success",
-            text: @json(session('notify'))
+            html: @json(session('notify')),
+            confirmButtonColor: "#F60088",
         }).then(() => {
+            if (window.history.replaceState) {
+                window.history.replaceState(null, '', window.location.href);
+            }
+        });
+    @elseif(session('register'))
+        Swal.fire({
+            title: "Yeheeey!",
+            icon: "success",
+            html: @json(session('register')),
+            confirmButtonText: '<i class="fa fa-print me-2"></i> Print Antrean',
+            buttonsStyling: true,
+            confirmButtonColor: "#F60088",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.open(@json(session('print_url')), '_blank'); // buka tab baru
+            }
             if (window.history.replaceState) {
                 window.history.replaceState(null, '', window.location.href);
             }
@@ -34,7 +51,8 @@
         Swal.fire({
             icon: "error",
             title: "Ooopss!",
-            text: @json(session('notifyerror'))
+            html: @json(session('notifyerror')),
+            confirmButtonColor: "#F60088",
         }).then(() => {
             if (window.history.replaceState) {
                 window.history.replaceState(null, '', window.location.href);
@@ -54,7 +72,8 @@
         Swal.fire({
             icon: "error",
             title: "Ooopss!",
-            html: @json($messageError) // pakai html, bukan text
+            html: @json($messageError), // pakai html, bukan text
+            confirmButtonColor: "#F60088",
         }).then(() => {
             if (window.history.replaceState) {
                 window.history.replaceState(null, '', window.location.href);

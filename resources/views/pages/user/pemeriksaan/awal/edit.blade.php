@@ -12,7 +12,7 @@
                     <h3 class="fs-3 fw-semibold my-2 mb-0">
                         Pemeriksaan Awal
                     </h3>
-                    <a href="{{ route('pemeriksaan-awal.index') }}" class="btn btn-danger">
+                    <a href="{{ route('pemeriksaan-awal.index') }}" class="btn btn-secondary">
                         <i class="fa fa-times me-1"></i> Batal
                     </a>
                 </div>
@@ -34,6 +34,21 @@
                             </div>
                         </div>
                         <div class="row mb-2">
+                            <label class="col-sm-3 col-form-label">Dokter</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" disabled
+                                    value="{{ $pemeriksaan->dokter->name }}">
+                            </div>
+                        </div>
+                        {{-- <div class="row mb-2">
+                            <label class="col-sm-3 col-form-label">Ruangan</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" disabled value="{{ $pemeriksaan->room->name ?? 'N/A' }}">
+                            </div>
+                        </div> --}}
+                    </div>
+                    <div class="col-6">
+                        <div class="row mb-2">
                             <label class="col-sm-3 col-form-label">Nama Pasien</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" disabled
@@ -47,20 +62,6 @@
                                     value="{{ $pemeriksaan->pasien->gender->name }}">
                             </div>
                         </div>
-                        <div class="row mb-2">
-                            <label class="col-sm-3 col-form-label">Rencana Pasien</label>
-                            <div class="col-sm-8">
-                                <textarea class="form-control" disabled rows="2">{{ $pemeriksaan->rencana_pasien }}</textarea>
-                            </div>
-                        </div>
-                        <div class="row mb-2">
-                            <label class="col-sm-3 col-form-label">Keluhan Pasien</label>
-                            <div class="col-sm-8">
-                                <textarea class="form-control" disabled rows="2">{{ $pemeriksaan->keluhan_pasien }}</textarea>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-6">
                         <div class="row mb-2">
                             <label class="col-sm-3 col-form-label">Tanggal Lahir</label>
                             <div class="col-sm-8">
@@ -76,24 +77,23 @@
                             </div>
                         </div>
                         <div class="row mb-2">
-                            <label class="col-sm-3 col-form-label">Dokter</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" disabled
-                                    value="{{ $pemeriksaan->dokter->name }}">
-                            </div>
-                        </div>
-                        {{-- <div class="row mb-2">
-                            <label class="col-sm-3 col-form-label">Ruangan</label>
-                            <div class="col-sm-8">
-                                <input type="text" class="form-control" disabled value="{{ $pemeriksaan->room->name ?? 'N/A' }}">
-                            </div>
-                        </div> --}}
-                        <div class="row mb-2">
                             <label class="col-sm-3 col-form-label">Alamat</label>
                             <div class="col-sm-8">
                                 <textarea class="form-control" disabled rows="2">{{ $pemeriksaan->pasien->alamat }}, {{ $pemeriksaan->pasien->kelurahan->name }}, {{ $pemeriksaan->pasien->kecamatan->name }}, {{ $pemeriksaan->pasien->kota->name }}</textarea>
                             </div>
                         </div>
+                        {{-- <div class="row mb-2">
+                            <label class="col-sm-3 col-form-label">Rencana Pasien</label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control" disabled rows="2">{{ $pemeriksaan->rencana_pasien }}</textarea>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label class="col-sm-3 col-form-label">Keluhan Pasien</label>
+                            <div class="col-sm-8">
+                                <textarea class="form-control" disabled rows="2">{{ $pemeriksaan->keluhan_pasien }}</textarea>
+                            </div>
+                        </div> --}}
                     </div>
                 </div>
                 <div class="row border border-2 mt-3">
@@ -104,9 +104,17 @@
                                 @method('PUT')
                                 <ul class="nav nav-tabs nav-tabs-block" role="tablist">
                                     <li class="nav-item">
-                                        <button class="nav-link active" id="btabs-animated-slideup-home-tab"
+                                        <button class="nav-link active" id="btabs-animated-pasien-tab"
+                                            data-bs-toggle="tab" data-bs-target="#btabs-animated-pasien"
+                                            role="tab" aria-controls="btabs-animated-pasien" aria-selected="true">
+                                            <i class="fa fa-user-injured"></i>
+                                            Rencana Pasien
+                                        </button>
+                                    </li>
+                                    <li class="nav-item">
+                                        <button class="nav-link" id="btabs-animated-slideup-home-tab"
                                             data-bs-toggle="tab" data-bs-target="#btabs-animated-slideup-home"
-                                            role="tab" aria-controls="btabs-animated-slideup-home" aria-selected="true">
+                                            role="tab" aria-controls="btabs-animated-slideup-home" aria-selected="false">
                                             <i class="fa fa-ruler"></i>
                                             Pengukuran
                                         </button>
@@ -131,7 +139,39 @@
                                     </li>
                                 </ul>
                                 <div class="block-content tab-content overflow-hidden">
-                                    <div class="tab-pane fade fade-up show active" id="btabs-animated-slideup-home"
+                                    {{-- Start Pasien Tab --}}
+                                    <div class="tab-pane fade fade-up show active" id="btabs-animated-pasien"
+                                        role="tabpanel" aria-labelledby="btabs-animated-pasien-tab" tabindex="0">
+                                        <h4 class="fw-bolder">Rencana Pasien</h4>
+                                        <div class="row col-12">
+                                            <div class="col-12">
+                                                <div class="row mb-2">
+                                                    <label class="col-sm-5 col-form-label required">Rencana</label>
+                                                    <div class="col-sm-7">
+                                                        <textarea class="form-control" name="rencana_pasien" id="rencana_pasien" rows="4"
+                                                        placeholder="input rencana tindakan" required>{{ old('rencana_pasien', $pemeriksaan->rencana_pasien) }}</textarea>
+                                                    </div>
+                                                </div>
+                                                <div class="row mb-2">
+                                                    <label class="col-sm-5 col-form-label required">Keluhan</label>
+                                                    <div class="col-sm-7">
+                                                        <textarea class="form-control" name="keluhan_pasien" id="keluhan_pasien" rows="4"
+                                                        placeholder="input keluhan" required>{{ old('keluhan_pasien', $pemeriksaan->keluhan_pasien) }}</textarea>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="d-flex justify-content-end mt-3">
+                                            <button type="button" class="btn btn-lg btn-success" id="nextToPengukuran">
+                                                <i class="fa fa-arrow-right"></i>
+                                                Next
+                                            </button>
+                                        </div>
+                                    </div>
+                                    {{-- End Pasien Tab --}}
+
+                                    {{-- Start Pengukuran Tab --}}
+                                    <div class="tab-pane fade fade-up show" id="btabs-animated-slideup-home"
                                         role="tabpanel" aria-labelledby="btabs-animated-slideup-home-tab" tabindex="0">
                                         <h4 class="fw-bolder">Pengukuran Pasien</h4>
                                         <div class="row col-12">
@@ -139,15 +179,15 @@
                                                 <div class="row mb-2">
                                                     <label class="col-sm-5 col-form-label required">Nadi</label>
                                                     <div class="col-sm-7">
-                                                        <input type="text" class="form-control" name="nadi"
+                                                        <input type="number" min="0" step="0.001" class="form-control" name="nadi"
                                                             placeholder="input nadi" required autocomplete="off"
-                                                            value="{{ $pemeriksaan->nadi ?? '' }}">
+                                                            value="{{ old('nadi', $pemeriksaan->nadi ?? '') }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-2">
                                                     <label class="col-sm-5 col-form-label required">Temperatur (°C)</label>
                                                     <div class="col-sm-7">
-                                                        <input type="text" class="form-control" name="temperatur"
+                                                        <input type="number" min="0" step="0.001" class="form-control" name="temperatur"
                                                             placeholder="input temperatur" required autocomplete="off"
                                                             value="{{ $pemeriksaan->temperatur ?? '' }}">
                                                     </div>
@@ -156,7 +196,7 @@
                                                     <label class="col-sm-5 col-form-label required">Tekanan Darah
                                                         (Systolic)</label>
                                                     <div class="col-sm-7">
-                                                        <input type="text" class="form-control"
+                                                        <input type="number" min="0" step="0.001" class="form-control"
                                                             name="tekanan_darah_systolic"
                                                             placeholder="input tekanan darah systolic" required
                                                             autocomplete="off"
@@ -167,7 +207,7 @@
                                                     <label class="col-sm-5 col-form-label required">Tekanan Darah
                                                         (Diastolic)</label>
                                                     <div class="col-sm-7">
-                                                        <input type="text" class="form-control"
+                                                        <input type="number" min="0" step="0.001" class="form-control"
                                                             name="tekanan_darah_diastolic"
                                                             placeholder="input tekanan darah diastolic" required
                                                             autocomplete="off"
@@ -179,7 +219,7 @@
                                                 <div class="row mb-2">
                                                     <label class="col-sm-5 col-form-label required">Pernapasan</label>
                                                     <div class="col-sm-7">
-                                                        <input type="text" class="form-control" name="napas"
+                                                        <input type="number" min="0" step="0.001" class="form-control" name="napas"
                                                             placeholder="input pernapasan" required autocomplete="off"
                                                             value="{{ $pemeriksaan->napas ?? '' }}">
                                                     </div>
@@ -188,38 +228,46 @@
                                                     <label class="col-sm-5 col-form-label required">Tinggi Badan
                                                         (cm)</label>
                                                     <div class="col-sm-7">
-                                                        <input type="text" class="form-control" name="tinggi_badan"
+                                                        <input type="number" min="0" step="0.001" class="form-control" name="tinggi_badan"
                                                             placeholder="input tinggi badan" required autocomplete="off"
-                                                            value="{{ $pemeriksaan->tinggi_badan ?? '' }}">
+                                                            value="{{ $pemeriksaan->tinggi_badan ?? $pemeriksaan->pasien->tinggi_badan }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-2">
                                                     <label class="col-sm-5 col-form-label required">Berat Badan
                                                         (kg)</label>
                                                     <div class="col-sm-7">
-                                                        <input type="text" class="form-control" name="berat_badan"
+                                                        <input type="number" min="0" step="0.001" class="form-control" name="berat_badan"
                                                             placeholder="input berat badan" required autocomplete="off"
-                                                            value="{{ $pemeriksaan->berat_badan ?? '' }}">
+                                                            value="{{ $pemeriksaan->berat_badan ?? $pemeriksaan->pasien->berat_badan }}">
                                                     </div>
                                                 </div>
                                                 <div class="row mb-2">
                                                     <label class="col-sm-5 col-form-label required">Lingkar Perut
                                                         (cm)</label>
                                                     <div class="col-sm-7">
-                                                        <input type="text" class="form-control" name="lingkar_perut"
+                                                        <input type="number" min="0" step="0.001" class="form-control" name="lingkar_perut"
                                                             placeholder="input lingkar perut" required autocomplete="off"
-                                                            value="{{ $pemeriksaan->lingkar_perut ?? '' }}">
+                                                            value="{{ $pemeriksaan->lingkar_perut ?? $pemeriksaan->pasien->lingkar_perut }}">
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="d-flex justify-content-end mt-3">
+                                            <button type="button" class="btn btn-lg btn-secondary me-2"
+                                                id="prevToPasien">
+                                                <i class="fa fa-arrow-left"></i>
+                                                Back
+                                            </button>
                                             <button type="button" class="btn btn-lg btn-success" id="nextToAlergi">
                                                 <i class="fa fa-arrow-right"></i>
                                                 Next
                                             </button>
                                         </div>
                                     </div>
+                                    {{-- End Pengukuran Tab --}}
+
+                                    {{-- Start Alergi Pasien --}}
                                     <div class="tab-pane fade fade-up" id="btabs-animated-slideup-profile"
                                         role="tabpanel" aria-labelledby="btabs-animated-slideup-profile-tab"
                                         tabindex="0">
@@ -250,6 +298,9 @@
                                             </button>
                                         </div>
                                     </div>
+                                    {{-- End Alergi Pasien --}}
+
+                                    {{-- Start Status Pemeriksaan --}}
                                     <div class="tab-pane fade fade-up" id="btabs-animated-slideup-status" role="tabpanel"
                                         aria-labelledby="btabs-animated-slideup-status-tab" tabindex="0">
                                         <h4 class="fw-bolder">Status Pemeriksaan Pasien</h4>
@@ -281,10 +332,11 @@
                                             </button>
                                         </div>
                                     </div>
+                                    {{-- End Status Pemeriksaan --}}
                                 </div>
                             </form>
                         </div>
-                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -292,13 +344,14 @@
     @endsection
 
 @section('modals')
+    <!-- QR Code Modal -->
     <div class="modal fade" id="QRCodeModal" tabindex="-1" role="dialog" aria-labelledby="modal-block-popin"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-popin" role="document">
             <div class="modal-content">
                 <div class="block block-rounded block-themed block-transparent mb-0">
-                    <div class="block-header bg-primary-dark">
-                        <h3 class="block-title">Kode Registrasi</h3>
+                    <div class="block-header bg-primary">
+                        <h3 class="block-title text-white">Kode Registrasi</h3>
                         <div class="block-options">
                             <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
                                 <i class="fa fa-fw fa-times"></i>
@@ -319,85 +372,111 @@
             </div>
         </div>
     </div>
-    @endsection
+    <!-- End: QR Code Modal -->
+@endsection
 
 @section('javascript')
-    <script>
-        $(document).ready(function() {
-            // --- INITIAL STATE ---
-            // Disable tabs that have not been reached yet to enforce workflow
-            $('#btabs-animated-slideup-profile-tab').prop('disabled', true);
-            $('#btabs-animated-slideup-status-tab').prop('disabled', true);
+<script>
+    $(document).ready(function() {
+        // --- INITIAL STATE ---
+        // Disable tabs that have not been reached yet to enforce workflow
+        $('#btabs-animated-slideup-home-tab').prop('disabled', true);
+        $('#btabs-animated-slideup-profile-tab').prop('disabled', true);
+        $('#btabs-animated-slideup-status-tab').prop('disabled', true);
 
-
-            /**
-             * Validates all required fields within a given tab pane.
-             * @param {string} tabPaneId The ID of the tab pane to validate (e.g., '#btabs-animated-slideup-home').
-             * @returns {boolean} Returns true if all required fields are filled, false otherwise.
-             */
-            function validateTab(tabPaneId) {
-                let isValid = true;
-                $(tabPaneId).find('[required]').each(function() {
-                    $(this).removeClass('is-invalid');
-                    if ($(this).val() === null || $(this).val().trim() === '') {
-                        isValid = false;
-                        $(this).addClass('is-invalid');
-                    }
-                });
-
-                if (!isValid) {
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Data Belum Lengkap',
-                        text: 'Mohon lengkapi semua kolom yang wajib diisi sebelum melanjutkan.',
-                        confirmButtonColor: '#3085d6',
-                    });
-                }
-                return isValid;
-            }
-
-            // --- Remove 'is-invalid' class on input ---
-            $('form').on('input change', '.is-invalid', function() {
+        /**
+         * Validates all required fields within a given tab pane.
+         * @param {string} tabPaneId The ID of the tab pane to validate (e.g., '#btabs-animated-slideup-home').
+         * @returns {boolean} Returns true if all required fields are filled, false otherwise.
+         */
+        function validateTab(tabPaneId) {
+            let isValid = true;
+            $(tabPaneId).find('[required]').each(function() {
                 $(this).removeClass('is-invalid');
-            });
-
-
-            // --- TAB NAVIGATION HANDLERS ---
-
-            // Handler for "Next" button from Pengukuran to Alergi
-            $('#nextToAlergi').on('click', function(e) {
-                e.preventDefault();
-                if (validateTab('#btabs-animated-slideup-home')) {
-                    // Unlock and switch to the next tab
-                    $('#btabs-animated-slideup-profile-tab').prop('disabled', false);
-                    var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-profile-tab')[0]);
-                    triggerTab.show();
+                if ($(this).val() === null || $(this).val().trim() === '') {
+                    isValid = false;
+                    $(this).addClass('is-invalid');
                 }
             });
 
-            // Handler for "Next" button from Alergi to Status
-            $('#nextToStatus').on('click', function(e) {
-                e.preventDefault();
-                if (validateTab('#btabs-animated-slideup-profile')) {
-                    // Unlock and switch to the next tab
-                    $('#btabs-animated-slideup-status-tab').prop('disabled', false);
-                    var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-status-tab')[0]);
-                    triggerTab.show();
-                }
-            });
+            if (!isValid) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Data Belum Lengkap',
+                    text: 'Mohon lengkapi semua kolom yang wajib diisi sebelum melanjutkan.',
+                    confirmButtonColor: '#3085d6',
+                });
+            }
+            return isValid;
+        }
 
-            // Handlers for "Back" buttons
-            $('#prevToPengukuran').on('click', function(e) {
+        // --- Remove 'is-invalid' class on input ---
+        $('form').on('input change', '.is-invalid', function() {
+            $(this).removeClass('is-invalid');
+        });
+
+        // --- Prevent manual tab click ---
+        $('.nav-link').on('click', function(e) {
+            if ($(this).prop('disabled')) {
                 e.preventDefault();
+                e.stopPropagation();
+                return false;
+            }
+        });
+
+        // --- TAB NAVIGATION HANDLERS ---
+
+        // Next: Pasien -> Pengukuran
+        $('#nextToPengukuran').on('click', function(e) {
+            e.preventDefault();
+            if (validateTab('#btabs-animated-pasien')) {
+                $('#btabs-animated-slideup-home-tab').prop('disabled', false);
                 var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-home-tab')[0]);
                 triggerTab.show();
-            });
+            }
+        });
 
-            $('#prevToAlergi').on('click', function(e) {
-                e.preventDefault();
+        // Next: Pengukuran -> Alergi
+        $('#nextToAlergi').on('click', function(e) {
+            e.preventDefault();
+            if (validateTab('#btabs-animated-slideup-home')) {
+                $('#btabs-animated-slideup-profile-tab').prop('disabled', false);
                 var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-profile-tab')[0]);
                 triggerTab.show();
-            });
+            }
         });
-    </script>
+
+        // Next: Alergi -> Status
+        $('#nextToStatus').on('click', function(e) {
+            e.preventDefault();
+            if (validateTab('#btabs-animated-slideup-profile')) {
+                $('#btabs-animated-slideup-status-tab').prop('disabled', false);
+                var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-status-tab')[0]);
+                triggerTab.show();
+            }
+        });
+
+        // Back: Pengukuran <- Pasien
+        $('#prevToPasien').on('click', function(e) {
+            e.preventDefault();
+            var triggerTab = new bootstrap.Tab($('#btabs-animated-pasien-tab')[0]);
+            triggerTab.show();
+        });
+
+        // Back: Alergi <- Pengukuran
+        $('#prevToPengukuran').on('click', function(e) {
+            e.preventDefault();
+            var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-home-tab')[0]);
+            triggerTab.show();
+        });
+
+        // Back: Status <- Alergi
+        $('#prevToAlergi').on('click', function(e) {
+            e.preventDefault();
+            var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-profile-tab')[0]);
+            triggerTab.show();
+        });
+    });
+</script>
+
 @endsection

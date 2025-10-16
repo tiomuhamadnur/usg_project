@@ -21,7 +21,7 @@ class RoleDataTable extends DataTable
                 $editRoute = route('role.update', $item->uuid);
                 $deleteRoute = route('role.destroy', $item->uuid);
                 $actionButton = "<div class='dropdown'>
-                                    <button class='btn' data-bs-toggle='dropdown'>
+                                    <button class='btn btn-sm btn-primary' data-bs-toggle='dropdown'>
                                         <i class='fa fa-pencil'></i>
                                         Edit
                                     </button>

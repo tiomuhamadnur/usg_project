@@ -15,11 +15,11 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
     <div class="bg-header-dark">
         <div class="content-header bg-white-5">
             <!-- Logo -->
-            <a class="fw-semibold text-white tracking-wide" href="/">
-                <span class="smini-visible">
+            <a class="fw-semibold text-white tracking-wide" href="{{ route('dashboard.index') }}">
+                <span class="smini-visible fs-2">
                     USG<span class="opacity-75">aja</span>
                 </span>
-                <span class="smini-hidden">
+                <span class="smini-hidden fs-2">
                     USG<span class="opacity-75">aja</span>
                 </span>
             </a>
@@ -30,24 +30,24 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                 <!-- Toggle Sidebar Style -->
                 <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
                 <!-- Class Toggle, functionality initialized in Helpers.dmToggleClass() -->
-                <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="class-toggle"
+                {{-- <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="class-toggle"
                     data-target="#sidebar-style-toggler" data-class="fa-toggle-off fa-toggle-on"
                     onclick="Dashmix.layout('sidebar_style_toggle');Dashmix.layout('header_style_toggle');">
                     <i class="fa fa-toggle-off" id="sidebar-style-toggler"></i>
-                </button>
+                </button> --}}
                 <!-- END Toggle Sidebar Style -->
 
                 <!-- Dark Mode -->
                 <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="class-toggle"
+                {{-- <button type="button" class="btn btn-sm btn-alt-secondary" data-toggle="class-toggle"
                     data-target="#dark-mode-toggler" data-class="far fa" onclick="Dashmix.layout('dark_mode_toggle');">
                     <i class="far fa-moon" id="dark-mode-toggler"></i>
-                </button>
+                </button> --}}
                 <!-- END Dark Mode -->
 
                 <!-- Close Sidebar, Visible only on mobile screens -->
                 <!-- Layout API, functionality initialized in Template._uiApiLayout() -->
-                <button type="button" class="btn btn-sm btn-alt-secondary d-lg-none" data-toggle="layout"
+                <button type="button" class="btn btn-sm btn-alt-primary d-lg-none" data-toggle="layout"
                     data-action="sidebar_close">
                     <i class="fa fa-times-circle"></i>
                 </button>
@@ -66,8 +66,8 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                 <li class="nav-main-item">
                     <a class="nav-main-link{{ request()->is('dashboard') ? ' active' : '' }}"
                         href="{{ route('dashboard.index') }}">
-                        <i class="nav-main-link-icon si si-home"></i>
-                        <span class="nav-main-link-name">Dashboard</span>
+                        <i class="nav-main-link-icon fa fa-home"></i>
+                        <span class="nav-main-link-name">Home</span>
                         {{-- <span class="nav-main-link-badge badge rounded-pill bg-primary">5</span> --}}
                     </a>
                 </li>
@@ -184,6 +184,13 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                         </a>
                         <ul class="nav-main-submenu">
                             <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/dashboard-admin*') ? ' active' : '' }}"
+                                    href="{{ route('dashboard-admin.index') }}">
+                                    <i class="nav-main-link-icon fa fa-pie-chart"></i>
+                                    <span class="nav-main-link-name">Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
                                 <a class="nav-main-link {{ request()->is('master-data/user*') ? ' active' : '' }}"
                                     href="{{ route('user.index') }}">
                                     <i class="nav-main-link-icon fa fa-users"></i>
@@ -261,6 +268,20 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                                 </a>
                             </li>
                             <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/dosis*') ? ' active' : '' }}"
+                                    href="{{ route('dosis.index') }}">
+                                    <i class="nav-main-link-icon fa fa-balance-scale"></i>
+                                    <span class="nav-main-link-name">Dosis</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/aturan-pakai*') ? ' active' : '' }}"
+                                    href="{{ route('aturan-pakai.index') }}">
+                                    <i class="nav-main-link-icon fa fa-cutlery"></i>
+                                    <span class="nav-main-link-name">Aturan Pakai</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
                                 <a class="nav-main-link {{ request()->is('master-data/sediaan*') ? ' active' : '' }}"
                                     href="{{ route('sediaan.index') }}">
                                     <i class="nav-main-link-icon fa fa-eyedropper"></i>
@@ -286,6 +307,13 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                                     href="{{ route('layanan.index') }}">
                                     <i class="nav-main-link-icon fa fa-heart"></i>
                                     <span class="nav-main-link-name">Layanan</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/log-obat*') ? ' active' : '' }}"
+                                    href="{{ route('log-obat.index') }}">
+                                    <i class="nav-main-link-icon fa fa-history"></i>
+                                    <span class="nav-main-link-name">Log Obat</span>
                                 </a>
                             </li>
                         </ul>

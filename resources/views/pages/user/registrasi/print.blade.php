@@ -3,184 +3,175 @@
 
     <head>
         <meta charset="UTF-8">
-        <title>Print Registrasi Pasien</title>
+        <title>Struk Registrasi - {{ $pemeriksaan->code }}</title>
         <style>
-            @media print {
-                @page {
-                    size: 58mm auto;
-                    margin: 0;
-                }
-
-                body {
-                    font-family: monospace;
-                    font-size: 12px;
-                    width: 58mm;
-                    margin: 0;
-                }
-
-                .receipt {
-                    padding: 10px;
-                }
-
-                button {
-                    display: none;
-                }
+            @page {
+                size: 58mm auto;
+                margin: 0 !important;
             }
 
+            html,
             body {
+                margin: 0;
+                padding: 0;
                 font-family: monospace;
                 font-size: 12px;
-                width: 58mm;
-                margin: auto;
+                background: #f5f5f5;
+                /* biar kelihatan centernya saat preview */
+                height: 100%;
             }
 
-            h1 {
-                margin-top: 2px;
-                margin-bottom: 2px;
+            .preview-wrapper {
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                /* kalau mau pas di atas */
+                min-height: 100vh;
+                padding: 10px;
+            }
+
+            .logo {
+                display: block;
+                margin: 0 auto 6px auto;
+                height: 45px;
+                /* tinggi konsisten */
+                width: auto;
+                /* proporsional */
             }
 
             .receipt {
-                padding: 10px;
-                border: 1px dashed #ccc;
-            }
-
-            .line {
-                border-top: 1px dashed #000;
-                margin: 5px 0;
+                width: 58mm;
+                background: #fff;
+                padding: 4px;
+                outline: 1px dashed #aaa;
+                /* panduan batas kertas */
             }
 
             .text-center {
                 text-align: center;
-                margin-top: 4px;
-                margin-bottom: 4px;
             }
 
-            .text-right {
-                text-align: right;
+            .line {
+                border-top: 1px dashed #000;
+                margin: 6px 0;
             }
 
-            .text-left {
-                text-align: left;
-            }
-
-            .item {
-                display: flex;
-                justify-content: space-between;
-            }
-
-            .qrcode {
-                border: 1px solid #000;
-                border-radius: 8px;
-                margin: 10px auto;
-                padding: 5px;
-                display: inline-block;
+            h1 {
+                font-size: 32px;
+                margin: 8px 0;
             }
 
             .barcode-container {
-                margin-top: 2px;
+                margin: 10px 0;
+                text-align: center;
+            }
+
+            .barcode-container img {
+                display: block;
+                width: 100%;
+                height: 40px;
+                max-height: 40px;
+                object-fit: fill;
+                image-rendering: pixelated;
             }
 
             .barcode-text {
-                margin-top: 0px;
                 font-size: 14px;
                 letter-spacing: 1px;
-            }
-
-            p {
-                margin-top: 0px;
-                margin-bottom: 0px;
-                font-size: 10px;
-                letter-spacing: 1px;
+                margin-top: 4px;
             }
 
             .small-text {
-                font-size: 8px;
+                font-size: 10px;
             }
 
-            .disctance-vertical {
-                margin-top: 15px;
-                margin-bottom: 15px;
+            @media print {
+                body {
+                    font-size: 10px !important;
+                    /* kecilkan saat print */
+                    background: #fff !important;
+                    /* buang background abu */
+                }
+
+                h1 {
+                    font-size: 24px !important;
+                    /* supaya antrian tidak terlalu gede */
+                }
+
+                .barcode-text {
+                    font-size: 12px !important;
+                }
+
+                .receipt {
+                    outline: none !important;
+                    /* buang outline abu */
+                }
+
+                .preview-wrapper {
+                    padding: 0 !important;
+                    /* biar pas kertas */
+                }
             }
         </style>
-        <!-- Icons -->
-        <link rel="shortcut icon" href="{{ asset('media/favicons/favicon.png') }}">
-        <link rel="icon" sizes="192x192" type="image/png" href="{{ asset('media/favicons/favicon-192x192.png') }}">
-        <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('media/favicons/apple-touch-icon-180x180.png') }}">
     </head>
 
     <body>
-        <div class="receipt">
-            <div class="text-center">
-                <strong>KLINIK USG AJA</strong>
-                <p>by dr. Naya</p>
-                <p class="small-text">Jl. Taman Cimanggu Tengah No.11</p>
-                <p class="small-text">0895-0894-7548</p>
-            </div>
+        <div class="preview-wrapper">
+            <div class="receipt">
+                <!-- isi struk tetap sama -->
+                <div class="text-center">
+                    <img class="logo" src="{{ asset('media/favicons/logo_horizontal.png') }}" alt="Logo Klinik">
+                    {{-- <strong>KLINIK USG AJA</strong><br> --}}
+                    <span>by dr. Naya</span><br>
+                    <span class="small-text">Jl. Taman Cimanggu Tengah No.11</span><br>
+                    <span class="small-text">Telp: 0895-0894-7548</span>
+                </div>
 
-            <div class="line"></div>
+                <div class="line"></div>
 
-            <div class="item">
-                <strong>No. Antrean:</strong>
-            </div>
-            <div class="text-center">
-                <h1>{{ $pemeriksaan->no_urut }}</h1>
-            </div>
+                <div>
+                    <div><strong>Tanggal:</strong> {{ $pemeriksaan->datetime_registrasi }}</div>
+                    <div><strong>Dokter:</strong> {{ $pemeriksaan->dokter->name ?? 'N/A' }}</div>
+                </div>
 
-            <div class="line"></div>
+                <div class="line"></div>
 
-            <div class="item">
-                <span>Tanggal:</span>
-                <span>{{ $pemeriksaan->datetime }}</span>
-            </div>
-            <div class="item">
-                <span>Dokter:</span>
-                <span>{{ $pemeriksaan->dokter->gelar_depan ?? 'N/A' }} {{ $pemeriksaan->dokter->name ?? 'N/A' }}
-                    {{ $pemeriksaan->dokter->gelar_belakang ?? 'N/A' }}</span>
-            </div>
-            {{-- <div class="item">
-                <span>Ruangan:</span>
-                <span>{{ $pemeriksaan->room->name ?? 'N/A' }}</span>
-            </div> --}}
-
-            <div class="line"></div>
-
-            <div class="item">
-                <strong>Kode Registrasi:</strong>
-            </div>
-            <div class="text-center">
-                <div class="barcode-container">
-                    <img style="width: 80%;" src="{{ $registrasi_barcode_base64 }}" alt="Barcode">
-                    <div class="barcode-text">
-                        {{ $pemeriksaan->code ?? 'N/A' }}
+                <div class="text-center">
+                    <strong>Pasien</strong>
+                    <div class="barcode-container">
+                        <img src="{{ $pasien_barcode_base64 }}" alt="Barcode Pasien">
+                        <div class="barcode-text"><strong>{{ $pemeriksaan->pasien->name ?? 'N/A' }}</strong></div>
                     </div>
                 </div>
-            </div>
 
-            <div class="line disctance-vertical"></div>
+                <div class="line"></div>
 
-            <div class="item">
-                <strong>Data Pasien:</strong>
-            </div>
-            <div class="text-center">
-                <div class="barcode-container">
-                    <img style="width: 90%;" src="{{ $pasien_barcode_base64 }}" alt="Barcode">
-                    <div class="barcode-text">
-                        {{ $pemeriksaan->pasien->name ?? 'N/A' }}
+                <div class="text-center">
+                    <strong>No. Antrean</strong>
+                    <h1>{{ $pemeriksaan->no_urut }}</h1>
+                </div>
+
+                <div class="line"></div>
+
+                <div class="text-center">
+                    <strong>No. Registrasi</strong>
+                    <div class="barcode-container">
+                        <img src="{{ $registrasi_barcode_base64 }}" alt="Barcode Registrasi">
+                        <div class="barcode-text"><strong>{{ $pemeriksaan->code ?? 'N/A' }}</strong></div>
                     </div>
                 </div>
-            </div>
 
-            <div class="line"></div>
+                <div class="line"></div>
 
-            <div class="text-center">
-                *** Terima Kasih ***<br>
+                <div class="text-center small-text">
+                    *** Terima Kasih ***<br>
+                    Simpan struk ini untuk keperluan administrasi
+                </div>
             </div>
         </div>
 
         <script>
-            window.onload = function() {
-                window.print();
-            }
+            window.onload = () => window.print();
         </script>
     </body>
 

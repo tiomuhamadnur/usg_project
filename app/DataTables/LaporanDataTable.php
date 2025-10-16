@@ -42,20 +42,25 @@ class LaporanDataTable extends DataTable
             ->addColumn('#', function ($item) {
                 $editRoute = route('laporan.edit', $item->uuid);
                 $showRoute = route('laporan.show', $item->uuid);
+                $invoiceRoute = route('laporan.invoice', $item->uuid);
                 $actionButton = "<div class='dropdown'>
-                                    <button class='btn' data-bs-toggle='dropdown'>
-                                        <i class='fa fa-pencil'></i>
-                                        Edit
+                                    <button class='btn btn-sm btn-primary' data-bs-toggle='dropdown'>
+                                        <i class='fa fa-eye'></i>
+                                        Lihat
                                     </button>
 
                                     <div class='dropdown-menu dropdown-menu-end'>
+                                        <a class='dropdown-item' href='{$showRoute}' target='_blank'>
+                                            <i class='fa fa-file'></i>
+                                            Laporan Pemeriksaan
+                                        </a>
+                                        <a class='dropdown-item' href='{$invoiceRoute}' target='_blank'>
+                                            <i class='fa fa-credit-card'></i>
+                                            Invoice
+                                        </a>
                                         <a class='dropdown-item' href='{$editRoute}'>
                                             <i class='fa fa-pencil'></i>
                                             Edit
-                                        </a>
-                                        <a class='dropdown-item' href='{$showRoute}'>
-                                            <i class='fa fa-eye'></i>
-                                            Show
                                         </a>
                                     </div>
                                 </div>";
@@ -123,7 +128,7 @@ class LaporanDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center text-nowrap'),
-            Column::make('code')->addClass('text-nowrap fw-bolder')->title('Kode Registrasi'),
+            Column::make('code')->addClass('text-nowrap fw-bolder')->title('No. Registrasi'),
             Column::make('datetime')->addClass('text-nowrap')->title('Tanggal & Jam'),
             Column::make('pasien.name')->addClass('text-nowrap')->title('Nama Pasien'),
             Column::computed('total_bayar')->addClass('text-nowrap')->title('Total Bayar'),

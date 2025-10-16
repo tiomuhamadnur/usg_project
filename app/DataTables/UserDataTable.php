@@ -34,7 +34,7 @@ class UserDataTable extends DataTable
                 $editRoute = route('user.edit', $item->uuid);
                 $deleteRoute = route('user.destroy', $item->uuid);
                 $actionButton = "<div class='dropdown'>
-                                    <button class='btn' data-bs-toggle='dropdown'>
+                                    <button class='btn btn-sm btn-primary' data-bs-toggle='dropdown'>
                                         <i class='fa fa-pencil'></i>
                                         Edit
                                     </button>

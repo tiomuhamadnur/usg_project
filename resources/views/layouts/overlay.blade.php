@@ -14,8 +14,8 @@
 
                 <!-- User Info -->
                 <div class="ms-2">
-                    <a class="text-white fw-semibold" href="javascript:void(0)">Tio Muhamad Nur</a>
-                    <div class="text-white-75 fs-sm">Full Stack Developer</div>
+                    <a class="text-white fw-semibold" href="javascript:void(0)">{{ auth()->user()->name }}</a>
+                    <div class="text-white-75 fs-sm">{{ auth()->user()->role->name ?? '-' }}</div>
                 </div>
                 <!-- END User Info -->
 
@@ -100,7 +100,7 @@
             </div>
             <!-- END Content -->
         </div>
-        <div class="block pull-x mb-0">
+        {{-- <div class="block pull-x mb-0">
             <!-- Content -->
             <div class="block-content block-content-sm block-content-full bg-body">
                 <span class="text-uppercase fs-sm fw-bold">Heading</span>
@@ -111,7 +111,7 @@
                 </p>
             </div>
             <!-- END Content -->
-        </div>
+        </div> --}}
     </div>
     <!-- END Side Content -->
 </aside>

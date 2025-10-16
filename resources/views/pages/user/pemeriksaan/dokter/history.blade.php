@@ -66,7 +66,7 @@
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content rounded-3 shadow-lg">
                 <div class="modal-header bg-primary text-white">
-                    <h5 class="modal-title">Detail Pemeriksaan Awal</h5>
+                    <h5 class="modal-title">Detail History Pemeriksaan Pasien</h5>
                     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
                         aria-label="Close"></button>
                 </div>
@@ -109,7 +109,7 @@
                     'umur': 'Umur',
                     'tanggal-lahir': 'Tanggal Lahir',
                     'datetime': 'Tanggal Pemeriksaan',
-                    'room': 'Ruangan',
+                    // 'room': 'Ruangan',
                     'dokter': 'Dokter',
                     'rencana-pasien': 'Rencana Pasien',
                     'keluhan-pasien': 'Keluhan Pasien',
@@ -129,10 +129,11 @@
                     'diagnosa-sekunder': 'Diagnosa Sekunder',
                     'hasil-pemeriksaan': 'Hasil Pemeriksaan',
                     'terapi-obat': 'Terapi Obat',
+                    'layanan': 'Layanan',
                     'saran': 'Saran',
-                    'resep-dokter': 'Resep Dokter',
-                    'tindakan': 'Tindakan',
-                    'rujukan': 'Rujukan'
+                    // 'resep-dokter': 'Resep Dokter',
+                    // 'tindakan': 'Tindakan',
+                    // 'rujukan': 'Rujukan'
                 };
 
                 $.each(dataMap, function(key, label) {

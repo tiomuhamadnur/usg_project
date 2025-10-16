@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\LogObat;
+use App\Observers\LogObatObserver;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\ServiceProvider;
@@ -42,5 +44,7 @@ class AppServiceProvider extends ServiceProvider
         Blade::if('Kasir', function () {
             return in_array(Auth::user()->role_id, [1 , 5]);
         });
+
+        LogObat::observe(LogObatObserver::class);
     }
 }

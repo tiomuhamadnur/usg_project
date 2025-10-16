@@ -12,7 +12,7 @@ class superAdmin
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::user()->role_id != 1){
-            return redirect()->route('dashboard.index')->withNotifyerror('You are unauthorized to access this resources');
+            return redirect()->route('dashboard.index')->withNotifyerror('Akun anda tidak diperbolehkan mengakses halaman ini.');
         }
 
         return $next($request);

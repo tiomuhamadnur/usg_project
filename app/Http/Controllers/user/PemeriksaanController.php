@@ -5,9 +5,11 @@ namespace App\Http\Controllers\user;
 use App\DataTables\HistoryPemeriksaanDataTable;
 use App\DataTables\PemeriksaanDokterDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\AturanPakai;
 use App\Models\DetailLayanan;
 use App\Models\DetailObat;
 use App\Models\Dokter;
+use App\Models\Dosis;
 use App\Models\Layanan;
 use App\Models\Obat;
 use App\Models\Pasien;
@@ -17,6 +19,7 @@ use App\Models\StatusPembayaran;
 use App\Models\StatusPemeriksaan;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Milon\Barcode\DNS1D;
 use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class PemeriksaanController extends Controller
@@ -68,9 +71,23 @@ class PemeriksaanController extends Controller
         ]));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $request->validate([
+            'code' => 'required|string|exists:pemeriksaan,code',
+        ], [
+            'code.exists' => 'Data pasien tidak ditemukan!',
+        ]);
+
+        $pemeriksaan = Pemeriksaan::where('code', $request->code)
+                                ->where('status_pemeriksaan_id', 2) //status selesai pemeriksaan awal
+                                ->first();
+
+        if(!$pemeriksaan) {
+            return redirect()->back()->withNotifyerror('Data pasien tidak ditemukan!');
+        }
+
+        return redirect()->route('pemeriksaan-dokter.edit', $pemeriksaan->uuid);
     }
 
     public function store(Request $request)
@@ -97,9 +114,15 @@ class PemeriksaanController extends Controller
         $pemeriksaan = Pemeriksaan::where('uuid', $uuid)->firstOrFail();
         $layanan = Layanan::orderBy('name', 'ASC')->get();
         $obat = Obat::orderBy('name', 'ASC')->get();
+        $dosis = Dosis::all();
+        $aturan_pakai = AturanPakai::all();
 
-        $qrcode = QrCode::format('png')->size(150)->generate($pemeriksaan->code);
-        $qrcode_base64 = base64_encode($qrcode);
+        // $qrcode = QrCode::format('png')->size(150)->generate($pemeriksaan->code);
+        // $qrcode_base64 = base64_encode($qrcode);
+
+        $dns1d = new DNS1D();
+        $barcode = $dns1d->getBarcodePNG($pemeriksaan->code, 'C128', 4, 90);
+        $qrcode_base64 = $barcode;
 
         $pemeriksaan->qr_code = $qrcode_base64;
 
@@ -110,6 +133,8 @@ class PemeriksaanController extends Controller
             'obat',
             'layanan',
             'status_pemeriksaan',
+            'dosis',
+            'aturan_pakai',
         ]));
     }
 
@@ -156,6 +181,8 @@ class PemeriksaanController extends Controller
             'abortus' => 'nullable|numeric|min:0',
         ]);
 
+        $rawData['datetime_pemeriksaan_dokter'] = Carbon::now()->format('Y-m-d H:i:s');
+
         $pemeriksaan->update($rawData);
 
         // delete layanan & obat lama
@@ -170,7 +197,7 @@ class PemeriksaanController extends Controller
         $pasien = Pasien::findOrFail($pemeriksaan->pasien_id);
         $pasien->update($dataPasien);
 
-        return redirect()->route('pemeriksaan-dokter.index')->withNotify('Data pemeriksaan Dokter berhasil disimpan, bisa dilanjut ke tahap pembayaran di Kasir.');
+        return redirect()->route('pemeriksaan-dokter.index')->withNotify('Data pemeriksaan Dokter berhasil disimpan, bisa dilanjut ke tahap: <br> <strong>Pembayaran di Kasir</strong>.');
     }
 
     private function update_layanan ($pemeriksaan_id, $layanan) {

@@ -14,6 +14,9 @@
                     <h3 class="fs-3 fw-semibold my-2 mb-0">
                         Kasir
                     </h3>
+                    <a href="{{ route('kasir.index') }}" class="btn btn-secondary">
+                        <i class="fa fa-times me-1"></i> Batal
+                    </a>
                 </div>
             </div>
             <div class="block-content block-content-full">
@@ -27,7 +30,7 @@
                                     <button type="submit" class="btn btn-success" data-bs-toggle="modal"
                                         data-bs-target="#QRCodeModal">
                                         <i class="fa fa-qrcode"></i>
-                                        QR Code
+                                        Barcode
                                     </button>
                                 </div>
                             </div>
@@ -159,7 +162,10 @@
                                                         class="table table-bordered table-striped table-vcenter table-sm fs-sm text-nowrap align-middle">
                                                         <thead>
                                                             <th class="text-center">No</th>
+                                                            <th class="text-center">Konfirmasi</th>
                                                             <th>Nama Obat</th>
+                                                            <th>Dosis</th>
+                                                            <th>Aturan Pakai</th>
                                                             <th class="text-center">Jumlah</th>
                                                             <th>Harga Satuan (Rp.)</th>
                                                             <th>Sub Total (Rp.)</th>
@@ -168,7 +174,18 @@
                                                             @foreach ($pemeriksaan->obats as $item)
                                                                 <tr>
                                                                     <td class="text-center">{{ $loop->iteration }}.</td>
-                                                                    <td>{{ $item->obat->name ?? 'N/A' }}</td>
+                                                                    <td class="text-center">
+                                                                        <input class="form-check-input fs-3" type="checkbox" name="is_confirmed[]" value="1" id="is_confirmed">
+                                                                        {{-- <div class="form-check">
+                                                                            <label class="form-check-label" for="is_confirmed">
+                                                                                Check
+                                                                            </label>
+                                                                        </div> --}}
+                                                                        <input type="hidden" name="uuid[]" value="{{ $item->uuid }}">
+                                                                    </td>
+                                                                    <td>{{ $item->obat->name ?? 'N/A' }} ({{ $item->obat->sediaan->name ?? 'N/A' }})</td>
+                                                                    <td>{{ $item->dosis ?? 'N/A' }}</td>
+                                                                    <td>{{ $item->aturan_pakai ?? 'N/A' }}</td>
                                                                     <td class="text-center">{{ $item->jumlah ?? '-' }}</td>
                                                                     <td>{{ $item->obat->harga_jual ?? '0' }}</td>
                                                                     <td>{{ $item->obat->harga_jual * $item->jumlah }}</td>
@@ -187,9 +204,9 @@
                                                 <label class="col-sm-4 col-form-label required">Total Bayar (Rp.)</label>
                                                 <div class="col-sm-7">
                                                     <input type="number" min="1" class="form-control"
-                                                        name="total_bayar" autocomplete="off" required
+                                                        name="total_bayar" id="total_bayar" autocomplete="off" required
                                                         placeholder="input total bayar"
-                                                        value="{{ $total_bayar }}">
+                                                        value="{{ $total_bayar }}" readonly>
                                                 </div>
                                             </div>
                                             <div class="row mb-2">
@@ -280,8 +297,8 @@
         <div class="modal-dialog modal-dialog-popin" role="document">
             <div class="modal-content">
                 <div class="block block-rounded block-themed block-transparent mb-0">
-                    <div class="block-header bg-primary-dark">
-                        <h3 class="block-title">Kode Registrasi</h3>
+                    <div class="block-header bg-primary">
+                        <h3 class="block-title text-white">Kode Registrasi</h3>
                         <div class="block-options">
                             <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
                                 <i class="fa fa-fw fa-times"></i>
@@ -290,13 +307,13 @@
                     </div>
                     <div class="block-content">
                         <div class="text-center">
-                            <img class="img img-thumbnail" style="height: 60%; width: 60%;" id="qrcode_img"
+                            <img class="img img-thumbnail" style="width: 80%;" id="qrcode_img"
                                 src="data:image/png;base64,{{ $pemeriksaan->qr_code }}" alt="QR-code">
                             <h1 class="mt-2 fw-bolder">{{ $pemeriksaan->code }}</h1>
                         </div>
                     </div>
                     <div class="block-content block-content-full text-end bg-body">
-                        <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Done</button>
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Tutup</button>
                     </div>
                 </div>
             </div>
@@ -362,6 +379,36 @@
                 var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-home-tab')[0]);
                 triggerTab.show();
             });
+
+
+            // ambil nilai total bayar awal dari blade
+            let baseTotal = parseInt("{{ $total_bayar }}") || 0;
+            const totalBayarInput = document.getElementById("total_bayar");
+
+            function updateTotal() {
+                let sum = baseTotal;
+
+                // cari semua baris dengan checkbox
+                document.querySelectorAll('tbody tr').forEach(function (row) {
+                    const checkbox = row.querySelector('input[name="is_confirmed[]"]');
+                    const subTotalCell = row.querySelector('td:nth-child(7)'); // kolom ke-7 = Sub Total
+
+                    if (checkbox && checkbox.checked && subTotalCell) {
+                        let subTotal = parseInt(subTotalCell.textContent) || 0;
+                        sum += subTotal;
+                    }
+                });
+
+                totalBayarInput.value = sum;
+            }
+
+            // event listener untuk checkbox
+            document.querySelectorAll('input[name="is_confirmed[]"]').forEach(function (cb) {
+                cb.addEventListener("change", updateTotal);
+            });
+
+            // hitung ulang di awal (kalau ada yg sudah dicentang default)
+            updateTotal();
         });
     </script>
 @endsection

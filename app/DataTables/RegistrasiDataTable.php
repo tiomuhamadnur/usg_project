@@ -43,21 +43,21 @@ class RegistrasiDataTable extends DataTable
             ->addColumn('#', function ($item) {
                 $editRoute = route('registrasi.edit', $item->uuid);
                 $showRoute = route('registrasi.show', $item->uuid);
-                $deleteRoute = route('pekerjaan.destroy', $item->uuid);
+                $deleteRoute = route('registrasi.destroy', $item->uuid);
                 $actionButton = "<div class='dropdown'>
-                                    <button class='btn' data-bs-toggle='dropdown'>
-                                        <i class='fa fa-pencil'></i>
-                                        Edit
+                                    <button class='btn btn-sm btn-primary' data-bs-toggle='dropdown'>
+                                        <i class='fa fa-eye'></i>
+                                        Lihat
                                     </button>
 
                                     <div class='dropdown-menu dropdown-menu-end'>
-                                        <a class='dropdown-item' href='{$editRoute}'>
-                                            <i class='fa fa-pencil'></i>
-                                            Edit
-                                        </a>
                                         <a class='dropdown-item' href='{$showRoute}' target='_blank'>
                                             <i class='fa fa-print'></i>
                                             Print
+                                        </a>
+                                        <a class='dropdown-item' href='{$editRoute}'>
+                                            <i class='fa fa-pencil'></i>
+                                            Edit
                                         </a>
                                         <a class='dropdown-item text-danger' href='#' data-bs-toggle='modal' data-bs-target='#deleteModal' data-url='{$deleteRoute}'>
                                             <i class='fa fa-trash-can'></i>
@@ -152,13 +152,13 @@ class RegistrasiDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center text-nowrap'),
-            Column::make('code')->addClass('text-nowrap fw-bolder')->title('Kode Registrasi'),
+            Column::make('code')->addClass('text-nowrap fw-bolder')->title('No. Registrasi'),
             Column::make('no_urut')->addClass('text-nowrap fw-bolder')->title('No. Antrean'),
-            Column::make('datetime')->addClass('text-nowrap')->title('Tanggal & Jam'),
+            Column::make('datetime_registrasi')->addClass('text-nowrap')->title('Tanggal Registrasi'),
             Column::make('pasien.name')->addClass('text-nowrap')->title('Nama Pasien'),
             Column::make('pasien.gender.name')->title('Jenis Kelamin'),
             Column::make('dokter.name')->addClass('text-nowrap')->title('Dokter'),
-            Column::make('room.name')->title('Ruangan'),
+            // Column::make('room.name')->title('Ruangan'),
             Column::make('status_pemeriksaan.name')->title('Status Pemeriksaan'),
             Column::make('status_pembayaran.name')->title('Status Pembayaran'),
         ];

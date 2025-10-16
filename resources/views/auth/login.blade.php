@@ -2,6 +2,16 @@
 
 @section('header')
     <title>USGaja - Login</title>
+    <style>
+        .logo {
+            display: block;
+            margin: 0 auto 6px auto;
+            height: 80px;
+            /* tinggi konsisten */
+            width: auto;
+            /* proporsional */
+        }
+    </style>
 @endsection
 
 @section('content')
@@ -14,9 +24,10 @@
                     <div class="block-content block-content-full px-lg-5 px-xl-6 py-4 py-md-5 py-lg-6 bg-body-extra-light">
                         <!-- Header -->
                         <div class="mb-2 text-center">
-                            <a class="link-fx fw-bold fs-1" href="{{ route('dashboard.index') }}">
+                            {{-- <a class="link-fx fw-bold fs-1" href="{{ route('dashboard.index') }}">
                                 <span class="text-dark">USG</span><span class="text-primary">aja</span>
-                            </a>
+                            </a> --}}
+                            <img class="logo" src="{{ asset('media/favicons/logo_horizontal.png') }}" alt="Logo Klinik">
                             <p class="text-uppercase fw-bold fs-sm text-muted">Sign In</p>
                         </div>
                         <!-- END Header -->
@@ -89,8 +100,8 @@
                     <div class="block-content bg-body">
                         <div class="d-flex justify-content-center text-center push">
                             <div class="col-sm-12 order-sm-2 mb-1 mb-sm-0 text-center">
-                                Developed by <a
-                                    href="https://www.linkedin.com/in/tiomuhamadnur/" class="fw-semibold" target="_blank">Tio
+                                Developed by <a href="https://www.linkedin.com/in/tiomuhamadnur/" class="fw-semibold"
+                                    target="_blank">Tio
                                     Muhamad Nur</a>
                             </div>
                         </div>

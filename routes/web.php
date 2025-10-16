@@ -1,7 +1,10 @@
 <?php
 
 use App\Http\Controllers\admin\AgamaController;
+use App\Http\Controllers\admin\AturanPakaiController;
+use App\Http\Controllers\admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\admin\DeviceController;
+use App\Http\Controllers\admin\DosisController;
 use App\Http\Controllers\admin\GenderController;
 use App\Http\Controllers\admin\GolonganDarahController;
 use App\Http\Controllers\admin\HubunganPasienController;
@@ -19,6 +22,7 @@ use App\Http\Controllers\admin\UserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\user\KasirController;
 use App\Http\Controllers\user\LaporanController;
+use App\Http\Controllers\user\LogObatController;
 use App\Http\Controllers\user\PemeriksaanAwalController;
 use App\Http\Controllers\user\PemeriksaanController;
 use App\Http\Controllers\user\RegistrasiController;
@@ -72,6 +76,7 @@ Route::group(['middleware' => ['auth', 'isAssigned']], function () {
     Route::resource('/kasir', KasirController::class)->middleware('Admin');
 
     Route::resource('/laporan', LaporanController::class)->middleware('Admin');
+    Route::get('/laporan/invoice/{uuid}', [LaporanController::class, 'invoice'])->name('laporan.invoice')->middleware('Admin');
 
     Route::group(['middleware' => ['superAdmin'], 'prefix' => 'master-data',], function () {
         Route::resource('/user', UserController::class);
@@ -89,5 +94,9 @@ Route::group(['middleware' => ['auth', 'isAssigned']], function () {
         Route::resource('/obat', ObatController::class);
         Route::resource('/kategori', KategoriController::class);
         Route::resource('/layanan', LayananController::class);
+        Route::resource('/log-obat', LogObatController::class);
+        Route::resource('/dosis', DosisController::class);
+        Route::resource('/aturan-pakai', AturanPakaiController::class);
+        Route::resource('/dashboard-admin', AdminDashboardController::class);
     });
 });

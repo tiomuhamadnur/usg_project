@@ -30,7 +30,7 @@
                                     <button type="submit" class="btn btn-success" data-bs-toggle="modal"
                                         data-bs-target="#QRCodeModal">
                                         <i class="fa fa-qrcode"></i>
-                                        QR Code
+                                        Barcode
                                     </button>
                                 </div>
                             </div>
@@ -180,6 +180,7 @@
                                     </li>
                                 </ul>
                                 <div class="block-content tab-content overflow-hidden">
+                                    {{-- Start Pengukuran --}}
                                     <div class="tab-pane fade fade-up" id="btabs-animated-slideup-home" role="tabpanel"
                                         aria-labelledby="btabs-animated-slideup-home-tab" tabindex="0">
                                         <h4 class="fw-bolder">Pengukuran Pasien</h4>
@@ -269,6 +270,9 @@
                                             </button>
                                         </div>
                                     </div>
+                                    {{-- End Pengukuran --}}
+
+                                    {{-- Start Alergi --}}
                                     <div class="tab-pane fade fade-up" id="btabs-animated-slideup-profile"
                                         role="tabpanel" aria-labelledby="btabs-animated-slideup-profile-tab"
                                         tabindex="0">
@@ -299,6 +303,9 @@
                                             </button>
                                         </div>
                                     </div>
+                                    {{-- End Alergi --}}
+
+                                    {{-- Start Subjective --}}
                                     <div class="tab-pane fade fade-up show active" id="btabs-animated-slideup-subjective"
                                         role="tabpanel" aria-labelledby="btabs-animated-slideup-subjective-tab"
                                         tabindex="0">
@@ -310,48 +317,50 @@
                                                     <textarea class="form-control" rows="3" placeholder="input rencana pasien" disabled>{{ $pemeriksaan->rencana_pasien ?? '-' }}</textarea>
                                                 </div>
                                             </div>
-                                            <div class="row mb-2">
-                                                <label class="col-sm-4 col-form-label optional">HPHT</label>
-                                                <div class="col-sm-7">
-                                                    <input type="date" class="form-control" name="hpht"
-                                                        id="hpht" autocomplete="off"
-                                                        value="{{ $pemeriksaan->pasien->hpht ?? null }}">
+                                            @if ($pemeriksaan->pasien->gender_id == 2)
+                                                <div class="row mb-2">
+                                                    <label class="col-sm-4 col-form-label optional">HPHT</label>
+                                                    <div class="col-sm-7">
+                                                        <input type="date" class="form-control" name="hpht"
+                                                            id="hpht" autocomplete="off"
+                                                            value="{{ $pemeriksaan->pasien->hpht ?? null }}">
+                                                    </div>
                                                 </div>
-                                            </div>
-                                            <div class="row mb-2">
-                                                <label class="col-sm-4 col-form-label optional">Riwayat Kehamilan</label>
-                                                <div class="col-sm-7">
-                                                    <div class="row g-2">
-                                                        <div class="col-12 col-md-4">
-                                                            <div class="input-group">
-                                                                <input type="number" class="form-control" min="0"
-                                                                    name="gravida" id="gravida"
-                                                                    value="{{ old('gravida', $pemeriksaan->pasien->gravida ?? '0') }}"
-                                                                    autocomplete="off">
-                                                                <span class="input-group-text">G (Gravida)</span>
+                                                <div class="row mb-2">
+                                                    <label class="col-sm-4 col-form-label optional">Riwayat Kehamilan</label>
+                                                    <div class="col-sm-7">
+                                                        <div class="row g-2">
+                                                            <div class="col-12 col-md-4">
+                                                                <div class="input-group">
+                                                                    <input type="number" class="form-control" min="0"
+                                                                        name="gravida" id="gravida"
+                                                                        value="{{ old('gravida', $pemeriksaan->pasien->gravida ?? '0') }}"
+                                                                        autocomplete="off">
+                                                                    <span class="input-group-text">G (Gravida)</span>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-12 col-md-4">
-                                                            <div class="input-group">
-                                                                <input type="number" class="form-control" min="0"
-                                                                    name="para" id="para"
-                                                                    value="{{ old('para', $pemeriksaan->pasien->para ?? '0') }}"
-                                                                    autocomplete="off">
-                                                                <span class="input-group-text">P (Para)</span>
+                                                            <div class="col-12 col-md-4">
+                                                                <div class="input-group">
+                                                                    <input type="number" class="form-control" min="0"
+                                                                        name="para" id="para"
+                                                                        value="{{ old('para', $pemeriksaan->pasien->para ?? '0') }}"
+                                                                        autocomplete="off">
+                                                                    <span class="input-group-text">P (Para)</span>
+                                                                </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-12 col-md-4">
-                                                            <div class="input-group">
-                                                                <input type="number" class="form-control" min="0"
-                                                                    name="abortus" id="abortus"
-                                                                    value="{{ old('abortus', $pemeriksaan->pasien->abortus ?? '0') }}"
-                                                                    autocomplete="off">
-                                                                <span class="input-group-text">A (Abortus)</span>
+                                                            <div class="col-12 col-md-4">
+                                                                <div class="input-group">
+                                                                    <input type="number" class="form-control" min="0"
+                                                                        name="abortus" id="abortus"
+                                                                        value="{{ old('abortus', $pemeriksaan->pasien->abortus ?? '0') }}"
+                                                                        autocomplete="off">
+                                                                    <span class="input-group-text">A (Abortus)</span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
+                                            @endif
                                             <div class="row mb-2">
                                                 <label class="col-sm-4 col-form-label required">Keluhan Utama</label>
                                                 <div class="col-sm-7">
@@ -378,6 +387,9 @@
                                             </button>
                                         </div>
                                     </div>
+                                    {{-- End Subjective --}}
+
+                                    {{-- Start Assessment --}}
                                     <div class="tab-pane fade fade-up" id="btabs-animated-slideup-assessment"
                                         role="tabpanel" aria-labelledby="btabs-animated-slideup-assessment-tab"
                                         tabindex="0">
@@ -416,6 +428,9 @@
                                             </button>
                                         </div>
                                     </div>
+                                    {{-- End Assessment --}}
+
+                                    {{-- Start Plan --}}
                                     <div class="tab-pane fade fade-up" id="btabs-animated-slideup-plan" role="tabpanel"
                                         aria-labelledby="btabs-animated-slideup-plan-tab" tabindex="0">
                                         <h4 class="fw-bolder">Plan Pasien</h4>
@@ -501,6 +516,9 @@
                                             </button>
                                         </div>
                                     </div>
+                                    {{-- End Plan --}}
+
+                                    {{-- Start Pelayanan --}}
                                     <div class="tab-pane fade fade-up" id="btabs-animated-slideup-pelayanan"
                                         role="tabpanel" aria-labelledby="btabs-animated-slideup-pelayanan-tab"
                                         tabindex="0">
@@ -557,6 +575,9 @@
                                             </button>
                                         </div>
                                     </div>
+                                    {{-- End Pelayanan --}}
+
+                                    {{-- Start Status --}}
                                     <div class="tab-pane fade fade-up" id="btabs-animated-slideup-status" role="tabpanel"
                                         aria-labelledby="btabs-animated-slideup-status-tab" tabindex="0">
                                         <h4 class="fw-bolder">Status Pemeriksaan Pasien</h4>
@@ -588,6 +609,7 @@
                                             </button>
                                         </div>
                                     </div>
+                                    {{-- End Pelayanan --}}
                                 </div>
                             </form>
                         </div>
@@ -608,8 +630,8 @@
         <div class="modal-dialog modal-dialog-popin" role="document">
             <div class="modal-content">
                 <div class="block block-rounded block-themed block-transparent mb-0">
-                    <div class="block-header bg-primary-dark">
-                        <h3 class="block-title">Kode Registrasi</h3>
+                    <div class="block-header bg-primary">
+                        <h3 class="block-title text-white">Kode Registrasi</h3>
                         <div class="block-options">
                             <button type="button" class="btn-block-option" data-bs-dismiss="modal" aria-label="Close">
                                 <i class="fa fa-fw fa-times"></i>
@@ -618,13 +640,13 @@
                     </div>
                     <div class="block-content">
                         <div class="text-center">
-                            <img class="img img-thumbnail" style="height: 60%; width: 60%;" id="qrcode_img"
+                            <img class="img img-thumbnail" style="width: 80%;" id="qrcode_img"
                                 src="data:image/png;base64,{{ $pemeriksaan->qr_code }}" alt="QR-code">
                             <h1 class="mt-2 fw-bolder">{{ $pemeriksaan->code }}</h1>
                         </div>
                     </div>
                     <div class="block-content block-content-full text-end bg-body">
-                        <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Done</button>
+                        <button type="button" class="btn btn-sm btn-primary" data-bs-dismiss="modal">Tutup</button>
                     </div>
                 </div>
             </div>
@@ -637,48 +659,42 @@
         <div class="modal-dialog modal-dialog-fromleft" role="document">
             <div class="modal-content">
                 <form action="#" method="POST">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Add Obat</h5>
+                    <div class="modal-header bg-primary">
+                        <h5 class="modal-title text-white">Tambah Obat</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
+                        @livewire('form-obat-dokter')
                         <div class="mb-3">
-                            <label class="form-label required" for="obat_id">Obat</label>
-                            <select class="form-select" name="obat_id" id="obat_id" required>
-                                <option value="" disabled selected>- pilih obat -</option>
-                                @foreach ($obat as $item)
-                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                            <label class="form-label required" for="dosis">Dosis</label>
+                            <select class="form-select" name="dosis" id="dosis" required>
+                                <option value="" disabled selected>- pilih dosis -</option>
+                                @foreach ($dosis as $item)
+                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
                                 @endforeach
                             </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label required" for="jumlah">Jumlah</label>
-                            <input type="number" class="form-control" name="jumlah" min="1" id="jumlah"
-                                required placeholder="input jumlah obat">
-                        </div>
-                        <div class="mb-3">
-                            <label class="form-label required" for="dosis">Dosis</label>
-                            <input type="text" class="form-control" name="dosis" id="dosis" required
-                                placeholder="input dosis (ex: 3x1 tablet)">
-                        </div>
-                        <div class="mb-3">
                             <label class="form-label required" for="aturan_pakai">Aturan Pakai</label>
-                            <input type="text" class="form-control" name="aturan_pakai" id="aturan_pakai" required
-                                placeholder="input aturan pakai (ex: Sebelum makan)">
+                            <select class="form-select" name="aturan_pakai" id="aturan_pakai" required>
+                                <option value="" disabled selected>- pilih aturan pakai -</option>
+                                @foreach ($aturan_pakai as $item)
+                                    <option value="{{ $item->name }}">{{ $item->name }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="mb-3">
-                            <label class="form-label required" for="catatan_obat">Catatan Obat</label>
-                            <textarea class="form-control" name="catatan_obat" id="catatan_obat" placeholder="input catatan obat" required
-                                rows="4"></textarea>
+                            <label class="form-label optional" for="catatan_obat">Catatan Obat</label>
+                            <textarea class="form-control" name="catatan_obat" id="catatan_obat" placeholder="input catatan obat" rows="4"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
-                            Cancel
+                            Batal
                         </a>
                         <button type="submit" class="btn btn-primary ms-auto">
                             <i class="fa fa-plus"></i>
-                            Add new
+                            Tambah
                         </button>
                     </div>
                 </form>
@@ -692,8 +708,8 @@
         <div class="modal-dialog modal-dialog-fromleft" role="document">
             <div class="modal-content">
                 <form action="#" method="POST">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Add Pelayanan</h5>
+                    <div class="modal-header bg-primary">
+                        <h5 class="modal-title text-white">Tambah Pelayanan</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -711,11 +727,11 @@
                     </div>
                     <div class="modal-footer">
                         <a href="#" class="btn btn-link link-secondary" data-bs-dismiss="modal">
-                            Cancel
+                            Batal
                         </a>
                         <button type="submit" class="btn btn-primary ms-auto">
                             <i class="fa fa-plus"></i>
-                            Add new
+                            Tambah
                         </button>
                     </div>
                 </form>
@@ -984,7 +1000,7 @@
                             ${aturanPakai}
                         </td>
                         <td>
-                            <input type="hidden" name="catatan_obat[]" value="${catatanObat}" required>
+                            <input type="hidden" name="catatan_obat[]" value="${catatanObat}">
                             ${catatanObat}
                         </td>
                         <td class="text-center">

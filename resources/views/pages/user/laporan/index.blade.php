@@ -57,8 +57,8 @@
                 <form action="{{ route('laporan.index') }}" method="GET" enctype="multipart/form-data">
                     @csrf
                     @method('GET')
-                    <div class="modal-header">
-                        <h5 class="modal-title">Filter</h5>
+                    <div class="modal-header bg-primary">
+                        <h5 class="modal-title text-white">Filter</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
@@ -94,7 +94,7 @@
                             Batal
                         </a>
                         <div class="d-flex gap-2">
-                            <a href="{{ route('laporan.index') }}" class="btn btn-danger">
+                            <a href="{{ route('laporan.index') }}" class="btn btn-secondary">
                                 <i class="fa fa-arrows-rotate"></i>
                                 Reset
                             </a>

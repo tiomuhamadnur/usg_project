@@ -65,9 +65,23 @@ class PemeriksaanAwalController extends Controller
         ]));
     }
 
-    public function create()
+    public function create(Request $request)
     {
-        //
+        $request->validate([
+            'code' => 'required|string|exists:pemeriksaan,code',
+        ], [
+            'code.exists' => 'Data pasien tidak ditemukan!',
+        ]);
+
+        $pemeriksaan = Pemeriksaan::where('code', $request->code)
+                        ->where('status_pemeriksaan_id', 1) //status open
+                        ->first();
+
+        if(!$pemeriksaan) {
+            return redirect()->back()->withNotifyerror('Data pasien tidak ditemukan!');
+        }
+
+        return redirect()->route('pemeriksaan-awal.edit', $pemeriksaan->uuid);
     }
 
     public function store(Request $request)
@@ -106,6 +120,8 @@ class PemeriksaanAwalController extends Controller
         $pemeriksaan = Pemeriksaan::where('uuid', $uuid)->firstOrFail();
 
         $rawData = $request->validate([
+            "rencana_pasien"   => "required|string",
+            "keluhan_pasien"   => "required|string",
             "nadi" => "required|numeric",
             "temperatur" => "required|numeric",
             "tekanan_darah_systolic" => "required|numeric",
@@ -120,15 +136,19 @@ class PemeriksaanAwalController extends Controller
         ]);
 
         $rawData["suster_id"] = Auth::user()->id;
+        $rawData['datetime_pemeriksaan_awal'] = Carbon::now()->format('Y-m-d H:i:s');
         $pasien = Pasien::findOrFail($pemeriksaan->pasien_id);
         $pasien->update([
             'alergi_obat' => $request->alergi_obat,
             'alergi_makanan' => $request->alergi_makanan,
+            'berat_badan' => $request->berat_badan,
+            'tinggi_badan' => $request->tinggi_badan,
+            'lingkar_perut' => $request->lingkar_perut,
         ]);
 
         $pemeriksaan->update($rawData);
 
-        return redirect()->route('pemeriksaan-awal.index')->withNotify('Data pemeriksaan awal berhasil disimpan, sekarang data masuk ke Dokter ' . $pemeriksaan->dokter->name ?? 'N/A');
+        return redirect()->route('pemeriksaan-awal.index')->withNotify('Data pemeriksaan awal berhasil disimpan, sekarang data masuk ke: <br> <strong>Dokter ' . $pemeriksaan->dokter->name ?? 'N/A') . '</strong>';
     }
 
     public function destroy(string $id)
