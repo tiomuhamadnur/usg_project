@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\admin\AgamaController;
 use App\Http\Controllers\admin\AturanPakaiController;
+use App\Http\Controllers\admin\CampaignController;
 use App\Http\Controllers\admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\admin\DeviceController;
 use App\Http\Controllers\admin\DosisController;
@@ -94,6 +95,7 @@ Route::group(['middleware' => ['auth', 'isAssigned']], function () {
         Route::resource('/hubungan-pasien', HubunganPasienController::class);
         Route::resource('/device', DeviceController::class);
         Route::resource('/unit', UnitController::class);
+        Route::resource('/campaign', CampaignController::class);
         Route::resource('/sediaan', SediaanController::class);
         Route::resource('/obat', ObatController::class);
         Route::resource('/kategori', KategoriController::class);

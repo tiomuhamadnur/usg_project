@@ -42,7 +42,7 @@
                                     </a>
                                 </div>
                                 <div class="row col-12">
-                                    <div class="col-6">
+                                    <div class="col-5">
                                         <form class="mb-5" action="#" method="POST">
                                             @method('POST')
                                             @csrf
@@ -117,7 +117,7 @@
                                             </div>
                                         </form>
                                     </div>
-                                    <div class="col-6">
+                                    <div class="col-7">
                                         <form class="mb-5" id="formRegistrasi" action="{{ route('registrasi.store') }}"
                                             method="POST">
                                             @method('POST')
@@ -156,6 +156,20 @@
                                                     <input type="date" disabled name="datetime" id="datetime"
                                                         class="form-control" required
                                                         value="{{ old('datetime', now()->format('Y-m-d')) }}">
+                                                </div>
+                                            </div>
+                                            <div class="row mb-3">
+                                                <label class="col-sm-4 col-form-label optional">Tahu dari mana?</label>
+                                                <div class="col-sm-8">
+                                                    <select class="form-select" name="campaign_id" id="campaign_id">
+                                                        <option value="" disabled selected>- pilih sumber informasi -</option>
+                                                        @foreach ($campaign as $item)
+                                                            <option value="{{ $item->id }}"
+                                                                @selected(old('campaign_id') == $item->id)>
+                                                                {{ $item->name }}
+                                                            </option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="row mb-3">

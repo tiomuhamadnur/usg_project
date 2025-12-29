@@ -6,51 +6,64 @@
 
 @section('content')
     <div class="container-fluid py-3">
-
         <!-- Header -->
-        <div class="dashboard-header d-flex justify-content-between align-items-center mb-2">
-            <h5 class="fw-bold text-dark m-0">📊 Dashboard Klinik USG AJA</h5>
-            <div class="d-flex align-items-center">
-                <input type="date" class="form-control form-control-sm me-1" id="startDate">
-                <input type="date" class="form-control form-control-sm" id="endDate">
-            </div>
+        <div class="dashboard-header d-flex flex-wrap justify-content-between align-items-center mb-2">
+            <h5 class="fw-bold text-dark m-0 mb-2 mb-md-0">📊 Dashboard Klinik USG AJA</h5>
+
+            <form action="{{ route('dashboard-admin.index') }}" method="GET" class="row g-1 align-items-center">
+                <div class="col-auto">
+                    <input type="date" class="form-control form-control-sm" name="start_date" id="startDate" value="{{ $start_date }}" required>
+                </div>
+                <div class="col-auto">
+                    <input type="date" class="form-control form-control-sm" name="end_date" id="endDate" value="{{ $end_date }}" required>
+                </div>
+                <div class="col-auto">
+                    <button type="submit" class="btn btn-sm btn-primary" title="Search">
+                        <i class="fa fa-magnifying-glass"></i>
+                    </button>
+                </div>
+            </form>
         </div>
 
+
         <!-- KPI -->
-        <div class="row g-2 mb-2">
-            <div class="col-6 col-md-2">
+        <div class="row row-cols-2 row-cols-md-4 g-2 mb-2">
+            <div class="col">
                 <div class="card">
                     <div class="card-body text-center p-2">
-                        <h6>Pasien (Unique)</h6>
-                        <h4 id="pasienUnique">120</h4>
+                        <h6>🆕 Pasien Baru</h6>
+                        <h4>{{ $pasien_baru }}</h4>
                     </div>
                 </div>
             </div>
-            <div class="col-6 col-md-2">
+
+            <div class="col">
                 <div class="card">
                     <div class="card-body text-center p-2">
-                        <h6>Pasien Berulang</h6>
-                        <h4 id="pasienBerulang">45</h4>
+                        <h6>🔁 Pasien Berulang</h6>
+                        <h4>{{ $pasien_berulang }}</h4>
                     </div>
                 </div>
             </div>
-            <div class="col-6 col-md-2">
+
+            <div class="col">
                 <div class="card">
                     <div class="card-body text-center p-2">
-                        <h6>Pemeriksaan USG</h6>
-                        <h4 id="usgCount">180</h4>
+                        <h6>🩺 Pemeriksaan USG</h6>
+                        <h4>{{ $jumlah_pemeriksaan }}</h4>
                     </div>
                 </div>
             </div>
-            <div class="col-6 col-md-2">
+
+            <div class="col">
                 <div class="card">
                     <div class="card-body text-center p-2">
-                        <h6>Pendapatan</h6>
-                        <h4 id="pendapatan">Rp 50jt</h4>
+                        <h6>💰 Pendapatan</h6>
+                        <h4>{{ $pendapatan }}</h4>
                     </div>
                 </div>
             </div>
-            <div class="col-6 col-md-2">
+            {{-- <div class="col">
                 <div class="card">
                     <div class="card-body text-center p-2">
                         <h6>Laba Bersih</h6>
@@ -58,37 +71,53 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6 col-md-2">
+            <div class="col">
                 <div class="card">
                     <div class="card-body text-center p-2">
                         <h6>ROAS</h6>
                         <h4 id="roas">3.5</h4>
                     </div>
                 </div>
-            </div>
+            </div> --}}
         </div>
 
         <!-- Charts -->
         <div class="row g-2">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <div class="card">
                     <div class="card-header bg-primary text-white fw-bolder">Tren Pasien & Revenue</div>
-                    <div class="card-body p-2">
+                    <div class="card-body p-1">
                         <div id="trenPasien" class="chart-box"></div>
                     </div>
                 </div>
             </div>
-            <div class="col-md-6">
+            {{-- <div class="col-md-6">
                 <div class="card">
                     <div class="card-header bg-primary text-white fw-bolder">Breakdown Cost</div>
                     <div class="card-body p-2">
                         <div id="breakdownCost" class="chart-box"></div>
                     </div>
                 </div>
+            </div> --}}
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white fw-bolder">Average Service Time</div>
+                    <div class="card-body p-1">
+                        <div id="waitingTime" class="chart-box"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header bg-primary text-white fw-bolder">Jam Datang Pasien</div>
+                    <div class="card-body p-1">
+                        <div id="heatmap" class="chart-box"></div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div class="row g-2 mt-1">
+        {{-- <div class="row g-2 mt-1">
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header bg-primary text-white fw-bolder">Average Waiting Time</div>
@@ -105,9 +134,9 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
 
-        <div class="row g-2 mt-1">
+        {{-- <div class="row g-2 mt-1">
             <div class="col-md-6">
                 <div class="card">
                     <div class="card-header bg-primary text-white fw-bolder">Top 5 Campaign</div>
@@ -159,7 +188,7 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> --}}
     </div>
 @endsection
 
@@ -213,82 +242,79 @@
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
 
     <script>
-        function randomData(len, max = 100) {
-            return Array.from({
-                length: len
-            }, () => Math.floor(Math.random() * max));
-        }
+        // function randomData(len, max = 100) {
+        //     return Array.from({
+        //         length: len
+        //     }, () => Math.floor(Math.random() * max));
+        // }
 
         let trenPasienChart = Highcharts.chart('trenPasien', {
             chart: {
                 type: 'line',
                 zoomType: 'x',
-                height: 250
+                height: 300
             },
-            title: {
-                text: ''
-            },
-            xAxis: {
-                categories: ['01', '05', '10', '15', '20', '25']
-            },
-            yAxis: [{
-                title: {
-                    text: 'Pasien'
-                }
-            }, {
-                title: {
-                    text: 'Revenue'
-                },
-                opposite: true
-            }],
-            series: [{
-                    name: 'Pasien',
-                    data: [20, 35, 40, 55, 60, 70]
-                },
-                {
-                    name: 'Revenue',
-                    data: [5, 10, 15, 20, 25, 30],
-                    yAxis: 1
-                }
+            title: { text: '' },
+            xAxis: { categories: {!! json_encode($dates) !!} },
+            yAxis: [
+                { title: { text: 'Pasien', style: { fontWeight: 'bold' } } },
+                { title: { text: 'Revenue (jt)', style: { fontWeight: 'bold' } }, opposite: true }
             ],
-            colors: ['#F60088', '#00bcd4']
+            tooltip: {
+                shared: true,
+                formatter: function () {
+                    let s = '';
+                    this.points.forEach(function(point){
+                        if(point.series.name === 'Revenue') {
+                            s += '<br/>' + point.series.name + ': <b>' + point.y + ' jt</b>';
+                        } else {
+                            s += '<br/>' + point.series.name + ': <b>' + point.y + '</b>';
+                        }
+                    });
+                    return s;
+                }
+            },
+            series: [
+                { name: 'Pasien', data: {!! json_encode($pasienSeries) !!}, color: '#F60088' },
+                { name: 'Revenue', data: {!! json_encode($revenueSeries) !!}, yAxis: 1, color: '#00bcd4' }
+            ]
         });
 
-        Highcharts.chart('breakdownCost', {
-            chart: {
-                type: 'pie',
-                height: 250
-            },
-            title: {
-                text: ''
-            },
-            series: [{
-                name: 'Biaya',
-                data: [{
-                        name: 'Operasional',
-                        y: 40
-                    },
-                    {
-                        name: 'Gaji',
-                        y: 30
-                    },
-                    {
-                        name: 'Marketing',
-                        y: 20
-                    },
-                    {
-                        name: 'Lain-lain',
-                        y: 10
-                    }
-                ]
-            }],
-            colors: ['#F60088', '#03a9f4', '#8bc34a', '#ffc107']
-        });
+        // Highcharts.chart('breakdownCost', {
+        //     chart: {
+        //         type: 'pie',
+        //         height: 250
+        //     },
+        //     title: {
+        //         text: ''
+        //     },
+        //     series: [{
+        //         name: 'Biaya',
+        //         data: [{
+        //                 name: 'Operasional',
+        //                 y: 40
+        //             },
+        //             {
+        //                 name: 'Gaji',
+        //                 y: 30
+        //             },
+        //             {
+        //                 name: 'Marketing',
+        //                 y: 20
+        //             },
+        //             {
+        //                 name: 'Lain-lain',
+        //                 y: 10
+        //             }
+        //         ]
+        //     }],
+        //     colors: ['#F60088', '#03a9f4', '#8bc34a', '#ffc107']
+        // });
 
         Highcharts.chart('waitingTime', {
             chart: {
                 type: 'gauge',
-                height: 250
+                height: 300
             },
             title: {
                 text: ''
@@ -299,14 +325,15 @@
             },
             yAxis: {
                 min: 0,
-                max: 60,
+                max: 180,
                 title: {
-                    text: 'Menit'
+                    text: 'Menit',
+                    style: { fontWeight: 'bold' }
                 }
             },
             series: [{
-                name: 'Waiting Time',
-                data: [25],
+                name: 'Service Time',
+                data: [{{ $average_service_time }}],
                 tooltip: {
                     valueSuffix: ' menit'
                 }
@@ -316,90 +343,90 @@
         let heatmapChart = Highcharts.chart('heatmap', {
             chart: {
                 type: 'heatmap',
-                height: 250,
+                height: 300,
                 zoomType: 'xy'
             },
             title: {
                 text: ''
             },
             xAxis: {
-                categories: ['08', '09', '10', '11', '12']
+                categories: {!! json_encode($hours) !!},
+                title: {
+                    text: 'Jam',
+                    style: { fontWeight: 'bold' } // label bold
+                }
             },
             yAxis: {
-                categories: ['Sen', 'Sel', 'Rab', 'Kam', 'Jum'],
-                title: null
+                categories: {!! json_encode($days_heatmap) !!},
+                title: {
+                    text: 'Hari',
+                    style: { fontWeight: 'bold' } // label bold
+                },
+                reversed: true // Senin di atas
             },
-            colorAxis: {
-                min: 0,
-                minColor: '#ffffff',
-                maxColor: '#F60088'
+            colorAxis: { min: 0, minColor: '#ffffff', maxColor: '#F60088' },
+            tooltip: {
+                formatter: function() {
+                    let jam = this.series.xAxis.categories[this.point.x];
+                    let hari = this.series.yAxis.categories[this.point.y];
+                    let pasien = this.point.value;
+                    return `<b>Hari:</b> ${hari}<br/>
+                            <b>Jam:</b> ${jam}:00<br/>
+                            <b>Jumlah Pasien:</b> ${pasien}`;
+                }
             },
             series: [{
                 name: 'Jumlah Pasien',
                 borderWidth: 1,
-                data: [
-                    [0, 0, 5],
-                    [1, 0, 10],
-                    [2, 0, 8],
-                    [3, 0, 15],
-                    [4, 0, 12],
-                    [0, 1, 8],
-                    [1, 1, 15],
-                    [2, 1, 20],
-                    [3, 1, 10],
-                    [4, 1, 5]
-                ],
-                dataLabels: {
-                    enabled: true,
-                    color: '#000'
-                }
+                data: {!! json_encode($heatmapData) !!},
+                dataLabels: { enabled: true, color: '#000' }
             }]
         });
 
-        let stockForecastChart = Highcharts.chart('stockForecast', {
-            chart: {
-                type: 'line',
-                zoomType: 'x',
-                height: 250
-            },
-            title: {
-                text: ''
-            },
-            xAxis: {
-                categories: ['Sep', 'Okt', 'Nov', 'Des', 'Jan', 'Feb']
-            },
-            yAxis: {
-                title: {
-                    text: 'Jumlah Stok'
-                }
-            },
-            series: [{
-                    name: 'Stok Aktual',
-                    data: [500, 450, 420, 400, 380, 360]
-                },
-                {
-                    name: 'Forecast',
-                    data: [360, 340, 320, 300, 280, 250],
-                    dashStyle: 'ShortDash'
-                }
-            ],
-            colors: ['#F60088', '#607d8b']
-        });
+        // let stockForecastChart = Highcharts.chart('stockForecast', {
+        //     chart: {
+        //         type: 'line',
+        //         zoomType: 'x',
+        //         height: 250
+        //     },
+        //     title: {
+        //         text: ''
+        //     },
+        //     xAxis: {
+        //         categories: ['Sep', 'Okt', 'Nov', 'Des', 'Jan', 'Feb']
+        //     },
+        //     yAxis: {
+        //         title: {
+        //             text: 'Jumlah Stok'
+        //         }
+        //     },
+        //     series: [{
+        //             name: 'Stok Aktual',
+        //             data: [500, 450, 420, 400, 380, 360]
+        //         },
+        //         {
+        //             name: 'Forecast',
+        //             data: [360, 340, 320, 300, 280, 250],
+        //             dashStyle: 'ShortDash'
+        //         }
+        //     ],
+        //     colors: ['#F60088', '#607d8b']
+        // });
 
-        document.getElementById('endDate').addEventListener('change', () => {
-            trenPasienChart.series[0].setData(randomData(6, 100));
-            trenPasienChart.series[1].setData(randomData(6, 30));
-            stockForecastChart.series[0].setData(randomData(6, 500));
-            stockForecastChart.series[1].setData(randomData(6, 400));
-            heatmapChart.series[0].setData(Array.from({
-                length: 10
-            }, (_, i) => [i % 5, Math.floor(i / 5), Math.floor(Math.random() * 20)]));
-            document.getElementById('pasienUnique').textContent = Math.floor(Math.random() * 200);
-            document.getElementById('pasienBerulang').textContent = Math.floor(Math.random() * 100);
-            document.getElementById('usgCount').textContent = Math.floor(Math.random() * 300);
-            document.getElementById('pendapatan').textContent = 'Rp ' + Math.floor(Math.random() * 100) + 'jt';
-            document.getElementById('labaBersih').textContent = 'Rp ' + Math.floor(Math.random() * 50) + 'jt';
-            document.getElementById('roas').textContent = (Math.random() * 5).toFixed(2);
-        });
+        // document.getElementById('endDate').addEventListener('change', () => {
+        //     trenPasienChart.series[0].setData(randomData(6, 100));
+        //     trenPasienChart.series[1].setData(randomData(6, 30));
+        //     stockForecastChart.series[0].setData(randomData(6, 500));
+        //     stockForecastChart.series[1].setData(randomData(6, 400));
+        //     heatmapChart.series[0].setData(Array.from({
+        //         length: 10
+        //     }, (_, i) => [i % 5, Math.floor(i / 5), Math.floor(Math.random() * 20)]));
+        //     document.getElementById('pasienUnique').textContent = Math.floor(Math.random() * 200);
+        //     document.getElementById('pasienBerulang').textContent = Math.floor(Math.random() * 100);
+        //     document.getElementById('usgCount').textContent = Math.floor(Math.random() * 300);
+        //     document.getElementById('pendapatan').textContent = 'Rp ' + Math.floor(Math.random() * 100) + 'jt';
+        //     // document.getElementById('labaBersih').textContent = 'Rp ' + Math.floor(Math.random() * 50) + 'jt';
+        //     // document.getElementById('roas').textContent = (Math.random() * 5).toFixed(2);
+        // });
     </script>
 @endpush

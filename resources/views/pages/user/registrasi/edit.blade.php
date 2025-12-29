@@ -26,7 +26,7 @@
                         <form action="#">
                             <!-- Form Horizontal - Default Style -->
                             <div class="row col-12">
-                                <div class="col-6">
+                                <div class="col-5">
                                     <form class="mb-5" action="#" method="POST">
                                         @method('POST')
                                         @csrf
@@ -101,7 +101,7 @@
                                         </div>
                                     </form>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-7">
                                     <form class="mb-5" id="formRegistrasi"
                                         action="{{ route('registrasi.update', $pemeriksaan->uuid) }}" method="POST">
                                         @method('PUT')
@@ -135,19 +135,34 @@
                                         <div class="row mb-3">
                                             <label class="col-sm-4 col-form-label required">Tanggal Registrasi</label>
                                             <div class="col-sm-8">
-                                                <input type="datetime-local" name="datetime_registrasi" id="datetime_registrasi"
-                                                    class="form-control" required
-                                                    value="{{ old('datetime_registrasi', $pemeriksaan->datetime)}}">
+                                                <input type="datetime-local" name="datetime_registrasi"
+                                                    id="datetime_registrasi" class="form-control" required
+                                                    value="{{ old('datetime_registrasi', $pemeriksaan->datetime) }}">
                                             </div>
                                         </div>
-                                            <div class="row mb-3">
-                                                <div class="d-flex justify-content-end">
-                                                    <button type="submit" form="formRegistrasi" class="btn btn-lg btn-primary my-3">
-                                                        <i class="fa fa-floppy-disk"></i>
-                                                        Simpan Perubahan
-                                                    </button>
-                                                </div>
+                                        <div class="row mb-3">
+                                            <label class="col-sm-4 col-form-label optional">Tahu dari mana?</label>
+                                            <div class="col-sm-8">
+                                                <select class="form-select" name="campaign_id" id="campaign_id">
+                                                    <option value="" disabled selected>- pilih sumber informasi -
+                                                    </option>
+                                                    @foreach ($campaign as $item)
+                                                        <option value="{{ $item->id }}" @selected(old('campaign_id', $pemeriksaan->pasien->campaign_id) == $item->id)>
+                                                            {{ $item->name }}
+                                                        </option>
+                                                    @endforeach
+                                                </select>
                                             </div>
+                                        </div>
+                                        <div class="row mb-3">
+                                            <div class="d-flex justify-content-end">
+                                                <button type="submit" form="formRegistrasi"
+                                                    class="btn btn-lg btn-primary my-3">
+                                                    <i class="fa fa-floppy-disk"></i>
+                                                    Simpan Perubahan
+                                                </button>
+                                            </div>
+                                        </div>
                                         {{-- <div class="row mb-3">
                                             <label class="col-sm-4 col-form-label required">Rencana Pasien</label>
                                             <div class="col-sm-8">

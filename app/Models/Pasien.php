@@ -54,6 +54,11 @@ class Pasien extends Model
         return $this->belongsTo(Agama::class);
     }
 
+    public function campaign()
+    {
+        return $this->belongsTo(Campaign::class);
+    }
+
     public function pendidikan()
     {
         return $this->belongsTo(Pendidikan::class);

@@ -268,6 +268,13 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                                 </a>
                             </li>
                             <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/campaign*') ? ' active' : '' }}"
+                                    href="{{ route('campaign.index') }}">
+                                    <i class="nav-main-link-icon fa fa-bell"></i>
+                                    <span class="nav-main-link-name">Campaign</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
                                 <a class="nav-main-link {{ request()->is('master-data/dosis*') ? ' active' : '' }}"
                                     href="{{ route('dosis.index') }}">
                                     <i class="nav-main-link-icon fa fa-balance-scale"></i>

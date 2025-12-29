@@ -4,6 +4,7 @@ namespace App\Http\Controllers\user;
 
 use App\DataTables\RegistrasiDataTable;
 use App\Http\Controllers\Controller;
+use App\Models\Campaign;
 use App\Models\Dokter;
 use App\Models\Pasien;
 use App\Models\Pemeriksaan;
@@ -90,6 +91,7 @@ class RegistrasiController extends Controller
         $pasien = null;
         $dokter = Dokter::orderBy('name', 'ASC')->get();
         $room   = Room::orderBy('name', 'ASC')->get();
+        $campaign = Campaign::orderBy('name', 'ASC')->get();
 
         try {
             if ($uuid) {
@@ -107,6 +109,7 @@ class RegistrasiController extends Controller
             'pasien' => $pasien,
             'dokter' => $dokter,
             'room'   => $room,
+            'campaign'   => $campaign,
         ]);
     }
 
@@ -115,6 +118,7 @@ class RegistrasiController extends Controller
     {
         $request->validate([
             "pasien_uuid"      => "required|string|exists:pasien,uuid",
+            "campaign_id"      => "nullable|exists:campaign,id"
         ]);
 
         $pasien = Pasien::where('uuid', $request->pasien_uuid)->firstOrFail();
@@ -158,6 +162,10 @@ class RegistrasiController extends Controller
         $rawData['datetime_registrasi'] = Carbon::now()->format('Y-m-d H:i:s');
 
         $data = Pemeriksaan::create($rawData);
+
+        $pasien->update([
+            'campaign_id' => $request->campaign_id,
+        ]);
 
         // return redirect()->route('registrasi.index')->withNotify('Data pemeriksaan berhasil ditambahkan dengan <strong>Kode Registrasi: ' . $data->code . '</strong><br><strong>No. antrean: '. $no_urut) . '</strong>';
         return redirect()
@@ -262,11 +270,13 @@ class RegistrasiController extends Controller
 
         $dokter = Dokter::orderBy('name', 'ASC')->get();
         $room = Room::orderBy('name', 'ASC')->get();
+        $campaign = Campaign::orderBy('name', 'ASC')->get();
 
         return view('pages.user.registrasi.edit', compact([
             'pemeriksaan',
             'dokter',
             'room',
+            'campaign',
         ]));
     }
 
@@ -286,7 +296,16 @@ class RegistrasiController extends Controller
             'datetime_registrasi.after_or_equal' => 'Tanggal registrasi tidak diperbolehkan backdate.',
         ]);
 
+        $request->validate([
+            'campaign_id' => 'nullable|exists:campaign,id'
+        ]);
+
         $pemeriksaan->update($rawData);
+        $pasien = Pasien::findOrFail($pemeriksaan->pasien_id);
+
+        $pasien->update([
+            'campaign_id' => $request->campaign_id,
+        ]);
 
         return redirect()->route('registrasi.index')->withNotify('Data pemeriksaan berhasil diubah dengan <br><strong>No. Registrasi: ' . $pemeriksaan->code . '</strong><br> <strong>No. urut: '. $pemeriksaan->no_urut) . '</strong>';
     }
