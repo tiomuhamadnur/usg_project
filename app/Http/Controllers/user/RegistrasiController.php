@@ -38,7 +38,7 @@ class RegistrasiController extends Controller
             'end_date.after_or_equal' => 'Tanggal akhir harus >= tanggal awal',
         ]);
 
-        $start_date = $request->start_date ?? Carbon::now()->format('Y-m-d');
+        $start_date = $request->start_date ?? null;
         $end_date = $request->end_date ?? $start_date;
         $pasien_uuid = $request->pasien_uuid ?? null;
 

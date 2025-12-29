@@ -159,8 +159,8 @@ class RegistrasiDataTable extends DataTable
             Column::make('pasien.gender.name')->title('Jenis Kelamin'),
             Column::make('dokter.name')->addClass('text-nowrap')->title('Dokter'),
             // Column::make('room.name')->title('Ruangan'),
-            Column::make('status_pemeriksaan.name')->title('Status Pemeriksaan'),
-            Column::make('status_pembayaran.name')->title('Status Pembayaran'),
+            Column::make('status_pemeriksaan.name')->title('Status Pemeriksaan')->addClass('text-center'),
+            Column::make('status_pembayaran.name')->title('Status Pembayaran')->addClass('text-center'),
         ];
     }
 
