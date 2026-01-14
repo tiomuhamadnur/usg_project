@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\Pasien;
+use App\Models\Diskon;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,27 +12,29 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class PasienDataTable extends DataTable
+class DiskonDataTable extends DataTable
 {
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('#', function ($item) {
-                $registrasiRoute = route('registrasi.create', ['uuid' => $item->uuid]);
-                $editRoute = route('pasien.edit', $item->uuid);
-                $deleteRoute = route('pasien.destroy', $item->uuid);
+                $editRoute = route('diskon.update', $item->uuid);
+                $deleteRoute = route('diskon.destroy', $item->uuid);
                 $actionButton = "<div class='dropdown'>
                                     <button class='btn btn-sm btn-primary' data-bs-toggle='dropdown'>
-                                        <i class='fa fa-eye'></i>
-                                        Lihat
+                                        <i class='fa fa-pencil'></i>
+                                        Edit
                                     </button>
 
                                     <div class='dropdown-menu dropdown-menu-end'>
-                                        <a class='dropdown-item' href='{$registrasiRoute}'>
-                                            <i class='fa fa-book'></i>
-                                            Tambahkan Registrasi
-                                        </a>
-                                        <a class='dropdown-item' href='{$editRoute}'>
+                                        <a class='dropdown-item' href='#' data-bs-toggle='modal' data-bs-target='#editModal'
+                                        data-url='{$editRoute}'
+                                        data-name='{$item->name}'
+                                        data-code='{$item->code}'
+                                        data-harga='{$item->harga}'
+                                        data-tanggal_awal='{$item->tanggal_awal}'
+                                        data-tanggal_akhir='{$item->tanggal_akhir}'
+                                        data-deskripsi='{$item->deskripsi}'>
                                             <i class='fa fa-pencil'></i>
                                             Edit
                                         </a>
@@ -45,46 +47,23 @@ class PasienDataTable extends DataTable
 
                 return $actionButton;
             })
-            ->addColumn('riwayat', function ($item) {
-                $historyRoute = route('registrasi.index', ['pasien_uuid' => $item->uuid]);
-                $actionButton = "<a class='btn btn-sm btn-success' href='{$historyRoute}'>
-                                    <i class='fa fa-rectangle-list'></i>
-                                    Riwayat
-                                </a>";
-
-                return $actionButton;
-            })
-            ->addColumn('umur', function ($item) {
-                $umur = $item->umur->tahun . ' Tahun ' . $item->umur->bulan . ' Bulan ' . $item->umur->hari . ' hari';
-                return $umur;
-            })
-            // ->addOrder(function ($query) {
-            //     $query->orderByDesc('created_at');
-            // })
-            ->rawColumns(['umur', 'riwayat', '#']);
+            ->rawColumns(['#']);
     }
 
-    public function query(Pasien $model): QueryBuilder
+    public function query(Diskon $model): QueryBuilder
     {
-        $query = $model->with([
-            'gender',
-        ])->newQuery();
-
-        $query->latest();
-
-        return $query;
+        return $model->newQuery();
     }
 
     public function html(): HtmlBuilder
     {
         return $this->builder()
-                    ->setTableId('pasien-table')
+                    ->setTableId('diskon-table')
                     ->columns($this->getColumns())
                     ->ajax('')
                     ->pageLength(10)
                     ->lengthMenu([10, 50, 100, 250, 500, 1000])
-                    //->dom('Bfrtip')
-                    ->orderBy([2, 'asc'])
+                    ->orderBy([0, 'asc'])
                     ->selectStyleSingle()
                     ->buttons([
                         [
@@ -106,19 +85,17 @@ class PasienDataTable extends DataTable
                 ->printable(false)
                 ->width(60)
                 ->addClass('text-center'),
-            Column::computed('riwayat')->title('Riwayat')->addClass('text-center'),
-            Column::make('name')->title('Nama Lengkap')->addClass('fw-bolder'),
-            Column::make('member_code')->title('Kode Member'),
-            Column::make('gender.name')->title('Jenis Kelamin'),
-            Column::make('no_hp')->title('No HP/WA'),
-            Column::make('tanggal_lahir')->title('Tanggal Lahir'),
-            // Column::computed('umur')->title('Umur')->addClass('text-wrap'),
-            Column::make('nik')->title('NIK KTP'),
+            Column::make('name')->title('Name'),
+            Column::make('code')->title('Code'),
+            Column::make('harga')->title('Harga (Rp)'),
+            Column::make('tanggal_awal')->title('Tanggal Awal'),
+            Column::make('tanggal_akhir')->title('Tanggal Akhir'),
+            Column::make('deskripsi')->title('Deskripsi')->addClass('text-wrap'),
         ];
     }
 
     protected function filename(): string
     {
-        return 'Pasien_' . date('YmdHis');
+        return 'Diskon_' . date('YmdHis');
     }
 }

@@ -323,6 +323,20 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                                     <span class="nav-main-link-name">Log Obat</span>
                                 </a>
                             </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/diskon*') ? ' active' : '' }}"
+                                    href="{{ route('diskon.index') }}">
+                                    <i class="nav-main-link-icon fa fa-percent"></i>
+                                    <span class="nav-main-link-name">Diskon</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/log-diskon*') ? ' active' : '' }}"
+                                    href="{{ route('log-diskon.index') }}">
+                                    <i class="nav-main-link-icon fa fa-history"></i>
+                                    <span class="nav-main-link-name">Log Diskon</span>
+                                </a>
+                            </li>
                         </ul>
                     </li>
                 @endsuperAdmin

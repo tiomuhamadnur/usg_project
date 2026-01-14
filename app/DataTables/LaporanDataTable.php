@@ -39,6 +39,12 @@ class LaporanDataTable extends DataTable
             ->addColumn('total_bayar', function ($item) {
                 return 'Rp. ' . number_format($item->total_bayar, 0, ',', '.');
             })
+            ->addColumn('total_diskon', function ($item) {
+                return 'Rp. ' . number_format($item->total_diskon, 0, ',', '.');
+            })
+            ->addColumn('total_grand', function ($item) {
+                return 'Rp. ' . number_format($item->total_grand, 0, ',', '.');
+            })
             ->addColumn('#', function ($item) {
                 $editRoute = route('laporan.edit', $item->uuid);
                 $showRoute = route('laporan.show', $item->uuid);
@@ -132,6 +138,8 @@ class LaporanDataTable extends DataTable
             Column::make('datetime')->addClass('text-nowrap')->title('Tanggal & Jam'),
             Column::make('pasien.name')->addClass('text-nowrap')->title('Nama Pasien'),
             Column::computed('total_bayar')->addClass('text-nowrap')->title('Total Bayar'),
+            Column::computed('total_diskon')->addClass('text-nowrap')->title('Diskon'),
+            Column::computed('total_grand')->addClass('text-nowrap')->title('Grand Total'),
             Column::make('metode_pembayaran.name')->addClass('text-nowrap')->title('Metode Bayar'),
             Column::make('status_pembayaran.name')->title('Status Pembayaran'),
         ];

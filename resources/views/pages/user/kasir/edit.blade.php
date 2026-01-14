@@ -176,11 +176,6 @@
                                                                     <td class="text-center">{{ $loop->iteration }}.</td>
                                                                     <td class="text-center">
                                                                         <input class="form-check-input fs-3" type="checkbox" name="is_confirmed[]" value="1" id="is_confirmed">
-                                                                        {{-- <div class="form-check">
-                                                                            <label class="form-check-label" for="is_confirmed">
-                                                                                Check
-                                                                            </label>
-                                                                        </div> --}}
                                                                         <input type="hidden" name="uuid[]" value="{{ $item->uuid }}">
                                                                     </td>
                                                                     <td>{{ $item->obat->name ?? 'N/A' }} ({{ $item->obat->sediaan->name ?? 'N/A' }})</td>
@@ -198,6 +193,17 @@
                                                             @endif
                                                         </tbody>
                                                     </table>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2">
+                                                <label class="col-sm-4 col-form-label optional">Diskon</label>
+                                                <div class="col-sm-7">
+                                                    <select class="form-select" name="diskon_id" id="diskon">
+                                                        <option value="" selected>Tidak ada</option>
+                                                        @foreach ($diskon as $item)
+                                                            <option value="{{ $item->id }}">{{ $item->name }} (Rp.{{ $item->harga ?? "0" }})</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="row mb-2">

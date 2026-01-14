@@ -5,6 +5,8 @@ namespace App\Http\Controllers\user;
 use App\DataTables\KasirDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\DetailObat;
+use App\Models\Diskon;
+use App\Models\LogDiskon;
 use App\Models\LogObat;
 use App\Models\MetodePembayaran;
 use App\Models\Obat;
@@ -115,12 +117,19 @@ class KasirController extends Controller
 
         $total_bayar = $biaya_layanan;
 
+        $today = Carbon::today();
+
+        $diskon = Diskon::whereDate('tanggal_awal', '<=', $today)
+                        ->whereDate('tanggal_akhir', '>=', $today)
+                        ->get();
+
         return view('pages.user.kasir.edit', compact([
             'pemeriksaan',
             'metode_pembayaran',
             'status_pemeriksaan',
             'status_pembayaran',
             'total_bayar',
+            'diskon',
         ]));
     }
 
@@ -133,6 +142,7 @@ class KasirController extends Controller
             "metode_pembayaran_id" => "required|numeric|min:1",
             "status_pemeriksaan_id" => "required|numeric|min:1",
             "status_pembayaran_id" => "required|numeric|min:1",
+            "diskon_id" => "nullable|exists:diskon,id",
             "uuid"   => "required|array",
             "uuid.*" => "required|uuid|exists:detail_obat,uuid",
             "is_confirmed.*" => "nullable|in:0,1",
@@ -161,10 +171,18 @@ class KasirController extends Controller
 
         // ✅ Kalau validasi lolos, langsung update
         $rawData = $request->only([
-            "total_bayar", "metode_pembayaran_id", "status_pemeriksaan_id", "status_pembayaran_id"
+            "metode_pembayaran_id", "status_pemeriksaan_id", "status_pembayaran_id"
         ]);
+
+        $total_bayar = $request->total_bayar ?? 0;
+        $total_diskon = Diskon::find($request->diskon_id)->harga ?? 0;
+
         $rawData["kasir_id"] = Auth::id();
         $rawData['datetime_invoice'] = now();
+
+        $rawData['total_diskon'] = $total_diskon;
+        $rawData['total_bayar'] = $total_bayar;
+        $rawData['total_grand'] = $total_bayar - $total_diskon;
 
         $pemeriksaan->update($rawData);
 
@@ -187,6 +205,11 @@ class KasirController extends Controller
                 ]);
             }
         }
+
+        LogDiskon::create([
+            'pemeriksaan_id' => $pemeriksaan->id,
+            'diskon_id' => $request->diskon_id,
+        ]);
 
         return redirect()
             ->route('dashboard.index')

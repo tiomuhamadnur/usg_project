@@ -11,7 +11,33 @@
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
     <style>
         @page {
-            margin: 25mm 5mm 20mm 5mm;
+            margin: 1mm 5mm 20mm 5mm;
+        }
+
+        .header-table {
+            width: 100%;
+            border-bottom: 1px solid #999;
+            padding-bottom: 8px;
+            margin-bottom: 12px;
+        }
+
+        .header-logo {
+            width: 80px;
+            vertical-align: top;
+        }
+
+        .header-text {
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .header-title {
+            font-size: 16px;
+            font-weight: bold;
+        }
+
+        .header-sub {
+            font-size: 11px;
         }
 
         body {
@@ -92,13 +118,25 @@
 </head>
 
 <body>
-
-    <div class="header">
-        <img src="{{ public_path('media/favicons/favicon.png') }}" alt="Logo Klinik">
+    <table class="header-table">
+        <tr>
+            <td class="header-logo">
+                <img src="{{ public_path('media/favicons/favicon.png') }}" width="70">
+            </td>
+            <td class="header-text">
+                <div class="header-title">Praktek Mandiri dr. Naya</div>
+                <div class="header-sub">
+                    SIP No. 446-0674-SIP TAHUN 2024<br>
+                    Jalan Taman Cimanggu Tengah No.11<br>
+                    Taman Cimanggu - Kota Bogor<br>
+                    Telp. 0895 0894 7548 ; IG. @usgaja.official
+                </div>
+            </td>
+        </tr>
+    </table>
+    <div class="footer">
+        <i> USGaja © {{ \Carbon\Carbon::now()->translatedFormat('Y') }} - (Dokumen ini dicetak pada {{ \Carbon\Carbon::now() }})</i>
     </div>
-        <div class="footer">
-            <i> USGaja © {{ \Carbon\Carbon::now()->translatedFormat('Y') }} - (Dokumen ini dicetak pada {{ \Carbon\Carbon::now() }})</i>
-        </div>
 
     <div class="title">
         INVOICE PEMBAYARAN
@@ -174,8 +212,16 @@
         </tbody>
         <tfoot>
             <tr>
-                <th colspan="2" class="text-right">TOTAL</th>
-                <th class="text-right">Rp. {{ number_format($total, 0, ',', '.') }}</th>
+                <td colspan="2" class="text-right">TOTAL BAYAR</td>
+                <td class="text-right">Rp. {{ number_format($total, 0, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="text-right">TOTAL DISKON</td>
+                <td class="text-right">Rp. {{ number_format($pemeriksaan->total_diskon, 0, ',', '.') }}</td>
+            </tr>
+            <tr>
+                <th colspan="2" class="text-right">GRAND TOTAL</th>
+                <th class="text-right"><b>Rp. {{ number_format($pemeriksaan->total_grand, 0, ',', '.') }}</b></th>
             </tr>
         </tfoot>
     </table>
