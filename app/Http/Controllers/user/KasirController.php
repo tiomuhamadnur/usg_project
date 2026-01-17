@@ -206,10 +206,12 @@ class KasirController extends Controller
             }
         }
 
-        LogDiskon::create([
-            'pemeriksaan_id' => $pemeriksaan->id,
-            'diskon_id' => $request->diskon_id,
-        ]);
+        if($total_diskon > 0) {
+            LogDiskon::create([
+                'pemeriksaan_id' => $pemeriksaan->id,
+                'diskon_id' => $request->diskon_id,
+            ]);
+        }
 
         return redirect()
             ->route('dashboard.index')

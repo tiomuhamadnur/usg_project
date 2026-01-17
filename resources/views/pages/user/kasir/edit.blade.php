@@ -148,7 +148,8 @@
                                                             @endforeach
                                                             @if ($pemeriksaan->layanans->count() == 0)
                                                                 <tr>
-                                                                    <td class="text-center" colspan="3">Tidak ada layanan</td>
+                                                                    <td class="text-center" colspan="3">Tidak ada
+                                                                        layanan</td>
                                                                 </tr>
                                                             @endif
                                                         </tbody>
@@ -175,20 +176,26 @@
                                                                 <tr>
                                                                     <td class="text-center">{{ $loop->iteration }}.</td>
                                                                     <td class="text-center">
-                                                                        <input class="form-check-input fs-3" type="checkbox" name="is_confirmed[]" value="1" id="is_confirmed">
-                                                                        <input type="hidden" name="uuid[]" value="{{ $item->uuid }}">
+                                                                        <input class="form-check-input fs-3"
+                                                                            type="checkbox" name="is_confirmed[]"
+                                                                            value="1" id="is_confirmed">
+                                                                        <input type="hidden" name="uuid[]"
+                                                                            value="{{ $item->uuid }}">
                                                                     </td>
-                                                                    <td>{{ $item->obat->name ?? 'N/A' }} ({{ $item->obat->sediaan->name ?? 'N/A' }})</td>
+                                                                    <td>{{ $item->obat->name ?? 'N/A' }}
+                                                                        ({{ $item->obat->sediaan->name ?? 'N/A' }})</td>
                                                                     <td>{{ $item->dosis ?? 'N/A' }}</td>
                                                                     <td>{{ $item->aturan_pakai ?? 'N/A' }}</td>
-                                                                    <td class="text-center">{{ $item->jumlah ?? '-' }}</td>
+                                                                    <td class="text-center">{{ $item->jumlah ?? '-' }}
+                                                                    </td>
                                                                     <td>{{ $item->obat->harga_jual ?? '0' }}</td>
                                                                     <td>{{ $item->obat->harga_jual * $item->jumlah }}</td>
                                                                 </tr>
                                                             @endforeach
                                                             @if ($pemeriksaan->obats->count() == 0)
                                                                 <tr>
-                                                                    <td class="text-center" colspan="5">Tidak ada obat</td>
+                                                                    <td class="text-center" colspan="5">Tidak ada obat
+                                                                    </td>
                                                                 </tr>
                                                             @endif
                                                         </tbody>
@@ -196,23 +203,37 @@
                                                 </div>
                                             </div>
                                             <div class="row mb-2">
+                                                <label class="col-sm-4 col-form-label required">Total Sebelum Diskon
+                                                    (Rp.)</label>
+                                                <div class="col-sm-7">
+                                                    <input type="number" min="1" class="form-control"
+                                                        name="total_bayar" id="total_bayar" autocomplete="off" required
+                                                        placeholder="input total bayar" value="{{ $total_bayar }}"
+                                                        readonly>
+                                                </div>
+                                            </div>
+                                            <div class="row mb-2">
                                                 <label class="col-sm-4 col-form-label optional">Diskon</label>
                                                 <div class="col-sm-7">
-                                                    <select class="form-select" name="diskon_id" id="diskon">
+                                                    <select class="form-select" name="diskon_id" id="diskon_id">
                                                         <option value="" selected>Tidak ada</option>
                                                         @foreach ($diskon as $item)
-                                                            <option value="{{ $item->id }}">{{ $item->name }} (Rp.{{ $item->harga ?? "0" }})</option>
+                                                            <option value="{{ $item->id }}"
+                                                                data-harga="{{ $item->harga ?? 0 }}">
+                                                                {{ $item->name }} (Rp.{{ $item->harga ?? '0' }})
+                                                            </option>
                                                         @endforeach
                                                     </select>
                                                 </div>
                                             </div>
                                             <div class="row mb-2">
-                                                <label class="col-sm-4 col-form-label required">Total Bayar (Rp.)</label>
+                                                <label class="col-sm-4 col-form-label required"><b>Total Dibayar
+                                                        (Rp.)</b></label>
                                                 <div class="col-sm-7">
                                                     <input type="number" min="1" class="form-control"
-                                                        name="total_bayar" id="total_bayar" autocomplete="off" required
-                                                        placeholder="input total bayar"
-                                                        value="{{ $total_bayar }}" readonly>
+                                                        id="total_dibayar" autocomplete="off"
+                                                        placeholder="input total dibayar" value="{{ $total_bayar }}"
+                                                        readonly>
                                                 </div>
                                             </div>
                                             <div class="row mb-2">
@@ -331,15 +352,10 @@
 @section('javascript')
     <script>
         $(document).ready(function() {
-            // --- INITIAL STATE ---
-            // Disable the "Status" tab to enforce a sequential workflow.
+
+            // ================= TAB & VALIDATION (TETAP ADA) =================
             $('#btabs-animated-slideup-status-tab').prop('disabled', true);
 
-            /**
-             * Validates all required fields within a given tab pane.
-             * @param {string} tabPaneId The ID of the tab pane to validate (e.g., '#btabs-animated-slideup-home').
-             * @returns {boolean} Returns true if all required fields are filled, false otherwise.
-             */
             function validateTab(tabPaneId) {
                 let isValid = true;
                 $(tabPaneId).find('[required]').each(function() {
@@ -355,65 +371,78 @@
                         icon: 'warning',
                         title: 'Data Belum Lengkap',
                         text: 'Mohon lengkapi semua kolom yang wajib diisi sebelum melanjutkan.',
-                        confirmButtonColor: '#3085d6',
                     });
                 }
                 return isValid;
             }
 
-            // Remove 'is-invalid' class when user starts typing or changes input
             $('form').on('input change', '.is-invalid', function() {
                 $(this).removeClass('is-invalid');
             });
 
-            // --- TAB NAVIGATION HANDLERS ---
-
-            // "Next" button from Pembayaran to Status
             $('#nextToStatus').on('click', function(e) {
                 e.preventDefault();
-                // Validate the current tab (#btabs-animated-slideup-home) before proceeding
                 if (validateTab('#btabs-animated-slideup-home')) {
                     $('#btabs-animated-slideup-status-tab').prop('disabled', false);
-                    var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-status-tab')[0]);
-                    triggerTab.show();
+                    new bootstrap.Tab($('#btabs-animated-slideup-status-tab')[0]).show();
                 }
             });
 
-            // "Back" button from Status to Pembayaran
             $('#prevToPengukuran').on('click', function(e) {
                 e.preventDefault();
-                var triggerTab = new bootstrap.Tab($('#btabs-animated-slideup-home-tab')[0]);
-                triggerTab.show();
+                new bootstrap.Tab($('#btabs-animated-slideup-home-tab')[0]).show();
             });
 
+            // ================= HITUNG TOTAL =================
 
-            // ambil nilai total bayar awal dari blade
-            let baseTotal = parseInt("{{ $total_bayar }}") || 0;
-            const totalBayarInput = document.getElementById("total_bayar");
+            const baseTotal = parseInt("{{ $total_bayar }}") || 0;
 
-            function updateTotal() {
-                let sum = baseTotal;
+            const totalSebelumDiskonInput = document.getElementById('total_bayar');
+            const totalDibayarInput = document.getElementById('total_dibayar');
+            const diskonSelect = document.getElementById('diskon_id');
 
-                // cari semua baris dengan checkbox
-                document.querySelectorAll('tbody tr').forEach(function (row) {
-                    const checkbox = row.querySelector('input[name="is_confirmed[]"]');
-                    const subTotalCell = row.querySelector('td:nth-child(7)'); // kolom ke-7 = Sub Total
+            function hitungTotalObat() {
+                let totalObat = 0;
 
-                    if (checkbox && checkbox.checked && subTotalCell) {
-                        let subTotal = parseInt(subTotalCell.textContent) || 0;
-                        sum += subTotal;
+                document.querySelectorAll('input[name="is_confirmed[]"]').forEach(function(cb) {
+                    if (cb.checked) {
+                        const row = cb.closest('tr');
+                        const subTotalCell = row.querySelector('td:nth-child(8)'); // SUB TOTAL
+
+                        if (subTotalCell) {
+                            totalObat += parseInt(subTotalCell.textContent) || 0;
+                        }
                     }
                 });
 
-                totalBayarInput.value = sum;
+                return totalObat;
             }
 
-            // event listener untuk checkbox
-            document.querySelectorAll('input[name="is_confirmed[]"]').forEach(function (cb) {
-                cb.addEventListener("change", updateTotal);
+            function updateTotal() {
+                const totalObat = hitungTotalObat();
+                const totalSebelumDiskon = baseTotal + totalObat;
+
+                totalSebelumDiskonInput.value = totalSebelumDiskon;
+
+                let diskon = 0;
+                const selectedOption = diskonSelect.options[diskonSelect.selectedIndex];
+                if (selectedOption) {
+                    diskon = parseInt(selectedOption.dataset.harga) || 0;
+                }
+
+                let totalDibayar = totalSebelumDiskon - diskon;
+                if (totalDibayar < 0) totalDibayar = 0;
+
+                totalDibayarInput.value = totalDibayar;
+            }
+
+            // ================= EVENT =================
+            document.querySelectorAll('input[name="is_confirmed[]"]').forEach(function(cb) {
+                cb.addEventListener('change', updateTotal);
             });
 
-            // hitung ulang di awal (kalau ada yg sudah dicentang default)
+            diskonSelect.addEventListener('change', updateTotal);
+
             updateTotal();
         });
     </script>

@@ -14,7 +14,7 @@
                     <h3 class="fs-3 fw-semibold my-2 mb-0">
                         Edit Registrasi Pasien
                     </h3>
-                    <a href="{{ route('registrasi.index') }}" class="btn btn-danger">
+                    <a href="{{ route('registrasi.index') }}" class="btn btn-secondary">
                         <i class="fa fa-times me-1"></i> Batal
                     </a>
                 </div>

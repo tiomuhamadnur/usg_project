@@ -64,10 +64,6 @@ class LaporanDataTable extends DataTable
                                             <i class='fa fa-credit-card'></i>
                                             Invoice
                                         </a>
-                                        <a class='dropdown-item' href='{$editRoute}'>
-                                            <i class='fa fa-pencil'></i>
-                                            Edit
-                                        </a>
                                     </div>
                                 </div>";
 
