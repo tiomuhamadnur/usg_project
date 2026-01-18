@@ -60,6 +60,15 @@ return [
             'report' => false,
         ],
 
+        'exam_sftp' => [
+            'driver'   => 'sftp',
+            'host'     => env('EXAM_SFTP_HOST'),
+            'username' => env('EXAM_SFTP_USER'),
+            'password' => env('EXAM_SFTP_PASS'),
+            'port'     => (int) env('EXAM_SFTP_PORT', 22),
+            'root'     => env('EXAM_SFTP_ROOT'),
+            'timeout'  => 60,
+        ],
     ],
 
     /*

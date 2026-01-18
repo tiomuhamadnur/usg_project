@@ -113,6 +113,11 @@ class Pemeriksaan extends Model
         return $this->hasMany(DetailLayanan::class, 'pemeriksaan_id');
     }
 
+    public function medias()
+    {
+        return $this->hasMany(ExamMediaStatus::class, 'pemeriksaan_id');
+    }
+
     public function obats()
     {
         return $this->hasMany(DetailObat::class, 'pemeriksaan_id');

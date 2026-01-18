@@ -22,7 +22,9 @@ use App\Http\Controllers\admin\RoomController;
 use App\Http\Controllers\admin\SediaanController;
 use App\Http\Controllers\admin\UnitController;
 use App\Http\Controllers\admin\UserController;
+use App\Http\Controllers\admin\WhatsappController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\user\HasilController;
 use App\Http\Controllers\user\KasirController;
 use App\Http\Controllers\user\LaporanController;
 use App\Http\Controllers\user\LogObatController;
@@ -82,6 +84,8 @@ Route::group(['middleware' => ['auth', 'isAssigned']], function () {
 
     Route::resource('/kasir', KasirController::class)->middleware('Admin');
 
+    Route::resource('/hasil', HasilController::class)->middleware('Admin');
+
     Route::resource('/laporan', LaporanController::class)->middleware('Admin');
     Route::get('/laporan/invoice/{uuid}', [LaporanController::class, 'invoice'])->name('laporan.invoice')->middleware('Admin');
 
@@ -96,6 +100,7 @@ Route::group(['middleware' => ['auth', 'isAssigned']], function () {
         Route::resource('/golongan-darah', GolonganDarahController::class);
         Route::resource('/hubungan-pasien', HubunganPasienController::class);
         Route::resource('/device', DeviceController::class);
+        Route::resource('/whatsapp', WhatsappController::class);
         Route::resource('/unit', UnitController::class);
         Route::resource('/campaign', CampaignController::class);
         Route::resource('/sediaan', SediaanController::class);

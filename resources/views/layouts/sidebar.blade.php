@@ -174,6 +174,13 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                             <span class="nav-main-link-name">Laporan</span>
                         </a>
                     </li>
+                    <li class="nav-main-item">
+                        <a class="nav-main-link {{ request()->is('hasil*') ? ' active' : '' }}"
+                            href="{{ route('hasil.index') }}">
+                            <i class="nav-main-link-icon fa fa-paper-plane"></i>
+                            <span class="nav-main-link-name">Kirim Pemeriksaan</span>
+                        </a>
+                    </li>
                 @endAdmin
                 @superAdmin
                     <li class="nav-main-item{{ request()->is('master-data*') ? ' open' : '' }}">
@@ -258,6 +265,13 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                                     href="{{ route('device.index') }}">
                                     <i class="nav-main-link-icon fa fa-toolbox"></i>
                                     <span class="nav-main-link-name">Device</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/whatsapp*') ? ' active' : '' }}"
+                                    href="{{ route('whatsapp.index') }}">
+                                    <i class="nav-main-link-icon fa fa-plug"></i>
+                                    <span class="nav-main-link-name">Whatsapp Gateway</span>
                                 </a>
                             </li>
                             <li class="nav-main-item">
