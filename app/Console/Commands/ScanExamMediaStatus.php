@@ -24,8 +24,7 @@ class ScanExamMediaStatus extends Command
 
     public function handle()
     {
-        // $today = Carbon::today();
-        $today = Carbon::create(2026, 1, 17, 0, 0, 0);
+        $today = Carbon::today();
         $dateFolder = $today->format('Ymd');
 
         $pemeriksaans = Pemeriksaan::whereBetween(
