@@ -23,6 +23,16 @@ use Rawilk\Printing\Receipts\Enums\BarcodeType;
 
 class RegistrasiController extends Controller
 {
+    public function __construct()
+    {
+        // hanya index
+        $this->middleware('permission:registrasi.read')->only('index');
+
+        // selain index
+        $this->middleware('permission:registrasi.write')
+            ->except('index');
+    }
+
     public function index(RegistrasiDataTable $dataTable, Request $request)
     {
         $request->validate([

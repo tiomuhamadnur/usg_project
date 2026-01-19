@@ -63,7 +63,7 @@ class UserDataTable extends DataTable
     public function query(User $model): QueryBuilder
     {
         $query = $model
-            ->with(['gender'])
+            ->with(['gender', 'role'])
             ->newQuery();
 
         return $query;
@@ -97,6 +97,7 @@ class UserDataTable extends DataTable
             Column::make('email')->title('Email'),
             Column::make('no_hp')->title('No. HP'),
             Column::make('gender.name')->title('Jenis Kelamin'),
+            Column::make('role.name')->title('Jabatan'),
             Column::computed('roles')->title('Role'),
         ];
     }

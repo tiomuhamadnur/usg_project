@@ -63,7 +63,7 @@
                                 </div>
                             </div>
                             <div class="row mb-4">
-                                <div class="col-12 col-md-6">
+                                <div class="col-12 col-md-4">
                                     <label class="form-label required">Jenis Kelamin</label>
                                     <select class="form-select js-select2" name="gender_id" id="gender_id" required>
                                         <option value="" selected disabled>- pilih jenis kelamin -</option>
@@ -74,7 +74,18 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="col-12 col-md-6">
+                                <div class="col-12 col-md-4">
+                                    <label class="form-label required">Jabatan</label>
+                                    <select class="form-select js-select2" name="role_id" id="role_id" required>
+                                        <option value="" selected disabled>- pilih jabatan -</option>
+                                        @foreach ($jabatan as $item)
+                                            <option value="{{ $item->id }}" @selected(old('role_id', $user->role_id) == $item->id)>
+                                                {{ $item->name }}
+                                            </option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="col-12 col-md-4">
                                     <label class="form-label required">Role</label>
                                     <select class="form-select" name="role_name" required>
                                         <option value="" selected disabled>- pilih role -</option>

@@ -12,6 +12,16 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class LaporanController extends Controller
 {
+    public function __construct()
+    {
+        // hanya index
+        $this->middleware('permission:laporan.read')->only(['index', 'invoice', 'show']);
+
+        // selain index
+        $this->middleware('permission:laporan.write')
+            ->except('index', 'invoice', 'show');
+    }
+
     public function index(LaporanDataTable $dataTable, Request $request)
     {
         $request->validate([

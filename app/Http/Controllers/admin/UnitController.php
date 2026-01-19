@@ -9,6 +9,16 @@ use Illuminate\Http\Request;
 
 class UnitController extends Controller
 {
+    public function __construct()
+    {
+        // hanya index
+        $this->middleware('permission:master.read')->only('index');
+
+        // selain index
+        $this->middleware('permission:master.write')
+            ->except('index');
+    }
+
     public function index(UnitDataTable $dataTable)
     {
         return $dataTable->render('pages.admin.unit.index');

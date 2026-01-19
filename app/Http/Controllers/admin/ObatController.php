@@ -11,6 +11,16 @@ use Illuminate\Http\Request;
 
 class ObatController extends Controller
 {
+    public function __construct()
+    {
+        // hanya index
+        $this->middleware('permission:master.read')->only('index');
+
+        // selain index
+        $this->middleware('permission:master.write')
+            ->except('index');
+    }
+
     public function index(ObatDataTable $dataTable)
     {
         $unit = Unit::orderBy('name', 'ASC')->get();

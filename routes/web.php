@@ -58,7 +58,7 @@ Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $r) {
 Auth::routes();
 
 Route::get('/home', function () {
-    if(Auth::user()->role_id == 1) {
+    if(Auth::user()->can('dashboard.read')) {
         return redirect()->route('dashboard-admin.index');
     }
 
@@ -75,22 +75,22 @@ Route::get('/unassigned-user', function () {
 Route::group(['middleware' => ['auth', 'isAssigned']], function () {
     Route::resource('/dashboard', DashboardController::class);
 
-    Route::resource('/pasien', PasienController::class)->middleware('Admin');
+    Route::resource('/pasien', PasienController::class);
 
-    Route::resource('/registrasi', RegistrasiController::class)->middleware('Admin');
+    Route::resource('/registrasi', RegistrasiController::class);
 
-    Route::resource('/pemeriksaan-awal', PemeriksaanAwalController::class)->middleware(['Admin']);
+    Route::resource('/pemeriksaan-awal', PemeriksaanAwalController::class);
 
-    Route::resource('/pemeriksaan-dokter', PemeriksaanController::class)->middleware('Dokter');
+    Route::resource('/pemeriksaan-dokter', PemeriksaanController::class);
 
-    Route::resource('/kasir', KasirController::class)->middleware('Admin');
+    Route::resource('/kasir', KasirController::class);
 
-    Route::resource('/hasil', HasilController::class)->middleware('Admin');
+    Route::resource('/hasil', HasilController::class);
 
-    Route::resource('/laporan', LaporanController::class)->middleware('Admin');
-    Route::get('/laporan/invoice/{uuid}', [LaporanController::class, 'invoice'])->name('laporan.invoice')->middleware('Admin');
+    Route::resource('/laporan', LaporanController::class);
+    Route::get('/laporan/invoice/{uuid}', [LaporanController::class, 'invoice'])->name('laporan.invoice');
 
-    Route::group(['middleware' => ['superAdmin'], 'prefix' => 'master-data',], function () {
+    Route::group(['prefix' => 'master-data'], function () {
         Route::resource('/user', UserController::class);
         Route::resource('/gender', GenderController::class);
         Route::resource('/role', RoleController::class);
@@ -109,7 +109,8 @@ Route::group(['middleware' => ['auth', 'isAssigned']], function () {
         Route::resource('/aturan-pakai', AturanPakaiController::class);
         Route::resource('/permission', PermissionController::class);
     });
-    Route::group(['middleware' => ['superAdmin'], 'prefix' => 'analisis',], function () {
+
+    Route::group(['prefix' => 'analisis',], function () {
         Route::resource('/whatsapp', WhatsappController::class);
         Route::resource('/layanan', LayananController::class);
         Route::resource('/obat', ObatController::class);

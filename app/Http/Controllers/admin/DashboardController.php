@@ -13,6 +13,16 @@ use Rawilk\Printing\Receipts\ReceiptPrinter;
 
 class DashboardController extends Controller
 {
+    public function __construct()
+    {
+        // hanya index
+        $this->middleware('permission:dashboard.read')->only('index');
+
+        // selain index
+        $this->middleware('permission:dashboard.write')
+            ->except('index');
+    }
+
     public function index(Request $request)
     {
         $request->validate([

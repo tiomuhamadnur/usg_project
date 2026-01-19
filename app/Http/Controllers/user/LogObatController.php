@@ -10,6 +10,16 @@ use Illuminate\Http\Request;
 
 class LogObatController extends Controller
 {
+    public function __construct()
+    {
+        // hanya index
+        $this->middleware('permission:log_obat.read')->only('index');
+
+        // selain index
+        $this->middleware('permission:log_obat.write')
+            ->except('index');
+    }
+
     public function index(LogObatDataTable $dataTable, Request $request)
     {
         $request->validate([

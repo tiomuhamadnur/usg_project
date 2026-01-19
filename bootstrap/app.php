@@ -25,5 +25,33 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        //
+        // ❶ — Unauthorized (belum login)
+        $exceptions->render(function (Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException $e, $request) {
+            return response()->view('components.errors.401', [], 401);
+        });
+
+        // ❷ — Forbidden (sudah login tapi tidak punya izin)
+        $exceptions->render(function (Spatie\Permission\Exceptions\UnauthorizedException $e, $request) {
+            return response()->view('components.errors.403', [], 403);
+        });
+
+        // ❸ — Not Found
+        $exceptions->render(function (Symfony\Component\HttpKernel\Exception\NotFoundHttpException $e, $request) {
+            return response()->view('components.errors.404', [], 404);
+        });
+
+        // ❹ — Method not allowed (optional)
+        $exceptions->render(function (Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException $e, $request) {
+            return response()->view('components.errors.404', [], 404);
+        });
+
+        // 419 Page Expired → CSRF token mismatch
+        $exceptions->renderable(function (\Illuminate\Session\TokenMismatchException $e, $request) {
+            return response()->view('components.errors.419', [], 419);
+        });
+
+        // // ❺ — Server Error (fallback)
+        // $exceptions->render(function (Throwable $e, $request) {
+        //     return response()->view('components.errors.500', [], 500);
+        // });
     })->create();

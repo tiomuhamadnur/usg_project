@@ -14,6 +14,16 @@ use Illuminate\Support\Facades\Storage;
 
 class HasilController extends Controller
 {
+    public function __construct()
+    {
+        // hanya index
+        $this->middleware('permission:kirim_hasil.read')->only('index');
+
+        // selain index
+        $this->middleware('permission:kirim_hasil.write')
+            ->except('index');
+    }
+
     public function index(HasilDataTable $dataTable, Request $request)
     {
         $request->validate([

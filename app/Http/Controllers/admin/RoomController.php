@@ -9,6 +9,16 @@ use Illuminate\Http\Request;
 
 class RoomController extends Controller
 {
+    public function __construct()
+    {
+        // hanya index
+        $this->middleware('permission:master.read')->only('index');
+
+        // selain index
+        $this->middleware('permission:master.write')
+            ->except('index');
+    }
+
     public function index(RoomDataTable $dataTable)
     {
         return $dataTable->render('pages.admin.room.index');

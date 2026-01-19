@@ -9,6 +9,16 @@ use Illuminate\Http\Request;
 
 class DosisController extends Controller
 {
+    public function __construct()
+    {
+        // hanya index
+        $this->middleware('permission:master.read')->only('index');
+
+        // selain index
+        $this->middleware('permission:master.write')
+            ->except('index');
+    }
+
     public function index(DosisDataTable $dataTable)
     {
         return $dataTable->render('pages.admin.dosis.index');

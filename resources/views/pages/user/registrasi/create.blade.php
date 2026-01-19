@@ -165,7 +165,7 @@
                                                         <option value="" disabled selected>- pilih sumber informasi -</option>
                                                         @foreach ($campaign as $item)
                                                             <option value="{{ $item->id }}"
-                                                                @selected(old('campaign_id') == $item->id)>
+                                                                @selected(old('campaign_id', $pasien->campaign_id) == $item->id)>
                                                                 {{ $item->name }}
                                                             </option>
                                                         @endforeach

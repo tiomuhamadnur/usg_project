@@ -5,6 +5,7 @@ namespace App\Http\Controllers\admin;
 use App\DataTables\UserDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Gender;
+use App\Models\Role as ModelsRole;
 // use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -13,6 +14,16 @@ use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        // hanya index
+        $this->middleware('permission:master.read')->only('index');
+
+        // selain index
+        $this->middleware('permission:master.write')
+            ->except('index');
+    }
+
     public function index(UserDataTable $dataTable)
     {
         return $dataTable->render('pages.admin.user.index');
@@ -38,11 +49,13 @@ class UserController extends Controller
         $user = User::where('uuid', $uuid)->firstOrFail();
         $gender = Gender::all();
         $role = Role::all();
+        $jabatan = ModelsRole::all();
 
         return view('pages.admin.user.edit', compact([
             'user',
             'gender',
             'role',
+            'jabatan',
         ]));
     }
 
@@ -60,6 +73,7 @@ class UserController extends Controller
                 'regex:/^(?:62)8[1-9][0-9]{6,9}$/'
             ],
             "gender_id" => "required|numeric|exists:gender,id",
+            "role_id" => "required|numeric|exists:role,id",
         ]);
 
         $validated = $request->validate([
@@ -77,7 +91,7 @@ class UserController extends Controller
     {
         $user = User::where('uuid', $uuid)->firstOrFail();
 
-        if($user->d == Auth::user()->id) {
+        if($user->id == Auth::user()->id) {
             return redirect()->route('user.index')->withNotifyerror('Data user yang anda hapus adalah akun anda sekarang');
         }
 

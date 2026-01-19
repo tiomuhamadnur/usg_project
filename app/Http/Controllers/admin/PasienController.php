@@ -20,6 +20,16 @@ use Illuminate\Http\Request;
 
 class PasienController extends Controller
 {
+    public function __construct()
+    {
+        // hanya index
+        $this->middleware('permission:pasien.read')->only('index');
+
+        // selain index
+        $this->middleware('permission:pasien.write')
+            ->except('index');
+    }
+
     public function index(PasienDataTable $dataTable)
     {
         return $dataTable->render('pages.admin.pasien.index');

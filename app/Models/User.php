@@ -8,11 +8,12 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Sanctum\HasApiTokens;
+use Mchev\Banhammer\Traits\Bannable;
 use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasFactory, Notifiable, HasRoles, HasApiTokens;
+    use HasFactory, Notifiable, HasRoles, HasApiTokens, Bannable;
 
     protected $fillable = [
         'name',
@@ -48,10 +49,10 @@ class User extends Authenticatable
         });
     }
 
-    // public function role()
-    // {
-    //     return $this->belongsTo(Role::class);
-    // }
+    public function role()
+    {
+        return $this->belongsTo(Role::class);
+    }
 
     public function gender()
     {

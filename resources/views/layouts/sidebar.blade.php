@@ -63,17 +63,19 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
         <!-- Side Navigation -->
         <div class="content-side content-side-full">
             <ul class="nav-main">
-                <li class="nav-main-item">
-                    <a class="nav-main-link{{ request()->is('dashboard') ? ' active' : '' }}"
-                        href="{{ route('dashboard.index') }}">
-                        <i class="nav-main-link-icon fa fa-home"></i>
-                        <span class="nav-main-link-name">Home</span>
-                        {{-- <span class="nav-main-link-badge badge rounded-pill bg-primary">5</span> --}}
-                    </a>
-                </li>
+                @can('home.read')
+                    <li class="nav-main-item">
+                        <a class="nav-main-link{{ request()->is('dashboard') ? ' active' : '' }}"
+                            href="{{ route('dashboard.index') }}">
+                            <i class="nav-main-link-icon fa fa-home"></i>
+                            <span class="nav-main-link-name">Home</span>
+                            {{-- <span class="nav-main-link-badge badge rounded-pill bg-primary">5</span> --}}
+                        </a>
+                    </li>
+                @endcan
 
                 {{-- <li class="nav-main-heading">Pelayanan</li> --}}
-                @Admin
+                @can('pasien.read')
                     <li class="nav-main-item{{ request()->is('pasien*') ? ' open' : '' }}">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
                             aria-expanded="true" href="#">
@@ -81,12 +83,14 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                             <span class="nav-main-link-name">Pasien</span>
                         </a>
                         <ul class="nav-main-submenu">
-                            <li class="nav-main-item">
-                                <a class="nav-main-link{{ request()->is('pasien/create') ? ' active' : '' }}"
-                                    href="{{ route('pasien.create') }}">
-                                    <span class="nav-main-link-name">Tambah Pasien Baru</span>
-                                </a>
-                            </li>
+                            @can('pasien.write')
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link{{ request()->is('pasien/create') ? ' active' : '' }}"
+                                        href="{{ route('pasien.create') }}">
+                                        <span class="nav-main-link-name">Tambah Pasien Baru</span>
+                                    </a>
+                                </li>
+                            @endcan
                             <li class="nav-main-item">
                                 <a class="nav-main-link{{ request()->is('pasien') ? ' active' : '' }}"
                                     href="{{ route('pasien.index') }}">
@@ -95,6 +99,9 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                             </li>
                         </ul>
                     </li>
+                @endcan
+
+                @can('registrasi.read')
                     <li class="nav-main-item{{ request()->is('registrasi*') ? ' open' : '' }}">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
                             aria-expanded="true" href="#">
@@ -102,12 +109,14 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                             <span class="nav-main-link-name">Registrasi</span>
                         </a>
                         <ul class="nav-main-submenu">
-                            <li class="nav-main-item">
-                                <a class="nav-main-link{{ request()->is('registrasi/create') ? ' active' : '' }}"
-                                    href="{{ route('registrasi.create') }}">
-                                    <span class="nav-main-link-name">Buat Registrasi Baru</span>
-                                </a>
-                            </li>
+                            @can('registrasi.write')
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link{{ request()->is('registrasi/create') ? ' active' : '' }}"
+                                        href="{{ route('registrasi.create') }}">
+                                        <span class="nav-main-link-name">Buat Registrasi Baru</span>
+                                    </a>
+                                </li>
+                            @endcan
                             <li class="nav-main-item">
                                 <a class="nav-main-link{{ request()->is('registrasi') ? ' active' : '' }}"
                                     href="{{ route('registrasi.index') }}">
@@ -116,9 +125,9 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                             </li>
                         </ul>
                     </li>
-                @endAdmin
+                @endcan
 
-                @Admin
+                @can('pemeriksaan_awal.read')
                     <li class="nav-main-item">
                         <a class="nav-main-link {{ request()->is('pemeriksaan-awal*') ? ' active' : '' }}"
                             href="{{ route('pemeriksaan-awal.index') }}">
@@ -126,7 +135,8 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                             <span class="nav-main-link-name">Pemeriksaan Awal</span>
                         </a>
                     </li>
-                    {{-- <li class="nav-main-item{{ request()->is('pemeriksaan-*') ? ' open' : '' }}">
+                @endcan
+                {{-- <li class="nav-main-item{{ request()->is('pemeriksaan-*') ? ' open' : '' }}">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
                             aria-expanded="true" href="#">
                             <i class="nav-main-link-icon fa fa-stethoscope"></i>
@@ -149,8 +159,8 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                             @endDokter
                         </ul>
                     </li> --}}
-                @endAdmin
-                @Dokter
+
+                @can('pemeriksaan_dokter.read')
                     <li class="nav-main-item">
                         <a class="nav-main-link {{ request()->is('pemeriksaan-dokter*') ? ' active' : '' }}"
                             href="{{ route('pemeriksaan-dokter.index') }}">
@@ -158,8 +168,9 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                             <span class="nav-main-link-name">Pemeriksaan Dokter</span>
                         </a>
                     </li>
-                @endDokter
-                @Admin
+                @endcan
+
+                @can('kasir.read')
                     <li class="nav-main-item">
                         <a class="nav-main-link {{ request()->is('kasir*') ? ' active' : '' }}"
                             href="{{ route('kasir.index') }}">
@@ -167,6 +178,9 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                             <span class="nav-main-link-name">Kasir</span>
                         </a>
                     </li>
+                @endcan
+
+                @can('laporan.read')
                     <li class="nav-main-item">
                         <a class="nav-main-link {{ request()->is('laporan*') ? ' active' : '' }}"
                             href="{{ route('laporan.index') }}">
@@ -174,6 +188,9 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                             <span class="nav-main-link-name">Laporan</span>
                         </a>
                     </li>
+                @endcan
+
+                @can('kirim_hasil.read')
                     <li class="nav-main-item">
                         <a class="nav-main-link {{ request()->is('hasil*') ? ' active' : '' }}"
                             href="{{ route('hasil.index') }}">
@@ -181,8 +198,10 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                             <span class="nav-main-link-name">Kirim Pemeriksaan</span>
                         </a>
                     </li>
-                @endAdmin
-                @superAdmin
+                @endcan
+
+                @canany(['master.read', 'dashboard.read', 'log_obat.read', 'log_diskon.read'])
+                    <li class="nav-main-heading">ADVANCED PAGE</li>
                     <li class="nav-main-item{{ request()->is('analisis*') ? ' open' : '' }}">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
                             aria-expanded="true" href="#">
@@ -190,58 +209,74 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                             <span class="nav-main-link-name">Analisis</span>
                         </a>
                         <ul class="nav-main-submenu">
-                            <li class="nav-main-item">
-                                <a class="nav-main-link {{ request()->is('analisis/dashboard-admin*') ? ' active' : '' }}"
-                                    href="{{ route('dashboard-admin.index') }}">
-                                    <i class="nav-main-link-icon fa fa-pie-chart"></i>
-                                    <span class="nav-main-link-name">Dashboard</span>
-                                </a>
-                            </li>
-                            <li class="nav-main-item">
-                                <a class="nav-main-link {{ request()->is('analisis/whatsapp*') ? ' active' : '' }}"
-                                    href="{{ route('whatsapp.index') }}">
-                                    <i class="nav-main-link-icon fa fa-plug"></i>
-                                    <span class="nav-main-link-name">Whatsapp Gateway</span>
-                                </a>
-                            </li>
-                            <li class="nav-main-item">
-                                <a class="nav-main-link {{ request()->is('analisis/obat*') ? ' active' : '' }}"
-                                    href="{{ route('obat.index') }}">
-                                    <i class="nav-main-link-icon fa fa-medkit"></i>
-                                    <span class="nav-main-link-name">Obat</span>
-                                </a>
-                            </li>
-                            <li class="nav-main-item">
-                                <a class="nav-main-link {{ request()->is('analisis/log-obat*') ? ' active' : '' }}"
-                                    href="{{ route('log-obat.index') }}">
-                                    <i class="nav-main-link-icon fa fa-history"></i>
-                                    <span class="nav-main-link-name">Log Obat</span>
-                                </a>
-                            </li>
-                            <li class="nav-main-item">
-                                <a class="nav-main-link {{ request()->is('analisis/layanan*') ? ' active' : '' }}"
-                                    href="{{ route('layanan.index') }}">
-                                    <i class="nav-main-link-icon fa fa-heart"></i>
-                                    <span class="nav-main-link-name">Layanan</span>
-                                </a>
-                            </li>
-                            <li class="nav-main-item">
-                                <a class="nav-main-link {{ request()->is('analisis/diskon*') ? ' active' : '' }}"
-                                    href="{{ route('diskon.index') }}">
-                                    <i class="nav-main-link-icon fa fa-percent"></i>
-                                    <span class="nav-main-link-name">Diskon</span>
-                                </a>
-                            </li>
-                            <li class="nav-main-item">
-                                <a class="nav-main-link {{ request()->is('analisis/log-diskon*') ? ' active' : '' }}"
-                                    href="{{ route('log-diskon.index') }}">
-                                    <i class="nav-main-link-icon fa fa-history"></i>
-                                    <span class="nav-main-link-name">Log Diskon</span>
-                                </a>
-                            </li>
+                            @can('dashboard.read')
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link {{ request()->is('analisis/dashboard-admin*') ? ' active' : '' }}"
+                                        href="{{ route('dashboard-admin.index') }}">
+                                        <i class="nav-main-link-icon fa fa-pie-chart"></i>
+                                        <span class="nav-main-link-name">Dashboard</span>
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can('master.read')
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link {{ request()->is('analisis/whatsapp*') ? ' active' : '' }}"
+                                        href="{{ route('whatsapp.index') }}">
+                                        <i class="nav-main-link-icon fa fa-plug"></i>
+                                        <span class="nav-main-link-name">Whatsapp Gateway</span>
+                                    </a>
+                                </li>
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link {{ request()->is('analisis/obat*') ? ' active' : '' }}"
+                                        href="{{ route('obat.index') }}">
+                                        <i class="nav-main-link-icon fa fa-medkit"></i>
+                                        <span class="nav-main-link-name">Obat</span>
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can('log_obat.read')
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link {{ request()->is('analisis/log-obat*') ? ' active' : '' }}"
+                                        href="{{ route('log-obat.index') }}">
+                                        <i class="nav-main-link-icon fa fa-history"></i>
+                                        <span class="nav-main-link-name">Log Obat</span>
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can('master.read')
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link {{ request()->is('analisis/layanan*') ? ' active' : '' }}"
+                                        href="{{ route('layanan.index') }}">
+                                        <i class="nav-main-link-icon fa fa-heart"></i>
+                                        <span class="nav-main-link-name">Layanan</span>
+                                    </a>
+                                </li>
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link {{ request()->is('analisis/diskon*') ? ' active' : '' }}"
+                                        href="{{ route('diskon.index') }}">
+                                        <i class="nav-main-link-icon fa fa-percent"></i>
+                                        <span class="nav-main-link-name">Diskon</span>
+                                    </a>
+                                </li>
+                            @endcan
+
+                            @can('log_diskon.read')
+                                <li class="nav-main-item">
+                                    <a class="nav-main-link {{ request()->is('analisis/log-diskon*') ? ' active' : '' }}"
+                                        href="{{ route('log-diskon.index') }}">
+                                        <i class="nav-main-link-icon fa fa-history"></i>
+                                        <span class="nav-main-link-name">Log Diskon</span>
+                                    </a>
+                                </li>
+                            @endcan
                         </ul>
                     </li>
+                @endcanany
 
+                @can('master.read')
                     <li class="nav-main-item{{ request()->is('master-data*') ? ' open' : '' }}">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
                             aria-expanded="true" href="#">
@@ -377,7 +412,7 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                             </li>
                         </ul>
                     </li>
-                @endsuperAdmin
+                @endcan
             </ul>
         </div>
         <!-- END Side Navigation -->

@@ -23,6 +23,16 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class KasirController extends Controller
 {
+    public function __construct()
+    {
+        // hanya index
+        $this->middleware('permission:kasir.read')->only('index');
+
+        // selain index
+        $this->middleware('permission:kasir.write')
+            ->except('index');
+    }
+
     public function index(KasirDataTable $dataTable, Request $request)
     {
         $request->validate([

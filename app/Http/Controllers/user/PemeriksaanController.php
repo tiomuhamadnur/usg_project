@@ -24,6 +24,16 @@ use SimpleSoftwareIO\QrCode\Facades\QrCode;
 
 class PemeriksaanController extends Controller
 {
+    public function __construct()
+    {
+        // hanya index
+        $this->middleware('permission:pemeriksaan_dokter.read')->only('index');
+
+        // selain index
+        $this->middleware('permission:pemeriksaan_dokter.write')
+            ->except('index');
+    }
+
     public function index(PemeriksaanDokterDataTable $dataTable, Request $request)
     {
         $request->validate([

@@ -8,6 +8,16 @@ use Illuminate\Http\Request;
 
 class LogDiskonController extends Controller
 {
+    public function __construct()
+    {
+        // hanya index
+        $this->middleware('permission:log_diskon.read')->only('index');
+
+        // selain index
+        $this->middleware('permission:log_diskon.write')
+            ->except('index');
+    }
+
     public function index(LogDiskonDataTable $dataTable, Request $request)
     {
         $request->validate([

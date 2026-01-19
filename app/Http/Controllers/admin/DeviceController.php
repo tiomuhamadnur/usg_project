@@ -10,6 +10,16 @@ use Illuminate\Http\Request;
 
 class DeviceController extends Controller
 {
+    public function __construct()
+    {
+        // hanya index
+        $this->middleware('permission:master.read')->only('index');
+
+        // selain index
+        $this->middleware('permission:master.write')
+            ->except('index');
+    }
+
     public function index(DeviceDataTable $dataTable)
     {
         $room = Room::all();

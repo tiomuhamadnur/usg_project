@@ -10,7 +10,17 @@ use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
-    public function index(RoleDataTable $dataTable)
+    public function __construct()
+    {
+        // hanya index
+        $this->middleware('permission:master.read')->only('index');
+
+        // selain index
+        $this->middleware('permission:master.write')
+            ->except('index');
+    }
+
+public function index(RoleDataTable $dataTable)
     {
         $permissions = Permission::orderBy('name', 'asc')->get();
         return $dataTable->render('pages.admin.role.index', compact([
