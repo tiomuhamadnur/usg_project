@@ -5,10 +5,11 @@ namespace App\Http\Controllers\admin;
 use App\DataTables\UserDataTable;
 use App\Http\Controllers\Controller;
 use App\Models\Gender;
-use App\Models\Role;
+// use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Spatie\Permission\Models\Role;
 
 class UserController extends Controller
 {
@@ -56,15 +57,20 @@ class UserController extends Controller
             "inisial" => "required|string",
             "no_hp" => [
                 'required',
-                'regex:/^(?:\+62|62|0)8[1-9][0-9]{6,9}$/'
+                'regex:/^(?:62)8[1-9][0-9]{6,9}$/'
             ],
             "gender_id" => "required|numeric|exists:gender,id",
-            "role_id" => "required|numeric|exists:role,id",
+        ]);
+
+        $validated = $request->validate([
+            'role_name' => 'required|string|exists:roles,name',
         ]);
 
         $user->update($data);
 
-        return redirect()->route('user.index')->withNotify('Data user ' . $user->name . ' berhasil diubah.');
+        $user->syncRoles([$validated['role_name']]);
+
+        return redirect()->route('user.index')->withNotify("Data user <b>{$user->name}</b> berhasil diubah.");
     }
 
     public function destroy(string $uuid)

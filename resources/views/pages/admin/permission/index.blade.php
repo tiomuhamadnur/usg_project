@@ -1,7 +1,7 @@
 @extends('layouts.base')
 
 @section('header')
-    <title>Admin | Role</title>
+    <title>Admin | Permission</title>
 @endsection
 
 @section('content')
@@ -12,7 +12,7 @@
             <div class="block-header block-header-default">
                 <div class="d-flex justify-content-between align-items-center w-100 flex-nowrap">
                     <h3 class="fs-3 fw-semibold my-2 mb-0">
-                        Data Role
+                        Data Permission
                     </h3>
                     <div class="my-2 mb-0 ms-3">
                         <div class="dropdown">
@@ -63,7 +63,7 @@
     <div class="modal modal-blur fade" id="addModal" tabindex="-1" role="dialog" aria-hidden="true">
         <div class="modal-dialog modal-dialog-fromleft" role="document">
             <div class="modal-content">
-                <form action="{{ route('role.store') }}" method="POST" enctype="multipart/form-data">
+                <form action="{{ route('permission.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('POST')
                     <div class="modal-header">
@@ -72,33 +72,9 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label required" for="name">Role Name</label>
+                            <label class="form-label required" for="name">Name</label>
                             <input type="text" class="form-control" id="name" name="name"
                                 placeholder="Input name" autocomplete="off" required>
-                        </div>
-                        <div class="mb-3">
-                            <div class="form-group">
-                                <label class="form-label required mb-2">Permissions</label>
-                                <div class="card shadow-sm border">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            @foreach ($permissions as $perm)
-                                                <div class="col-md-12 mb-2">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input edit-permission" type="checkbox"
-                                                            name="permission_names[]" value="{{ $perm->name }}"
-                                                            id="perm_{{ $perm->id }}">
-
-                                                        <label class="form-check-label" for="perm_{{ $perm->id }}">
-                                                            {{ $perm->name }}
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -129,33 +105,9 @@
                     </div>
                     <div class="modal-body">
                         <div class="mb-3">
-                            <label class="form-label required" for="name_edit">Role Name</label>
+                            <label class="form-label required" for="name_edit">Name</label>
                             <input type="text" class="form-control" id="name_edit" name="name"
                                 placeholder="Input name" autocomplete="off" required>
-                        </div>
-                        <div class="mb-3">
-                            <div class="form-group">
-                                <label class="form-label required mb-2">Permissions</label>
-                                <div class="card shadow-sm border">
-                                    <div class="card-body">
-                                        <div class="row">
-                                            @foreach ($permissions as $perm)
-                                                <div class="col-md-12 mb-2">
-                                                    <div class="form-check">
-                                                        <input class="form-check-input edit-permission" type="checkbox"
-                                                            name="permission_names[]" value="{{ $perm->name }}"
-                                                            id="perm_edit_{{ $perm->id }}">
-
-                                                        <label class="form-check-label" for="perm_{{ $perm->id }}">
-                                                            {{ $perm->name }}
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            @endforeach
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -178,22 +130,11 @@
     <script>
         $(document).ready(function() {
             $('#editModal').on('show.bs.modal', function(e) {
-                var button = $(e.relatedTarget);
-                var url = button.data('url');
-                var name = button.data('name');
-                var permissionsArray = button.data('permissions'); // sudah array
+                var url = $(e.relatedTarget).data('url');
+                var name = $(e.relatedTarget).data('name');
 
-                // set form action & name
-                $('#editForm').attr('action', url);
+                document.getElementById("editForm").action = url;
                 $('#name_edit').val(name);
-
-                // reset semua checkbox
-                $('.edit-permission').prop('checked', false);
-
-                // centang sesuai permissions
-                permissionsArray.forEach(function(p) {
-                    $('.edit-permission[value="' + p + '"]').prop('checked', true);
-                });
             });
         });
     </script>

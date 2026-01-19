@@ -56,10 +56,10 @@
                                         value="{{ old('email', $user->email ?? '') }}" autocomplete="off" disabled>
                                 </div>
                                 <div class="col-12 col-md-4">
-                                    <label class="form-label required">No. HP/WA</label>
+                                    <label class="form-label required">No. HP/WA (628xxx)</label>
                                     <input type="tel" class="form-control" name="no_hp" id="no_hp"
-                                        value="{{ old('no_hp', $user->no_hp ?? '') }}" placeholder="contoh: 08xxxxxxxxxx"
-                                        pattern="^(\+62|62|0)8[1-9][0-9]{6,9}$" required autocomplete="off">
+                                        value="{{ old('no_hp', $user->no_hp ?? '') }}" placeholder="contoh: 628xxxxxxxxxx"
+                                        pattern="^(\62)8[1-9][0-9]{6,9}$" required autocomplete="off">
                                 </div>
                             </div>
                             <div class="row mb-4">
@@ -76,10 +76,10 @@
                                 </div>
                                 <div class="col-12 col-md-6">
                                     <label class="form-label required">Role</label>
-                                    <select class="form-select" name="role_id" id="role_id" required>
+                                    <select class="form-select" name="role_name" required>
                                         <option value="" selected disabled>- pilih role -</option>
                                         @foreach ($role as $item)
-                                            <option value="{{ $item->id }}" @selected(old('role_id', $user->role_id) == $item->id)>
+                                            <option value="{{ $item->name }}" @selected(old('role_name', $user->getRoleNames()->first()) == $item->name)>
                                                 {{ $item->name }}
                                             </option>
                                         @endforeach

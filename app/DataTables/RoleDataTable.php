@@ -2,8 +2,9 @@
 
 namespace App\DataTables;
 
-use App\Models\Role;
+// use App\Models\Role;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
+use Spatie\Permission\Models\Role as ModelsRole;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -18,32 +19,47 @@ class RoleDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('#', function ($item) {
-                $editRoute = route('role.update', $item->uuid);
-                $deleteRoute = route('role.destroy', $item->uuid);
-                $actionButton = "<div class='dropdown'>
-                                    <button class='btn btn-sm btn-primary' data-bs-toggle='dropdown'>
-                                        <i class='fa fa-pencil'></i>
-                                        Edit
-                                    </button>
+                $editRoute = route('role.update', $item->id);
+                $permissionNames = $item->permissions->pluck('name')->toArray();
+                $permissionsJson = htmlspecialchars(json_encode($permissionNames), ENT_QUOTES, 'UTF-8');
 
-                                    <div class='dropdown-menu dropdown-menu-end'>
-                                        <a class='dropdown-item' href='#' data-bs-toggle='modal' data-bs-target='#editModal' data-url='{$editRoute}' data-name='{$item->name}' data-code='{$item->code}'>
-                                            <i class='fa fa-pencil'></i>
-                                            Edit
-                                        </a>
-                                        <a class='dropdown-item text-danger' href='#' data-bs-toggle='modal' data-bs-target='#deleteModal' data-url='{$deleteRoute}'>
-                                            <i class='fa fa-trash-can'></i>
-                                            Delete
-                                        </a>
-                                    </div>
-                                </div>";
+                $editButton = "
+                <button class='btn btn-outline-primary'
+                        data-bs-toggle='modal' data-bs-target='#editModal'
+                        data-url='{$editRoute}'
+                        data-name='{$item->name}'
+                        data-permissions='{$permissionsJson}'>
+                    <i class='fa fa-edit'></i>
+                </button>";
 
-                return $actionButton;
+                $deleteRoute = route('role.destroy', $item->id);
+                $deleteButton = "
+                    <a href='javascript:void(0);' class='btn btn-outline-danger' data-bs-toggle='modal'
+                    data-bs-target='#deleteModal' data-url='{$deleteRoute}'>
+                        <i class='fa fa-trash'></i>
+                    </a>";
+
+                return $editButton . ' ' . $deleteButton;
             })
-            ->rawColumns(['#']);
+            ->addColumn('permission', function ($item) {
+                if ($item->permissions->isEmpty()) {
+                    return "<em class='text-muted'>Tidak ada</em>";
+                }
+
+                $html = "<ul style='padding-left:18px; margin:0; list-style-type: disc !important;'>";
+
+                foreach ($item->permissions as $perm) {
+                    $html .= "<li>{$perm->name}</li>";
+                }
+
+                $html .= "</ul>";
+
+                return $html;
+            })
+            ->rawColumns(['#', 'permission']);
     }
 
-    public function query(Role $model): QueryBuilder
+    public function query(ModelsRole $model): QueryBuilder
     {
         return $model->newQuery();
     }
@@ -80,7 +96,7 @@ class RoleDataTable extends DataTable
                 ->width(60)
                 ->addClass('text-center'),
             Column::make('name')->title('Name'),
-            Column::make('code')->title('Code'),
+            Column::computed('permission')->title('Permissions'),
         ];
     }
 

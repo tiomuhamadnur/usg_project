@@ -15,7 +15,7 @@
                 <!-- User Info -->
                 <div class="ms-2">
                     <a class="text-white fw-semibold" href="javascript:void(0)">{{ auth()->user()->name }}</a>
-                    <div class="text-white-75 fs-sm">{{ auth()->user()->role->name ?? '-' }}</div>
+                    <div class="text-white-75 fs-sm">{{ auth()->user()->getRoleNames()->first() ?? '-' }}</div>
                 </div>
                 <!-- END User Info -->
 

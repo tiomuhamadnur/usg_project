@@ -4,14 +4,18 @@ namespace App\Http\Controllers\admin;
 
 use App\DataTables\RoleDataTable;
 use App\Http\Controllers\Controller;
-use App\Models\Role;
 use Illuminate\Http\Request;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 
 class RoleController extends Controller
 {
     public function index(RoleDataTable $dataTable)
     {
-        return $dataTable->render('pages.admin.role.index');
+        $permissions = Permission::orderBy('name', 'asc')->get();
+        return $dataTable->render('pages.admin.role.index', compact([
+            'permissions',
+        ]));
     }
 
     public function create()
@@ -21,12 +25,16 @@ class RoleController extends Controller
 
     public function store(Request $request)
     {
-        $data = $request->validate([
+        $request->validate([
             'name' => 'string|required',
-            'code' => 'string|required'
+            'permission_names' => 'array',
         ]);
 
-        Role::updateOrCreate($data, $data);
+        $role = Role::updateOrCreate(['name' => $request->name], ['name' => $request->name]);
+
+        if (!empty($request->permission_names)) {
+            $role->syncPermissions($request->permission_names);
+        }
 
         return redirect()->route('role.index')->withNotify('Data berhasil ditambahkan');
     }
@@ -41,22 +49,43 @@ class RoleController extends Controller
         //
     }
 
-    public function update(Request $request, string $uuid)
+    public function update(Request $request, string $id)
     {
-        $data = Role::where('uuid', $uuid)->firstOrFail();
-        $rawData = $request->validate([
-            'name' => 'string|required',
-            'code' => 'string|required'
+        // Ambil role
+        $role = Role::findOrFail($id);
+
+        // Validasi input
+        $validated = $request->validate([
+            'name' => 'required|unique:roles,name,' . $role->id,
+            'permission_names' => 'array',
         ]);
 
-        $data->update($rawData);
-        return redirect()->route('role.index')->withNotify('Data berhasil diubah');
+        // Update nama role
+        $role->update([
+            'name' => $validated['name'],
+        ]);
+
+        // Update permission
+        if (!empty($validated['permission_names'])) {
+            $role->syncPermissions($validated['permission_names']);
+        } else {
+            $role->syncPermissions([]); // kosongkan permission
+        }
     }
 
-    public function destroy(string $uuid)
+    public function destroy(string $id)
     {
-        $data = Role::where('uuid', $uuid)->firstOrFail();
-        $data->delete();
+        $role = Role::findOrFail($id);
+
+        // detach semua permission
+        $role->permissions()->detach();
+
+        // detach semua user
+        $role->users()->detach(); // jika pakai HasRoles trait, relasi ini ada
+
+        // hapus role
+        $role->delete();
+
         return redirect()->route('role.index')->withNotify('Data berhasil dihapus');
     }
 }

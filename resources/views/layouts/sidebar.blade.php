@@ -183,6 +183,65 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                     </li>
                 @endAdmin
                 @superAdmin
+                    <li class="nav-main-item{{ request()->is('analisis*') ? ' open' : '' }}">
+                        <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
+                            aria-expanded="true" href="#">
+                            <i class="nav-main-link-icon fa fa-pie-chart"></i>
+                            <span class="nav-main-link-name">Analisis</span>
+                        </a>
+                        <ul class="nav-main-submenu">
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('analisis/dashboard-admin*') ? ' active' : '' }}"
+                                    href="{{ route('dashboard-admin.index') }}">
+                                    <i class="nav-main-link-icon fa fa-pie-chart"></i>
+                                    <span class="nav-main-link-name">Dashboard</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('analisis/whatsapp*') ? ' active' : '' }}"
+                                    href="{{ route('whatsapp.index') }}">
+                                    <i class="nav-main-link-icon fa fa-plug"></i>
+                                    <span class="nav-main-link-name">Whatsapp Gateway</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('analisis/obat*') ? ' active' : '' }}"
+                                    href="{{ route('obat.index') }}">
+                                    <i class="nav-main-link-icon fa fa-medkit"></i>
+                                    <span class="nav-main-link-name">Obat</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('analisis/log-obat*') ? ' active' : '' }}"
+                                    href="{{ route('log-obat.index') }}">
+                                    <i class="nav-main-link-icon fa fa-history"></i>
+                                    <span class="nav-main-link-name">Log Obat</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('analisis/layanan*') ? ' active' : '' }}"
+                                    href="{{ route('layanan.index') }}">
+                                    <i class="nav-main-link-icon fa fa-heart"></i>
+                                    <span class="nav-main-link-name">Layanan</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('analisis/diskon*') ? ' active' : '' }}"
+                                    href="{{ route('diskon.index') }}">
+                                    <i class="nav-main-link-icon fa fa-percent"></i>
+                                    <span class="nav-main-link-name">Diskon</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('analisis/log-diskon*') ? ' active' : '' }}"
+                                    href="{{ route('log-diskon.index') }}">
+                                    <i class="nav-main-link-icon fa fa-history"></i>
+                                    <span class="nav-main-link-name">Log Diskon</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
                     <li class="nav-main-item{{ request()->is('master-data*') ? ' open' : '' }}">
                         <a class="nav-main-link nav-main-link-submenu" data-toggle="submenu" aria-haspopup="true"
                             aria-expanded="true" href="#">
@@ -190,13 +249,6 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                             <span class="nav-main-link-name">Master Data</span>
                         </a>
                         <ul class="nav-main-submenu">
-                            <li class="nav-main-item">
-                                <a class="nav-main-link {{ request()->is('master-data/dashboard-admin*') ? ' active' : '' }}"
-                                    href="{{ route('dashboard-admin.index') }}">
-                                    <i class="nav-main-link-icon fa fa-pie-chart"></i>
-                                    <span class="nav-main-link-name">Dashboard</span>
-                                </a>
-                            </li>
                             <li class="nav-main-item">
                                 <a class="nav-main-link {{ request()->is('master-data/user*') ? ' active' : '' }}"
                                     href="{{ route('user.index') }}">
@@ -209,6 +261,13 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                                     href="{{ route('gender.index') }}">
                                     <i class="nav-main-link-icon si si-symbol-female"></i>
                                     <span class="nav-main-link-name">Gender</span>
+                                </a>
+                            </li>
+                            <li class="nav-main-item">
+                                <a class="nav-main-link {{ request()->is('master-data/permission*') ? ' active' : '' }}"
+                                    href="{{ route('permission.index') }}">
+                                    <i class="nav-main-link-icon fa fa-eye"></i>
+                                    <span class="nav-main-link-name">Permission</span>
                                 </a>
                             </li>
                             <li class="nav-main-item">
@@ -268,13 +327,6 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                                 </a>
                             </li>
                             <li class="nav-main-item">
-                                <a class="nav-main-link {{ request()->is('master-data/whatsapp*') ? ' active' : '' }}"
-                                    href="{{ route('whatsapp.index') }}">
-                                    <i class="nav-main-link-icon fa fa-plug"></i>
-                                    <span class="nav-main-link-name">Whatsapp Gateway</span>
-                                </a>
-                            </li>
-                            <li class="nav-main-item">
                                 <a class="nav-main-link {{ request()->is('master-data/unit*') ? ' active' : '' }}"
                                     href="{{ route('unit.index') }}">
                                     <i class="nav-main-link-icon fa fa-wrench"></i>
@@ -321,34 +373,6 @@ Adding 'smini-visible-block' to an element will show it (display: block) only wh
                                     href="{{ route('kategori.index') }}">
                                     <i class="nav-main-link-icon fa fa-tags"></i>
                                     <span class="nav-main-link-name">Kategori</span>
-                                </a>
-                            </li>
-                            <li class="nav-main-item">
-                                <a class="nav-main-link {{ request()->is('master-data/layanan*') ? ' active' : '' }}"
-                                    href="{{ route('layanan.index') }}">
-                                    <i class="nav-main-link-icon fa fa-heart"></i>
-                                    <span class="nav-main-link-name">Layanan</span>
-                                </a>
-                            </li>
-                            <li class="nav-main-item">
-                                <a class="nav-main-link {{ request()->is('master-data/log-obat*') ? ' active' : '' }}"
-                                    href="{{ route('log-obat.index') }}">
-                                    <i class="nav-main-link-icon fa fa-history"></i>
-                                    <span class="nav-main-link-name">Log Obat</span>
-                                </a>
-                            </li>
-                            <li class="nav-main-item">
-                                <a class="nav-main-link {{ request()->is('master-data/diskon*') ? ' active' : '' }}"
-                                    href="{{ route('diskon.index') }}">
-                                    <i class="nav-main-link-icon fa fa-percent"></i>
-                                    <span class="nav-main-link-name">Diskon</span>
-                                </a>
-                            </li>
-                            <li class="nav-main-item">
-                                <a class="nav-main-link {{ request()->is('master-data/log-diskon*') ? ' active' : '' }}"
-                                    href="{{ route('log-diskon.index') }}">
-                                    <i class="nav-main-link-icon fa fa-history"></i>
-                                    <span class="nav-main-link-name">Log Diskon</span>
                                 </a>
                             </li>
                         </ul>
