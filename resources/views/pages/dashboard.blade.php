@@ -8,7 +8,7 @@
     <!-- Page Content -->
     <div class="content">
         <!-- Home -->
-        @Admin
+        @can('registrasi.read')
             <div class="row">
                 <div class="col-md-12">
                     <div class="block block-rounded block-link-shadow card">
@@ -55,7 +55,9 @@
                     </div>
                 </div>
             </div>
+        @endcan
 
+        @can('pemeriksaan_awal.read')
             <div class="row">
                 <div class="col-md-12">
                     <div class="block block-rounded block-link-shadow card">
@@ -97,7 +99,9 @@
                     </div>
                 </div>
             </div>
+        @endcan
 
+        @can('kasir.read')
             <div class="row">
                 <div class="col-md-12">
                     <div class="block block-rounded block-link-shadow card">
@@ -139,10 +143,10 @@
                     </div>
                 </div>
             </div>
-        @endAdmin
+        @endcan
 
 
-        @Dokter
+        @can('pemeriksaan_dokter.read')
             <div class="row">
                 <div class="col-md-12">
                     <div class="block block-rounded block-link-shadow card">
@@ -184,7 +188,7 @@
                     </div>
                 </div>
             </div>
-        @endDokter
+        @endcan
 
         <!-- END Home -->
     </div>
