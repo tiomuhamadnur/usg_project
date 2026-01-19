@@ -115,10 +115,10 @@
                             </div>
                             <div class="row mb-4">
                                 <div class="col-12 col-md-3">
-                                    <label class="form-label required">No. HP/WA</label>
+                                    <label class="form-label required">No. HP/WA (628xxx)</label>
                                     <input type="tel" class="form-control" name="no_hp" id="no_hp"
-                                        value="{{ old('no_hp') }}" placeholder="contoh: 08xxxxxxxxxx"
-                                        pattern="^(\+62|62|0)8[1-9][0-9]{6,9}$" required autocomplete="off">
+                                        value="{{ old('no_hp') }}" placeholder="contoh: 628xxxxxxxxxx"
+                                        pattern="^(\62)8[1-9][0-9]{6,9}$" required autocomplete="off">
                                 </div>
                                 <div class="col-12 col-md-3">
                                     <label class="form-label optional">HPHT</label>
