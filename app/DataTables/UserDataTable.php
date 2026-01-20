@@ -33,6 +33,21 @@ class UserDataTable extends DataTable
             ->addColumn('#', function ($item) {
                 $editRoute = route('user.edit', $item->uuid);
                 $deleteRoute = route('user.destroy', $item->uuid);
+
+                // cek ban pakai isBanned()
+                $isBanned = $item->isBanned();
+
+                // tombol Ban / Unban
+                $banButton = $isBanned
+                    ? "<a class='dropdown-item text-success' href='#' data-bs-toggle='modal' data-bs-target='#deleteModal' data-url='{$deleteRoute}'>
+                            <i class='fa fa-check'></i>
+                            Aktifkan
+                    </a>"
+                    : "<a class='dropdown-item text-danger' href='#' data-bs-toggle='modal' data-bs-target='#deleteModal' data-url='{$deleteRoute}'>
+                            <i class='fa fa-ban'></i>
+                            Ban
+                    </a>";
+
                 $actionButton = "<div class='dropdown'>
                                     <button class='btn btn-sm btn-primary' data-bs-toggle='dropdown'>
                                         <i class='fa fa-pencil'></i>
@@ -44,10 +59,7 @@ class UserDataTable extends DataTable
                                             <i class='fa fa-pencil'></i>
                                             Edit
                                         </a>
-                                        <a class='dropdown-item text-danger' href='#' data-bs-toggle='modal' data-bs-target='#deleteModal' data-url='{$deleteRoute}'>
-                                            <i class='fa fa-trash-can'></i>
-                                            Delete
-                                        </a>
+                                        {$banButton}
                                     </div>
                                 </div>";
 
@@ -57,7 +69,12 @@ class UserDataTable extends DataTable
                 $roleName = $item->getRoleNames()->first() ?? '';
                 return $roleName;
             })
-            ->rawColumns(['#']);
+            ->addColumn('status', function ($item) {
+                return $item->isBanned()
+                    ? '<span class="badge bg-danger">Tidak Aktif</span>'
+                    : '<span class="badge bg-success">Aktif</span>';
+            })
+            ->rawColumns(['#', 'status']);
     }
 
     public function query(User $model): QueryBuilder
@@ -99,6 +116,7 @@ class UserDataTable extends DataTable
             Column::make('gender.name')->title('Jenis Kelamin'),
             Column::make('role.name')->title('Jabatan'),
             Column::computed('roles')->title('Role'),
+            Column::computed('status')->addClass('text-center')->title('Status'),
         ];
     }
 

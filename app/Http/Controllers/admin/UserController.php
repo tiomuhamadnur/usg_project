@@ -92,15 +92,19 @@ class UserController extends Controller
         $user = User::where('uuid', $uuid)->firstOrFail();
 
         if($user->id == Auth::user()->id) {
-            return redirect()->route('user.index')->withNotifyerror('Data user yang anda hapus adalah akun anda sekarang');
+            return redirect()->route('user.index')->withNotifyerror('Data user yang anda ban adalah akun anda sekarang');
         }
 
         if($user->role_id == 1) {
-            return redirect()->route('user.index')->withNotifyerror('Anda tidak bisa menghapus user dengan role Superadmin');
+            return redirect()->route('user.index')->withNotifyerror('Anda tidak bisa melakukan ban pada user dengan role Superadmin');
         }
 
-        $user->delete();
+        if ($user->isBanned()) {
+            $user->unban();
+        } else {
+            $user->ban();
+        }
 
-        return redirect()->route('user.index')->withNotify('Data user ' . $user->name . ' berhasil dihapus.');
+        return redirect()->route('user.index')->withNotify('Data user ' . $user->name . ' berhasil diubah statusnya.');
     }
 }

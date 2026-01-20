@@ -25,6 +25,8 @@ class User extends Authenticatable
         'gelar_depan',
         'gelar_belakang',
         'no_hp',
+        'photo',
+        'alamat',
     ];
 
     protected $hidden = [

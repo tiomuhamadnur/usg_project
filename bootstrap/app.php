@@ -22,6 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'Dokter' => \App\Http\Middleware\Dokter::class,
             'Suster' => \App\Http\Middleware\Suster::class,
             'Kasir' => \App\Http\Middleware\Kasir::class,
+            'CheckBanned' => \App\Http\Middleware\CheckBanned::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

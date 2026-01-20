@@ -31,6 +31,7 @@ use App\Http\Controllers\user\LaporanController;
 use App\Http\Controllers\user\LogObatController;
 use App\Http\Controllers\user\PemeriksaanAwalController;
 use App\Http\Controllers\user\PemeriksaanController;
+use App\Http\Controllers\user\ProfileController;
 use App\Http\Controllers\user\RegistrasiController;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -72,8 +73,10 @@ Route::get('/unassigned-user', function () {
     return view('pages.blank');
 })->middleware('auth')->name('unassigned.user');
 
-Route::group(['middleware' => ['auth', 'isAssigned']], function () {
+Route::group(['middleware' => ['auth', 'isAssigned', 'CheckBanned']], function () {
     Route::resource('/dashboard', DashboardController::class);
+
+    Route::resource('/profile', ProfileController::class);
 
     Route::resource('/pasien', PasienController::class);
 
