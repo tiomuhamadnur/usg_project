@@ -68,7 +68,7 @@ class PasienController extends Controller
             "tanggal_lahir" => "required|date|before:today",
             "no_hp" => [
                 'required',
-                'regex:/^(?:\+62|62|0)8[1-9][0-9]{6,9}$/'
+                'regex:/^(?:62)8[1-9][0-9]{6,9}$/'
             ],
             "email" => "nullable|email|max:255",
 
@@ -105,7 +105,7 @@ class PasienController extends Controller
             'no_rm.unique' => 'No. RM tersebut sudah terdaftar',
             'satu_sehat_id.unique' => 'ID Satu Sehat tersebut sudah terdaftar',
             'no_hp.required' => 'Nomor HP wajib diisi',
-            'no_hp.regex' => 'Format nomor HP tidak valid (contoh: 0812xxxxxxx)',
+            'no_hp.regex' => 'Format nomor HP tidak valid (contoh: 62812xxxxxxx)',
             'tanggal_lahir.before' => 'Tanggal lahir harus sebelum hari ini',
         ]);
 
@@ -167,7 +167,7 @@ class PasienController extends Controller
             "tanggal_lahir" => "required|date|before:today",
             "no_hp" => [
                 'required',
-                'regex:/^(?:\+62|62|0)8[1-9][0-9]{6,9}$/'
+                'regex:/^(?:62)8[1-9][0-9]{6,9}$/'
             ],
             "email" => "nullable|email|max:255",
 
@@ -205,7 +205,7 @@ class PasienController extends Controller
             'no_rm.unique' => 'No. RM tersebut sudah terdaftar',
             'satu_sehat_id.unique' => 'ID Satu Sehat tersebut sudah terdaftar',
             'no_hp.required' => 'Nomor HP wajib diisi',
-            'no_hp.regex' => 'Format nomor HP tidak valid (contoh: 0812xxxxxxx)',
+            'no_hp.regex' => 'Format nomor HP tidak valid (contoh: 62812xxxxxxx)',
             'tanggal_lahir.before' => 'Tanggal lahir harus sebelum hari ini',
         ]);
 
