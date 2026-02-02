@@ -9,7 +9,7 @@
     <div class="content">
         <!-- Table -->
         <div class="block block-rounded">
-            <div class="block-header block-header-default">
+            {{-- <div class="block-header block-header-default">
                 <div class="d-flex justify-content-between align-items-center w-100 flex-nowrap">
                     <h3 class="fs-3 fw-semibold my-2 mb-0">
                         Data Registrasi
@@ -31,14 +31,22 @@
                                             <i class="fa fa-filter"></i> Filter
                                         </a>
                                     </li>
-                                    {{-- <li>
+                                    <li>
                                         <a class="dropdown-item" href="javascript:void(0)" data-bs-toggle="modal"
                                             data-bs-target="#exportModal">
                                             <i class="fa fa-file-export"></i> Export
                                         </a>
-                                    </li> --}}
+                                    </li>
                                 </ul>
                             </div>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="Status Filter">
+                            @foreach ($status_pemeriksaan as $item)
+                                <a href="{{ route('registrasi.index', ['status_id' => $item->id]) }}"
+                                class="btn btn-sm {{ request('status_id') == $item->id ? 'btn-primary' : 'btn-outline-secondary' }}">
+                                    {{ $item->name }}
+                                </a>
+                            @endforeach
                         </div>
                         <div class="col-12 col-md-auto">
                             <a href="{{ route('registrasi.create') }}" class="btn btn-primary w-100 w-md-auto">
@@ -47,7 +55,44 @@
                         </div>
                     </div>
                 </div>
+            </div> --}}
+
+            <div class="block-header block-header-default">
+                <div
+                    class="d-flex flex-column flex-sm-row justify-content-between align-items-start align-items-sm-center gap-2 w-100">
+                    {{-- Judul --}}
+                    <h3 class="fs-3 fw-semibold my-2 mb-0">
+                        Data Registrasi
+                    </h3>
+
+                    {{-- Status + Filter + Tambah Data --}}
+                    <div class="d-flex flex-row flex-wrap gap-2 align-items-center w-100 w-sm-auto ms-auto">
+                        {{-- Tombol Status --}}
+                        <div class="btn-group overflow-auto flex-nowrap" role="group" aria-label="Status Filter"
+                            style="max-width:100%;">
+                            @foreach ($status_pemeriksaan as $item)
+                                <a href="{{ route('registrasi.index', ['status_pemeriksaan_id' => $item->id]) }}"
+                                    class="btn btn-sm {{ request('status_pemeriksaan_id', $status_pemeriksaan_id) == $item->id ? 'btn-primary' : 'btn-outline-secondary' }}">
+                                    {{ $item->name }}
+                                </a>
+                            @endforeach
+                        </div>
+
+                        {{-- Filter + Tambah Data --}}
+                        <div class="d-flex flex-row gap-2 flex-shrink-0">
+                            <a class="btn btn-secondary" href="javascript:void(0)" data-bs-toggle="modal"
+                                data-bs-target="#filterModal">
+                                <i class="fa fa-filter"></i> Filter
+                            </a>
+
+                            <a href="{{ route('registrasi.create') }}" class="btn btn-success">
+                                <i class="fa fa-circle-plus"></i> Tambah Data
+                            </a>
+                        </div>
+                    </div>
+                </div>
             </div>
+
             <div class="block-content block-content-full">
                 <div class="table-responsive">
                     {{ $dataTable->table([
