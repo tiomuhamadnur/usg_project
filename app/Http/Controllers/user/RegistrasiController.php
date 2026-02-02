@@ -324,6 +324,10 @@ class RegistrasiController extends Controller
     {
         $pemeriksaan = Pemeriksaan::where('uuid', $uuid)->firstOrFail();
 
+        if($pemeriksaan->status_pemeriksaan_id != 1) {
+            return back()->withNotifyerror('Data registrasi sudah tidak bisa dihapus, silahkan hubungi admin.');
+        }
+
         $pemeriksaan->forceDelete();
 
         return redirect()->route('registrasi.index')->withNotify('Data berhasil dihapus');
