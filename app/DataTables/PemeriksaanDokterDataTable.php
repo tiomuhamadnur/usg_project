@@ -67,9 +67,9 @@ class PemeriksaanDokterDataTable extends DataTable
             ->where('status_pemeriksaan_id', 2)
             ->newQuery();
 
-        if (Auth::user()->role_id != 1) {
-            $query->where('dokter_id', Auth::user()->id);
-        }
+        // if (Auth::user()->role_id != 1) {
+        //     $query->where('dokter_id', Auth::user()->id);
+        // }
 
         // Filter
         if($this->room_id != null)
